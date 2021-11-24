@@ -14,12 +14,18 @@ This XSLT transform will do 2 things:
 The isReferencedBy element will be used for transmitting IIIF metadata to DPLA.
 
 
+# Usage
+
+java net.sf.saxon.Transform -s:INPUT-XML-FILE.xml -o:OUTPUT-FILE.xml -xsl:remove-deletes--add-IIIF.xsl
+
+
 # Logic
 This XSLT checks the edm:rights metadata associated with the record AND it confirms that the OAI set is intended for IIIF processing.
 
 If the edm:rights is compatible and the OAI set should be processed for IIIF metadata, then an appropriate isReferencedBy metadata value is generated and added to the XML for that record.
 
 If the edm:rights is not compatible, OR if the edm:rights is compatible but the OAI set isn't scheduled to undergo IIIF processing, then an empty isReferencedBy XML tag is added to the record.
+
 
 # Caveats
 
