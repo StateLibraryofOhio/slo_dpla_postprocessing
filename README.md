@@ -43,7 +43,7 @@ Go to https://ohiomemory.org/robots.txt and note that there are a variety of "Di
 
     Disallow: /digital/collection/p16007coll33/search/
 
-The "/p16007coll33/" section of that statement is a unique identifier for a collection.  We care about the "16007" portion of it.  (Look for a "16###" or a "15***" number when viewing a CONTENTdm robots.txt; these will give you the numbers we want; other collections such as "p267401coll32" include the number, but it's not viable for these purposes.)
+The "/p16007coll33/" section of that statement is a unique identifier for a collection.  We care about the "16007" portion of it, as that refers to the CONTENTdm server ID.  (Look for a "16###" or a "15***" number when viewing a CONTENTdm robots.txt; these will give you the numbers we want; other collections such as "p267401coll32" include a number, but it's not viable for these purposes.)
 
 Using that 16007, construct a URL similar to:   http://server16007.contentdm.oclc.org/cgi-bin/getdesc.exe?CISOOP=desc&CISOROOT=/p16007coll33
 
