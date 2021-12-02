@@ -76,6 +76,8 @@ If we do the same thing for the desc.all at http://server16488.contentdm.oclc.or
 
 JP2 and JPG files (lowercase) should be OK, but the "cpd" refers to a file outlining a CONTENTdm compound object's structure, and the "pdfpage" is an automatically-generated compound object page that was created when the site imported a PDF using the CONTENTdm Project Client and they specified that the PDF should be displayed as a compound object in the CONTENTdm user interface.  As a result, it might be a good idea to check this collection for problematic IIIF URIs.
 
+(front end:  https://wcudigitalcollection.contentdm.oclc.org/diag/inf.php?verb=getdesc&CISOOP=desc&CISOROOT=/p4008coll2)
+
 Spidering the suspect URLs with "wget" and diverting them into a "valid-URL.txt" or a "not-valid-URL.txt" file allows us to isolate those of a given category.  Once we have the set of bad URLs in a file, we can use "grep -v" to remove the appropriate isReferencedBy values from the appropriate files.
 
 After we replace the "bad" IIIF URIs in the metadata with empty isReferencedBy elements, the metadata is ready to upload to DPLA.
