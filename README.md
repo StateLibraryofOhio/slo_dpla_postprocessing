@@ -55,20 +55,20 @@ Using that 16007, construct a URL similar to:   http://server16007.contentdm.ocl
 
 This will download the back-end metadata file (a.k.a. "desc.all").  We will grep through this for clues to IIIF info.
 
-As I mentioned, CONTENTdm metadata files are similar to XML, but different.  Each record is NOT enclosed by a set of other tags; instead, every tag in the file is at the same "level".  The "<title>" tag is always the first field for a record, and the "<dmrecord>" tag is always the last for a record.  Any tags in between are associated.
+As I mentioned, CONTENTdm metadata files are similar to XML, but different.  Each record is NOT enclosed by a set of other tags; instead, every tag in the file is at the same "level".  The "&lt;title&gt;" tag is always the first field for a record, and the "&lt;dmrecord&gt;" tag is always the last for a record.  Any tags in between are associated.
 
-CONTENTdm records typically have an associated file (image, audio, video, etc.)  The filename for this file is enclosed in "<find>" tags.  The "<dmrecord>" tags enclose the unique ID for the record.  For example, the "<dmrecord>" value for this record would be "371".
+CONTENTdm records typically have an associated file (image, audio, video, etc.)  The filename for this file is enclosed in "&lt;find&gt;" tags.  The "&lt;dmrecord&gt;" tags enclose the unique ID for the record.  For example, the "&lt;dmrecord&gt;" value for this record would be "371".
 
   https://ohiomemory.org/digital/collection/p15005coll3/id/371/rec/1
 
 I'm still doing research, but thus far it appears that failures to download IIIF metadata from CONTENTdm have historically occured for 2 reasons.
   
-  1.  A CONTENTdm bug.  The filename in the "<find>" tag has a fully-uppercase file extension, and CONTENTdm cannot handle that.  (I've reported this to the CONTENTdm development team and do not know whether it has since been fixed.)
+  1.  A CONTENTdm bug.  The filename in the "&lt;find&gt;" tag has a fully-uppercase file extension, and CONTENTdm cannot handle that.  (I've reported this to the CONTENTdm development team and do not know whether it has since been fixed.)
   2.  The file stored in CONTENTdm is not compatible with the CONTENTdm implementation of IIIF.  Some file types are not supported even though the IIIF standard does support them, and ANY file type can be loaded into CONTENTdm (binary executable?  Go for it!)
 
-Downloading the collection's desc.all file allows us to grep through it for '<find>' tags to see whether a collection has problematic file types.  The desc.all at http://server16007.contentdm.oclc.org/cgi-bin/getdesc.exe?CISOOP=desc&CISOROOT=/tlcpl_p16007coll88 has 97,199 records.  Attempting to spider all of them would be...problematic.  So, we can quickly find out the filetypes by downloading the desc.all and:
+Downloading the collection's desc.all file allows us to grep through it for '&lt;find&gt;' tags to see whether a collection has problematic file types.  The desc.all at http://server16007.contentdm.oclc.org/cgi-bin/getdesc.exe?CISOOP=desc&CISOROOT=/tlcpl_p16007coll88 has 97,199 records.  Attempting to spider all of them would be...problematic.  So, we can quickly find out the filetypes by downloading the desc.all and:
   
-  grep '<find>' desc.all | cut -f 2 -d '.' | cut -f 1 -d '<' | sort | uniq
+  grep '&lt;find&gt;' desc.all | cut -f 2 -d '.' | cut -f 1 -d '&lt;' | sort | uniq
 
 Output?  One value:  "jp2".   JP2s should be viable if the file extension is lowercase, so we can skip checking these 97K records.  (I hope.)
 
