@@ -1,0 +1,6 @@
+
+
+# source SLODPLA environment
+. /usr/local/SLO-DPLA/conf/SLO-DPLA-environment.conf
+
+

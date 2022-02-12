@@ -1,0 +1,183 @@
+#
+# get values for various things
+#
+
+. transform.conf
+
+
+#
+# transform harvested data to an easily-analyzed form
+#
+
+saxon -s:input.xml -xsl:input.xsl -o:output.xml
+sed -e "s/></>\n</g" < output.xml >2.txt
+mv 2.txt output.xml
+
+xmllint --format output.xml > 2.txt
+mv 2.txt output.xml
+
+
+#
+# dump a few rows to the screen for the user
+#
+
+echo ""
+echo "--- FIRST 30 ROWS OF OUTPUT ---" 
+echo ""
+head -n 30 output.xml
+echo ""
+echo "  (output truncated)" 
+echo ""
+
+
+# confirming site name changed
+
+if [ "`grep 'THIS_PROVIDER_NAME' output.xml`" == '' ]
+then
+    echo "Confirming site name changed:  OK"
+else
+    echo ""
+    echo "Confirming site name changed:  ERROR.  Still using default value!"
+    echo ""
+fi
+
+# confirming collection name changed
+
+if [ "`grep 'THIS_COLLECTION_NAME' output.xml`" == '' ]
+then
+    echo "Confirming collection name changed:  OK"
+else
+    echo ""
+    echo "Confirming collection name changed:  ERROR.  Still using default value!"
+    echo ""
+fi
+
+
+# checking for ALERT messages in output
+
+if [ "`grep ALERT output.xml | wc -l`" -gt 0 ]
+then
+    echo ""
+    echo "Found alerts!"
+    grep ALERT output.xml | sort | uniq | sed -e "s/^/               /g"
+    echo ""
+else
+    echo "Checking for alerts:  OK"
+fi
+
+
+# checking for adjacent greater-than/less-than signs
+# these are indicative of problems with the XSLT tranform 
+# if found, look for values not enclosed in XML tags
+
+if [ "`grep '><' *-transformed-*.xml | wc -l`" -gt 0 ]
+then 
+    echo "Found adjacent close-aligator/open-aligator tags:"
+    grep "><" *-transformed-*.xml
+    echo ""
+else
+    echo "Checking for adjacent open aligator/close aligator tags:  OK"
+fi
+
+# checking for problems with thumbnails; XSLT is defaulting to CONTENTdm servers and that's no use for non-CDM sites
+
+grep "<preview>/utils/getthumbnail/collection//id/</preview>" output.xml > testthumbs.dat
+if [ -s testthumbs.dat ]
+then
+   echo "  *** There are thumbs that are default/incomplete CONTENTdm versions ***"
+   echo ""
+else
+    echo "Looking for incomplete thumbnail URLs:  OK"
+fi
+rm testthumbs.dat
+
+
+# check for null elements that we can remove; we don't want to send empty elements to DPLA (or Penelope!)
+
+rm -f null-elements.txt
+grep '/>' 2t.xml | sort | uniq >> null-elements.txt
+if [ -s null-elements.txt ]
+then
+    echo '  *** There are null elements in the original data'
+    echo '  *** see file:  null-elements.txt'
+    echo
+fi
+
+
+# check for semicolons; these may indicate that the field has subfields which should be broken out into their own elements via:
+#
+#    <xsl:for-each select="tokenize(normalize-space(.), ';')">
+#      <xsl:if test="normalize-space(.) != ''">
+#        <xsl:element name="dcterms:contributor" namespace="http://purl.org/dc/terms/">
+#          <xsl:value-of select="normalize-space(.)"/>
+#        </xsl:element>
+#      </xsl:if>
+#    </xsl:for-each>
+
+
+rm -f values-with-semicolons.txt
+cat 2t.xml | sed -e 's/&amp;//g' | grep ';' >> values-with-semicolons.txt
+if [ -s values-with-semicolons.txt ]
+then
+    echo
+    echo '  *** There are semicolons in the data; check them.'
+    echo '  *** see file:  values-with-semicolons.txt'
+    echo
+fi
+
+
+# checking for encoded < characters, indicative of HTML in the metadata (bad!)
+
+if [ "`grep '&lt;' 2t.xml | wc -l`" -gt 0 ]
+then
+    echo ""
+    echo '  *** Found data that might be HTML tags!'
+    echo '  *** see file:  html.txt'
+    grep '&lt;' 2t.xml > html.txt
+    echo ""
+fi
+
+
+
+# checking for dates using the format "1969-01-30T08:00:00Z".  If these exist, then we want to modify
+# the transform to truncate beginning with the "T".
+
+if [ "`grep '<date>' 2t.xml | grep T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*Z | wc -l`" -gt 0 ]
+then
+   rm -f datevals.txt
+   echo ""
+   echo "  *** There may be date values using the ISO-8601 format "
+   echo "  *** see file:  datevals.txt"
+   grep "<date>" 2t.xml | grep "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*Z" | head -n 3 | cut -f 2 -d '>' | cut -f 1 -d '<' | sed -e "s/^/   /g" > datevals.txt
+   echo ""
+else
+   echo "Checking for ISO-8601 date formats:  OK"
+   echo ""
+fi
+
+
+
+
+# print out URLs for untransformed and transformed
+
+echo ""
+echo "Untransformed:  $BASEURL?verb=ListRecords&set=$SETSPEC&metadataPrefix=$ORIG_PREFIX"
+echo ""
+echo "Transformed:    $BASEURL?verb=ListRecords&set=$SETSPEC&metadataPrefix=$DPLA_PREFIX"
+echo ""
+
+
+# create a .zip file for Penelope's review and spit out the PSCP command to get it to the local workstation
+
+CWD=`pwd`
+
+echo " "
+echo "Created file for Penelope's review:  $SETSPEC-metadata.zip"
+
+rm -f $SETSPEC-metadata.zip
+zip $SETSPEC-metadata.zip $SETSPEC-transformed-qdc.xml $SETSPEC-not_transformed-$ORIG_PREFIX.xml
+echo " "
+echo "   pscp web@catbus:$CWD/$SETSPEC-metadata.zip ."
+echo " "
+echo " "
+
