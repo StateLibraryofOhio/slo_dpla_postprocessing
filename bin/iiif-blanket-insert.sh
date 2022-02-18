@@ -62,7 +62,7 @@ sed -e "s/^[ ]*//g" $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml > 2t.xml
 
 cat<<EOF
 There are $FULL_COUNT records in this set.
-$IIIF_VIABLE_COUNT are viable IIIF records"
+$IIIF_VIABLE_COUNT are viable IIIF records
 
 The output can be found at:  $NEWFILE
 
