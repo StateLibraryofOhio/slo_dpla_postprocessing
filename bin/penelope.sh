@@ -1,8 +1,23 @@
 #!/bin/bash
 #
-# This script is intended to
+# This script is intended to:
 #
-# The input data will be the "transformed" data, which has run
+#   * create a .zip archive containing XML files for review
+#     by Penelope
+#
+#   * provide a summary of details that can be copied into an
+#     email to Penelope
+#
+#   * show a command to copy the data to your Windows 
+#     workstation using pscp
+#
+#   * show a command to give you a final chance to review
+#     the output using the quick, automated scripts which are
+#     part of this package.
+#
+# This script does not change / transform data.
+#
+# The data will be the "transformed" data, which has run
 # through ...
 # ...format for upload to DPLA.
 #
