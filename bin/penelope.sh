@@ -8,7 +8,7 @@
 #   * provide a summary of details that can be copied into an
 #     email to Penelope
 #
-#   * show a command to copy the data to your Windows 
+#   * show a command to copy the data to your Windows
 #     workstation using pscp
 #
 #   * show a command to give you a final chance to review
@@ -24,10 +24,13 @@
 # There must be a 'transform.conf' file in the current directory
 # when this is run.  That file is created by running 'gu-setup'.
 #
-# Input for this script is...
+# Input for this script is 2 files:
+#
+#
+#
 #
 # Output from this script is dumped to a file named...
-# 
+#
 # For example:
 #
 #   Input file:   ...
@@ -103,5 +106,4 @@ To copy the files to my desktop:
 
 
 EOF
-
 
