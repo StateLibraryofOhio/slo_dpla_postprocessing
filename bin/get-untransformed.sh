@@ -76,7 +76,7 @@ sed -e "s/^[ ]*//g" < $SETSPEC-not_transformed-$ORIG_PREFIX.xml > 2u.xml
 # figure out which fields have metadata (i.e. not null values)
 # used for creating the XSLT
 
-grep '^<' 2u.xml | cut -f 1 -d '>' | sort | uniq | grep -v '^</' > fields-with-metadata-in-raw.txt
+java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/list-fields.xsl -s:2u.xml > fields-with-metadata-in-raw.txt
 
 echo ""
 
