@@ -73,7 +73,7 @@ mv 2.txt $SETSPEC-not_transformed-$ORIG_PREFIX.xml
 sed -e "s/^[ ]*//g" < $SETSPEC-not_transformed-$ORIG_PREFIX.xml > 2u.xml
 
 
-# figure out which fields have metadata (i.e. not null values)
+# figure out which fields have metadata
 # used for creating the XSLT
 
 java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/list-fields.xsl -s:2u.xml > fields-with-metadata-in-raw.txt
