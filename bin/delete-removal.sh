@@ -69,7 +69,7 @@ AFTERCOUNT=`grep '<record' $OUTPUTFILE | wc -l`
 cp $OUTPUTFILE $SETSPEC-DPLA_ready.xml
 sed -e "s/^[ ]*//g" $SETSPEC-DPLA_ready.xml > 2t.xml
 
-cat <<END_OF_BLOCK
+tee outdel.txt <<END_OF_BLOCK
 
 Complete!
 

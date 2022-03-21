@@ -60,7 +60,10 @@ cp $NEWFILE $SETSPEC-DPLA_ready.xml
 
 sed -e "s/^[ ]*//g" $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml > 2t.xml
 
-cat<<EOF
+tee outiiif.txt <<EOF
+
+Complete!
+
 There are $FULL_COUNT records in this set.
 $IIIF_VIABLE_COUNT are viable IIIF records
 
