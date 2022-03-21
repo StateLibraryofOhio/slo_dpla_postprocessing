@@ -45,7 +45,7 @@ cp $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml $SETSPEC-DPLA_ready.xml
 sed -e "s/^[ ]*//g" $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml > 2t.xml
 
 
-cat <<EOF
+tee outgt.txt <<EOF
 
 Perform some basic diagnostics on the data:
 
