@@ -20,8 +20,8 @@
 
 
 <!-- 
-     This XSLT is intended to remove "deleted" records from a
-     "transformed" XML harvest, where "transformed" == "generated
+     This XSLT is intended to remove records without edm:rights values
+     from a "transformed" XML file, where "transformed" == "generated
      by the gt or get-transformed.sh procedure".
 -->
 
