@@ -9,10 +9,12 @@ import xml.dom.minidom
 import codecs
 from argparse import ArgumentParser
 from builtins import chr
+from datetime import datetime
 
 nDataBytes = 0
 nRawBytes = 0
-oaistart = """<?xml version="1.0" encoding="UTF-8"?><OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"> <responseDate>2015-10-11T00:35:52Z</responseDate> <ListRecords>\n"""
+harvestTime=datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+oaistart = """<?xml version="1.0" encoding="UTF-8"?><OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"> <responseDate>""" + harvestTime + """</responseDate> <ListRecords>\n"""
 oaiend = """\n</ListRecords></OAI-PMH>\n"""
 
 
