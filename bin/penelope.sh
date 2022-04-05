@@ -77,14 +77,21 @@ IIIF_VIABLE_COUNT=`grep '<dcterms:isReferencedBy>' $SETSPEC-DPLA_ready.xml | wc 
 FULL_COUNT=`grep '<record' $SETSPEC-DPLA_ready.xml | wc -l`
 EDM_PREVIEW_COUNT=`grep '<edm:preview>' $SETSPEC-DPLA_ready.xml | wc -l`
 
+PROVIDER=`grep edm:dataProvider $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
+SET=`grep dcterms:isPartOf $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
+
 
 cat<<EOF
 -----------------------------------------------------------
 
+ODN:  Re-harvest of "$SET" from $PROVIDER ($SETSPEC)
 
-Data Provider:  `grep edm:dataProvider $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
+ODN:  Harvest of "$SET" from $PROVIDER ($SETSPEC)
 
-Set:  `grep dcterms:isPartOf $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
+
+Data Provider:  $PROVIDER
+
+Set:  $SET
 
 REPOX setSpec:  $SETSPEC
 
