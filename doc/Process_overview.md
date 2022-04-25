@@ -8,7 +8,7 @@ Most of the scripts (get-transformed.sh a.k.a gt, delete-removal.sh, iiif-blanke
 
 So, if all's working well, copy/pasting those commands will handle 90% of your work.
 
-Additional investigation will need to be made by the user to analyse the data being retrieved for each collection and devise an appropriate XSLT transform for that data.
+Additional investigation will need to be made by the analyst to examine the data being retrieved for each collection and devise an appropriate XSLT transform for that data.
 
 
 ## Workflow overview
