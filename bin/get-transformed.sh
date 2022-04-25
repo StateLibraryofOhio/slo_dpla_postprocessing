@@ -36,6 +36,14 @@ fi
 
 python3 /usr/local/SLO-DPLA/bin/harvestOAI.py -l $BASEURL -o $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml -s $SETSPEC -m $DPLA_PREFIX
 
+if [ -f $SLODPLA_LIB/bySet/$SETSPEC.xsl ]
+then
+    echo "Found collection-specific transform; running it."
+    java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/bySet/$SETSPEC.xsl -s:$SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml -o:2.dat
+    mv 2.dat $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml
+fi
+
+
 xmllint --format $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml  >2.txt
 
 mv 2.txt $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml
