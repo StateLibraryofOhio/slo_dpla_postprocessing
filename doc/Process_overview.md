@@ -88,7 +88,7 @@ The screen output from this command will include the exact commands needed to (1
 
     $ iiif-blanket-insert.sh INPUTFILE.xml
 
-This script uses Java/XSLT to add dcterms:isReferencedBy elements to each record.  Each record will be analyzed to determine whether it is eligible to "participate" based on the set containing the record and the permissions on the record (as listed in the edm:rights element).  "Ineligible" records will have an empty tag added (i.e. "<dcterms:isReferencedBy/>")
+This script uses Java/XSLT to add dcterms:isReferencedBy elements to each record.  Each record will be analyzed to determine whether it is eligible to "participate" based on the set containing the record and the permissions on the record (as listed in the edm:rights element).  "Ineligible" records will have an empty tag added (i.e. "&lt;dcterms:isReferencedBy/&gt;")
 
 
 
