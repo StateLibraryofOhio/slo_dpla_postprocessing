@@ -11,21 +11,21 @@ So, if all's working well, copy/pasting those commands will handle 90% of your w
 Additional investigation will need to be made by the analyst to examine the data being retrieved for each collection and devise an appropriate XSLT transform for that data.
 
 
-## Workflow overview
+## General overview
 
-The general workflow for the addition of a new collection to the system (or the re-harvest of an existing collection) is:
+The 10,000-foot overview of how data goes from contributor to DPLA, and the changes the data encounters along the way, is:
 
-1:  data flows into REPOX via OAI-PMH in a contributor-specified format
+I:  data flows into REPOX via OAI-PMH in a contributor-specified format
 
-2:  data flows out of REPOX via OAI-PMH in a "transformed", standardized format ("qdc")
+II:  data flows out of REPOX via OAI-PMH in a "transformed", standardized format ("qdc")
 
-3:  "deleted" records are removed from the OAI-PMH output from Stage 2 via XSLT / Java / shell scripting
+III:  "deleted" records are removed from the OAI-PMH output from Stage 2 via XSLT / Java / shell scripting
 
-4:  IIIF tags are added to all records from Stage 3 and are populated with metadata where needed via XSLT / Java / shell scripting
+IV:  IIIF tags are added to all records from Stage 3 and are populated with metadata where needed via XSLT / Java / shell scripting
 
-5:  Prepare data from Stage 4 for Penelope's analysis: package the contributor's unmodified XML data and the final, DPLA-ready data into a .zip file that can be emailed to her
+V:  Prepare data from Stage 4 for Penelope's analysis: package the contributor's unmodified XML data and the final, DPLA-ready data into a .zip file that can be emailed to her for review and approval
 
-6:  Prepare data for upload to DPLA on a quarterly schedule.
+VI:  Prepare data for upload to DPLA on a quarterly schedule.
 
 
 REPOX houses data from Stage 1 and Stage 2.  Data from subsequent Stages are external to REPOX.
@@ -33,28 +33,31 @@ REPOX houses data from Stage 1 and Stage 2.  Data from subsequent Stages are ext
 
 
 
-## More detailed overview
+## Adding a new collection to REPOX
 
-Step 0:  Before you do anything, configure your user account by ensuring that Java is installed, and that the Saxon XSLT libraries are installed and in your CLASSPATH
+The steps below walk you through the process described by the workflow outlined above.
+
+
+**Step 0:  Before you do anything, configure your user account by ensuring that Java is installed, and that the Saxon XSLT libraries are installed and in your CLASSPATH**
 
 Steps 1 and following need to be performed each time you work with a new collection.  Step 0 needs to be performed only once; the settings should persist across logins, and are collection-independent.
 
-In the installation directory for the software is a "conf" subdirectory, which contains a file "SLO-DPLA-environment.conf".  Add the information in that file to the tail-end of your .bashrc file so the following commands work.
+In the installation directory for this tool is a "conf" subdirectory, which contains a file "SLO-DPLA-environment.conf".  Add the information in that file to the tail-end of your .bashrc file so the following commands work.
 
 
 **Step 1:  Setup a work-area for the collection you are working with**
 
 You need to configure some directory on a Linux system with this software installed and working.  Use the "gu-setup" command for this, feeding it the REPOX setSpec and the OAI-PMH metadataFormat used for harvesting the data from the Contributor's server.
 
-In the following example, we create a directory to work in while analysing data, and then configure that directory to work with our REPOX dataset.  In REPOX, the example dataset would have a OAI-PMH setSpec of "my-new-dataset" and it would have an associated OAI-PMH schema of "oai_qdc:
+In the following example, we create a directory to work in while analysing data, and then configure that directory to work with our REPOX dataset.  In REPOX, the example dataset would have a OAI-PMH setSpec of "my-new-dataset" and it would have an associated OAI-PMH schema of "oai_qdc":
 
     $ mkdir my-new-dataset
     $ cd my-new-dataset
     $ gu-setup my-new-dataset oai_qdc
 
-All subsequent work must be done in this directory.  The setup script creates a configuration file which is referenced by scripts that follow.
+All subsequent work is done in this directory.  The setup script creates a configuration file which is referenced by scripts that follow.
 
-If you somehow screw up the "gu-setup" step, then simply re-run it to over-write the bad configuration with a new config.
+If something goes wrong during the "gu-setup" step, then simply re-run it to over-write the bad configuration with a new config.
 
 
 **Step 2:  To retrieve the un-tranformed contributor data from REPOX, use the command "gu"**
