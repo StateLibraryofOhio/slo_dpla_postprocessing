@@ -70,7 +70,7 @@ To re-harvest a REPOX Data Set, right-click on the chosen set in the REPOX admin
 <a name="working_repoxized"/>
 ##Working with metadata after it has been harvested into REPOX
 
-The steps below walk you through the process described by the workflow outlined above.
+The steps below walk you through the process described by the workflow outlined above.  This is for interaction with a single REPOX data set with the intention of adding a new set to REPOX, debugging a problematic XSLT transform in REPOX, or analyzing data within a single set in REPOX.  Preparing data for a full upload to DPLA ("ingest") is a different procedure that automates much of the following.
 
 
 **Step 0:  Before you do anything, configure your user account by ensuring that Java is installed, and that the Saxon XSLT libraries are installed and in your CLASSPATH**
