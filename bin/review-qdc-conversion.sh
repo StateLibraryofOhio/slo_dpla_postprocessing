@@ -198,7 +198,7 @@ fi
 
 
 rm -f values-with-semicolons.txt
-cat $INPUTFILE | sed -e 's/&amp;//g' | grep ';' >> values-with-semicolons.txt
+cat $INPUTFILE | sed -e 's/&amp;//g' | grep ';' | grep -v -e 'dcterms:title' -e 'dcterms:description' > values-with-semicolons.txt
 if [ -s values-with-semicolons.txt ]
 then
     echo
@@ -266,7 +266,7 @@ Data Provider:  $PROVIDER
 Set Name:  $SETNAME
 
 There are $FULL_COUNT records in this set.
-There are $IIIF_VIABLE_COUNT viable IIIF records.
+There are $IIIF_VIABLE_COUNT records containing IIIF metadata.
 
 REPOX setSpec:  $SETSPEC
 

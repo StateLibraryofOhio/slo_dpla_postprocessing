@@ -53,7 +53,13 @@ java net.sf.saxon.Transform -s:$XMLFILE -xsl:$SLODPLA_LIB/iiif-blanket-insert.xs
 xmllint --format $NEWFILE > 2.dat
 mv 2.dat $NEWFILE
 
-IIIF_VIABLE_COUNT=`grep '<dcterms:isReferencedBy>' $NEWFILE | wc -l`
+IIIF_ELIGIBLE_COUNT=`grep -e '<edm:rights>http://rightsstatements.org/vocab/NoC-US/' \
+      -e '<edm:rights>http://creativecommons.org/publicdomain/mark/' \
+      -e '<edm:rights>http://creativecommons.org/publicdomain/zero/' \
+      -e '<edm:rights>http://creativecommons.org/licenses/by/' \
+      -e 'edm:rights>http://creativecommons.org/licenses/by-sa/' \
+      $NEWFILE | wc -l` 
+IIIF_MARKED_COUNT=`grep '<dcterms:isReferencedBy>' $NEWFILE | wc -l`
 FULL_COUNT=`grep '<record' $NEWFILE | wc -l`
 
 cp $NEWFILE $SETSPEC-DPLA_ready.xml
@@ -65,7 +71,8 @@ tee outiiif.txt <<EOF
 Complete!
 
 There are $FULL_COUNT records in this set.
-$IIIF_VIABLE_COUNT are viable IIIF records
+$IIIF_MARKED_COUNT records include IIIF metadata.
+$IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:rights value.
 
 The output can be found at:  $NEWFILE
 
