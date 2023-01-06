@@ -73,8 +73,15 @@ fi
 rm -f $SETSPEC-DPLA_ready.zip
 zip $SETSPEC-DPLA_ready.zip $SETSPEC-DPLA_ready.xml $SETSPEC-not_transformed-$ORIG_PREFIX.xml
 
-IIIF_VIABLE_COUNT=`grep '<dcterms:isReferencedBy>' $SETSPEC-DPLA_ready.xml | wc -l`
+IIIF_ELIGIBLE_COUNT=`grep -e '<edm:rights>http://rightsstatements.org/vocab/NoC-US/' \
+      -e '<edm:rights>http://creativecommons.org/publicdomain/mark/' \
+      -e '<edm:rights>http://creativecommons.org/publicdomain/zero/' \
+      -e '<edm:rights>http://creativecommons.org/licenses/by/' \
+      -e 'edm:rights>http://creativecommons.org/licenses/by-sa/' \
+      $SETSPEC-DPLA_ready.xml | wc -l`
+IIIF_MARKED_COUNT=`grep '<dcterms:isReferencedBy>' $SETSPEC-DPLA_ready.xml | wc -l`
 FULL_COUNT=`grep '<record' $SETSPEC-DPLA_ready.xml | wc -l`
+
 EDM_PREVIEW_COUNT=`grep '<edm:preview>' $SETSPEC-DPLA_ready.xml | wc -l`
 
 PROVIDER=`grep edm:dataProvider $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
@@ -97,7 +104,8 @@ REPOX setSpec:  $SETSPEC
 
 
 There are $FULL_COUNT records in this set.
-$IIIF_VIABLE_COUNT are viable IIIF records.
+$IIIF_MARKED_COUNT records contain IIIF metadata.
+$IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:rights value.
 
 $EDM_PREVIEW_COUNT records have edm:preview values.
 

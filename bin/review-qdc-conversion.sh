@@ -257,7 +257,14 @@ echo "==========================================================================
 PROVIDER=`grep edm:dataProvider $INPUTFILE | cut -f 2 -d '>' | cut -f 1 -d '<' | head -n 1`
 SETNAME=`grep dcterms:isPartOf $INPUTFILE | cut -f 2 -d '>' | cut -f 1 -d '<' | head -n 1`
 
-IIIF_VIABLE_COUNT=`grep '<dcterms:isReferencedBy>' $INPUTFILE | wc -l`
+
+IIIF_ELIGIBLE_COUNT=`grep -e '<edm:rights>http://rightsstatements.org/vocab/NoC-US/' \
+      -e '<edm:rights>http://creativecommons.org/publicdomain/mark/' \
+      -e '<edm:rights>http://creativecommons.org/publicdomain/zero/' \
+      -e '<edm:rights>http://creativecommons.org/licenses/by/' \
+      -e 'edm:rights>http://creativecommons.org/licenses/by-sa/' \
+      $INPUTFILE | wc -l`
+IIIF_MARKED_COUNT=`grep '<dcterms:isReferencedBy>' $INPUTFILE | wc -l`
 FULL_COUNT=`grep '<record' $INPUTFILE | wc -l`
 
 cat <<EOF
@@ -266,7 +273,8 @@ Data Provider:  $PROVIDER
 Set Name:  $SETNAME
 
 There are $FULL_COUNT records in this set.
-There are $IIIF_VIABLE_COUNT records containing IIIF metadata.
+$IIIF_MARKED_COUNT records contain IIIF metadata.
+$IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:rights value.
 
 REPOX setSpec:  $SETSPEC
 
