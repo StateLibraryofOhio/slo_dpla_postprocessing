@@ -26,6 +26,7 @@ on the part of the user, however.
 Pre-requisites
  - Java
  - Saxon XSLT
+ - Python 3
  - https://github.com/StateLibraryofOhio/slo_dpla_postprocessing
 
 
