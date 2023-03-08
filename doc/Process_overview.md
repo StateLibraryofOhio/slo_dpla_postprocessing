@@ -63,12 +63,12 @@ Click the "Save" button and you should be returned to the list of sets.
 Find your newly-added collection; it should have empty values for "Last Ingest" and "Records".  Right-click on the set to see a popup menu.  Click on the "Ingest Now" option.  REPOX will queue the job for processing.  Scroll away from the page to refresh the "Ingest Status" icon and the number of records in the newly-harvested set.
 
 
-##Re-harvesting a Record Set in REPOX
+## Re-harvesting a Record Set in REPOX
 
 To re-harvest a REPOX Data Set, right-click on the chosen set in the REPOX admin interface and select "Empty Data Set" from the popup menu.  Then, right-click on the set again and select the "Ingest Now" option.  NOTE:  THe "Force Record Update" option does not work.
 
 <a name="working_repoxized"/>
-##Working with metadata after it has been harvested into REPOX
+## Working with metadata after it has been harvested into REPOX
 
 The steps below walk you through the process described by the workflow outlined above.  This is for interaction with a single REPOX data set with the intention of adding a new set to REPOX, debugging a problematic XSLT transform in REPOX, or analyzing data within a single set in REPOX.  Preparing data for a full upload to DPLA ("ingest") is a different procedure that automates much of the following.
 
@@ -164,7 +164,7 @@ In addition to the basic tests performed by the "penelope.sh" script, it's also 
 
 
 <a name="create_transform"/>
-##Creating an XSLT transform for a new collection##
+## Creating an XSLT transform for a new collection##
 
 After you add the set to REPOX, follow the steps in the <a href="#working_repoxized">Working with metadata after it has been harvested into REPOX</a> until you complete step 2.
 
