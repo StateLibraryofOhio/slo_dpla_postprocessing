@@ -1,8 +1,14 @@
 #!/bin/bash
 
-INDIR=$BASEDIR/09__staging
+if [ "$INGEST_BASEDIR" == '' ]
+then
+    echo "The environment is not setup to run this script."
+    echo "Run '. conf/upload.conf' and try again."
+fi
+
+INDIR=$INGEST_BASEDIR/data/09__staging
 XSLT=/usr/local/SLO-DPLA/lib/count-records.xsl
-INGESTCOUNT=$BASEDIR/ingest-count--stagingdir.txt
+INGESTCOUNT=$INGEST_BASEDIR/data/ingest-count--stagingdir.txt
 let SETCOUNT=0
 
 rm -f $INGESTCOUNT
