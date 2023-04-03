@@ -31,7 +31,7 @@
 
   <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:creator[text()='Michaels, Larry R.']]"/>
 
-  <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dc:relation[text()='William S. Burroughs Papers']]"/>
+  <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:type[text()='Sound']]"/>
 
   <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:contributor[text()='Cervantes Saavedra, Miguel de, 1547-1616']]"/>
 
