@@ -76,7 +76,6 @@
                             ../../header/setSpec[text()]='kent_fusion' or
                             ../../header/setSpec[text()]='kent_grimshaw' or
                             ../../header/setSpec[text()]='kent_icon' or
-                            ../../header/setSpec[text()]='kent_ijfae' or
                             ../../header/setSpec[text()]='kent_kaleidoscope' or
                             ../../header/setSpec[text()]='kent_ksumuseum' or
                             ../../header/setSpec[text()]='kent_ksuscp' or
