@@ -34,7 +34,7 @@
   <xsl:template match="@*|text()"/>
   <xsl:template match="//ListRecords">
     
-    <xsl:for-each select="distinct-values(./record[*]/metadata[*]/oai_qdc:qualifieddc/*/name())">
+    <xsl:for-each select="distinct-values(./record[*]/metadata[*]/*/*/name())">
       <xsl:value-of select="."/>
       <xsl:text>&#xa;</xsl:text>
     </xsl:for-each>
