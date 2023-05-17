@@ -18,29 +18,28 @@
 
 <xsl:output method="text" encoding="UTF-8"/>
 
-
-<!-- 
-     This XSLT is intended to return a list of metadata
-     fields in the OAI-PMH records sent for a collection.
-     The fields enumerated will be those populated with
-     metadata by the site, and not the "administrative"
-     elements that are part of the OAI-PMH system.
-
-     It is intended to be run against the "non-transformed"
-     data to ID the fields the site is sending, and we can
-     then ask them to map those fields to the ODN equivalents.
+<!--
+     This XSLT is intended to list the isShownAt URIs for records
+     which have multiple edm:rights values in a "transformed" 
+     XML dataset.
 -->
 
-  <xsl:template match="@*|text()"/>
-  <xsl:template match="//ListRecords">
-    
-    <xsl:for-each select="distinct-values(./record[*]/metadata[*]/*/*/name())">
-      <xsl:value-of select="."/>
-      <xsl:text>&#xa;</xsl:text>
-    </xsl:for-each>
+<xsl:mode on-no-match="shallow-copy"/>
+
+  <xsl:template match="text()|@*"/>
+  <xsl:template match="record">
+    <xsl:if test="not(count(./metadata/oai_qdc:qualifieddc/edm:rights)=1)">
+      <xsl:value-of select="count(./metadata/oai_qdc:qualifieddc/edm:rights)"/>|<xsl:value-of select="metadata/oai_qdc:qualifieddc/edm:isShownAt"/><xsl:text> 
+</xsl:text>
+    </xsl:if>
   </xsl:template>
 
-
-
 </xsl:stylesheet>
+
+
+
+
+
+
+
 
