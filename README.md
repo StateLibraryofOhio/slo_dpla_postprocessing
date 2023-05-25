@@ -12,7 +12,7 @@ These utilities will be useful for:
 * Creation of an XSLT template to transform a collection's metadata to a standardized XML format
 * Subsequent manipulation of the XML after it has reached the "standardized" phase
 
-As part of the normal workflow, the "Subequent manipulation" step includes the removal of deleted records and insertion of IIIF metadata to specific records where the records meet specific criteria.  Additional XSLT in the project's "lib" directory can be used on a one-off basis against specific XML files to ID records without rights information, etc.
+As part of the normal workflow, the "Subsequent manipulation" step includes the removal of deleted records and insertion of IIIF metadata to specific records where the records meet specific criteria.  Additional XSLT in the project's "lib" directory can be used on a one-off basis against specific XML files to ID records without rights information, etc.
 
 
 
