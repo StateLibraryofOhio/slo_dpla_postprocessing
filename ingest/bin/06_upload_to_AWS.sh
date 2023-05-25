@@ -29,10 +29,19 @@ fi
 
 INDIR=$INGEST_DATADIR/10__gzipped
 
-echo "This procedure will begin the upload to DPLA."
-echo "Are you ABSOLUTELY SURE you are ready to do this?"
-echo
-echo "Type 'yes' to continue"
+UPLOAD_DIR=$(date +%Y-%m-%d)
+
+cat <<EOBLOCK
+This procedure will begin the upload to DPLA.
+The data will be uploaded to:
+
+  s3://dpla-hub-ohio/$UPLOAD_DIR/
+
+Are you ABSOLUTELY SURE you are ready to do this?
+
+Type 'yes' to continue
+EOBLOCK
+
 
 read REQUEST
 
@@ -46,7 +55,7 @@ cd $INDIR
 ls *xml.gz | while read XMLFILE
 do
     echo "uploading $XMLFILE"
-    aws s3 cp $XMLFILE s3://dpla-hub-ohio/2022-03-28/
+    aws s3 cp $XMLFILE s3://dpla-hub-ohio/$UPLOAD_DIR/
     sleep 1
 done
 
