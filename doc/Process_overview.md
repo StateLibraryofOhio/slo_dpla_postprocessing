@@ -172,13 +172,13 @@ After you add the set to REPOX, follow the steps in the <a href="#working_repoxi
 
 A number of (very) crude operations are run against the data harvested from REPOX by the "gu" command.  The following output files are created to help with analysis of the data:
 
- | 2u.xml | XML, no leading spaces, good for grepping |
- | SETSPEC-not_transformed-$ORIG_PREFIX.xml | XML, formatted for easy reading |
- | fields-with-metadata-in-raw.txt | A quick listing of all XML elements sent for this collection |
- | null-elements.txt | Elements containing no value, modify XSLT to remove these |
- | values-with-semicolons.txt | Text that may be HTML, or contain delimited values |
- | html.txt | Text that might be XML |
- | datevals.txt | Date values that should be re-formatted |
+* 2u.xml:  XML, no leading spaces, good for grepping 
+* SETSPEC-not_transformed-$ORIG_PREFIX.xml:  XML, formatted for easy reading 
+* fields-with-metadata-in-raw.txt:  A quick listing of all XML elements sent for this collection 
+* null-elements.txt:  Elements containing no value, modify XSLT to remove these 
+* values-with-semicolons.txt:  Text that may be HTML, or contain delimited values 
+* html.txt:  Text that might be XML 
+* datevals.txt:  Date values that should be re-formatted 
 
 
 Use the information from these files and the script output to create a new REPOX-based XSLT file, using the $SLODPLA_LIB/00_STARTING_POINT-COLL.xsl as a template for your new transform.  Name your copy of the XSLT file REPOX_SETSPEC.xsl, where "REPOX_SETSPEC" is the OAI-PMH setSpec you've chosen for this set in REPOX.
@@ -186,11 +186,11 @@ Use the information from these files and the script output to create a new REPOX
 Open the web-based REPOX administration interface and locate your set.  Right-click on the set and select the "Edit Data Set" option.  Go to the "OAI-PMH tab in the resulting popup and click on the "Add" button in the "Transformations" section at the bottom of the window.  A list of the pre-existing transforms is displayed, but we wish to add a new transform, so click the "New" button.
 
 New popup:
- - Identifier:  Use the REPOX setSpec
- - Description:  Use the REPOX setSpec - Source Format:  Use the OAI harvesting format specified by the organization (e.g. "oai_dc:dc", "oai__qdc:qualifieddc")
- - Destination Format:  "qdc"
- - XSL version 2?:   select this checkbox
- - Transformation File (XSL):  Browse to the XSLT file you just created from $SLODPLA_LIB/00_STARTING_POINT-COLL.xsl
+ * Identifier:  Use the REPOX setSpec
+ * Description:  Use the REPOX setSpec - Source Format:  Use the OAI harvesting format specified by the organization (e.g. "oai_dc:dc", "oai__qdc:qualifieddc")
+ * Destination Format:  "qdc"
+ * XSL version 2?:   select this checkbox
+ * Transformation File (XSL):  Browse to the XSLT file you just created from $SLODPLA_LIB/00_STARTING_POINT-COLL.xsl
 
 Save your changes.  You'll end up back at the list of pre-existing transforms.  Your transform will now be at the end of hte list.  Navigate to it, select it, and add it to your configuration for this set.  Save the changes.
 
@@ -202,16 +202,16 @@ If you can harvest this set from REPOX using the "qdc" metadataPrefix, then you 
 
 Running the "gt" command only creates a few files:
 
- | t2.xml | XML, no leading spaces, good for grepping |
- | SETSPEC-REPOX-TRANSFORMED-$DPLA_PREFIX.xml | XML, formatted for easy reading |
+* t2.xml:  XML, no leading spaces, good for grepping 
+* SETSPEC-REPOX-TRANSFORMED-$DPLA_PREFIX.xml:  XML, formatted for easy reading 
 
 ...but, running the "gt" command also invokes the "review-qdc-conversion.sh" script, which (re-)creates additional files, based on the transformed data:
 
- | review-qdc-conversion-output.xml | Output file from various tests |
- | null-elements.txt | Null XML elements; should be removed via XSLT |
- | values-with-semicolons.txt | Instances of semicolons; could be HTML or subfields |
- | html.txt | Instances of encoded greater-than or less-than signs...html? |
- | datevals.txt | Date values that should be re-formatted |
+* review-qdc-conversion-output.xml:  Output file from various tests 
+* null-elements.txt:  Null XML elements; should be removed via XSLT 
+* values-with-semicolons.txt:  Instances of semicolons; could be HTML or subfields 
+* html.txt:  Instances of encoded greater-than or less-than signs...html? 
+* datevals.txt:  Date values that should be re-formatted 
 
 
     $ review-qdc-conversion.sh INPUTFILE.xml
