@@ -34,7 +34,7 @@ else
     . transform.conf
 fi
 
-python3 /usr/local/SLO-DPLA/bin/harvestOAI.py -l $BASEURL -o $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml -s $SETSPEC -m $DPLA_PREFIX
+python3 $SLODPLA_BIN/harvestOAI.py -l $BASEURL -o $SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml -s $SETSPEC -m $DPLA_PREFIX
 
 if [ -f $SLODPLA_LIB/bySet/$SETSPEC.xsl ]
 then
