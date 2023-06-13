@@ -20,9 +20,13 @@
   <!-- 
 
   The intent of this XSLT transform is to add OAI-PMH archival metadata
-  to newly-harvested ("raw") XML.
+  to newly-harvested ("raw") XML in accordance with the specification 
+  outlined at:
 
-  The script takes the parameters:
+    https://www.openarchives.org/OAI/2.0/guidelines-provenance.htm
+
+
+  Required parameters to be passed to the script:
 
       odnSetSpec:  Formerly known as the REPOX setSpec; typically formatted
                    as "contributor_setidentifier"
@@ -36,7 +40,7 @@
   Example usage:
 
      java net.sf.saxon.Transform \
-           -xsl:this.xsl \
+           -xsl:archivize-raw-harvest.xsl\
            -s:pdk_boris-raw-oai_dc.xml \
            -o:output.xml \
             odnSetSpec='pdk_boris' \
@@ -50,51 +54,55 @@
   <xsl:variable name="datestamp" select="//oai-pmh:responseDate"/>
 
   <xsl:param name="odnSetSpec" as="xs:string"/>
-
   <xsl:param name="origMetadataNamespace" as="xs:string"/>
-
   <xsl:param name="oaiProvenanceBaseUrl" as="xs:string"/>
 
   <!-- <xsl:param name="input-uri" as="xs:string"/>
   <xsl:variable name="in" select="unparsed-text($input-uri, 'iso-8859-1')"/>
   -->
 
-
-  <!-- pull in our common template file -->
-  <xsl:include href="odn_templates.xsl"/>
-
   <xsl:template match="text()|@*"/>
 
+
+  <!-- Create the base XML structure to hold the separate records -->
   <xsl:template match="/" >
-      <xsl:element name="OAI-PMH" xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"><xsl:attribute name="xsi:schemaLocation">http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd</xsl:attribute>
+      <xsl:element name="OAI-PMH" 
+                   xmlns="http://www.openarchives.org/OAI/2.0/"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+        <xsl:attribute name="xsi:schemaLocation">http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd</xsl:attribute>
           <xsl:element name="responseDate"><xsl:value-of select="$datestamp"/></xsl:element>
           <xsl:element name="ListRecords">
+              <!-- Loop through each record to write to new, archivized file -->
               <xsl:apply-templates select="//oai-pmh:record"/>
           </xsl:element>
       </xsl:element>
   </xsl:template>
 
+  <!-- Process each record -->
   <xsl:template match="oai-pmh:record">
       <xsl:element name="record" xmlns="http://www.openarchives.org/OAI/2.0/">
+          <!-- Modified header -->
           <xsl:element name="header" xmlns="http://www.openarchives.org/OAI/2.0/">
-		  <xsl:element name="identifier" xmlns="http://www.openarchives.org/OAI/2.0/">urn:ohiodplahub.library.ohio.gov:<xsl:value-of select="$odnSetSpec"/>:<xsl:value-of select="oai-pmh:header/oai-pmh:identifier"/></xsl:element>
+              <xsl:element name="identifier" xmlns="http://www.openarchives.org/OAI/2.0/">urn:ohiodplahub.library.ohio.gov:<xsl:value-of select="$odnSetSpec"/>:<xsl:value-of select="oai-pmh:header/oai-pmh:identifier"/></xsl:element>
               <xsl:element name="datestamp"  xmlns="http://www.openarchives.org/OAI/2.0/"><xsl:value-of select="substring-before($datestamp, 'T')"/></xsl:element>
               <xsl:element name="setSpec"    xmlns="http://www.openarchives.org/OAI/2.0/"><xsl:value-of select="$odnSetSpec"/></xsl:element>
           </xsl:element>
+          <!-- Copy metadata unchanged -->
           <xsl:element name="metadata" xmlns="http://www.openarchives.org/OAI/2.0/">
-              <xsl:copy-of select="*:metadata/*"/>
-              <!-- <xsl:copy select="oai-pmh:metadata/@*"/> -->
+              <xsl:copy-of select="oai-pmh:metadata/*"/>
           </xsl:element>
+          <!-- Create the new "about" section -->
           <xsl:element name="about">
               <xsl:element name="oaiProvenance:provenance">
                   <xsl:attribute name="xsi:schemaLocation">http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd</xsl:attribute>
                   <xsl:element name="oaiProvenance:originDescription">
                       <xsl:attribute name="harvestDate"><xsl:value-of select="substring-before($datestamp, 'T')"/></xsl:attribute>
                       <xsl:attribute name="altered">true</xsl:attribute>
-                  <xsl:element name="oaiProvenance:baseURL"><xsl:value-of select="$oaiProvenanceBaseUrl"/></xsl:element>
-                  <xsl:element name="oaiProvenance:identifier"><xsl:value-of select="*:header/*:identifier"/></xsl:element>
-                  <xsl:element name="oaiProvenance:datestamp"><xsl:value-of select="substring-before($datestamp, 'T')"/></xsl:element>
-                  <xsl:element name="oaiProvenance:metadataNamespace"><xsl:value-of select="$origMetadataNamespace"/></xsl:element>
+                      <xsl:element name="oaiProvenance:baseURL"><xsl:value-of select="$oaiProvenanceBaseUrl"/></xsl:element>
+                      <xsl:element name="oaiProvenance:identifier"><xsl:value-of select="*:header/*:identifier"/></xsl:element>
+                      <xsl:element name="oaiProvenance:datestamp"><xsl:value-of select="substring-before($datestamp, 'T')"/></xsl:element>
+                      <xsl:element name="oaiProvenance:metadataNamespace"><xsl:value-of select="$origMetadataNamespace"/></xsl:element>
                   </xsl:element>
               </xsl:element>
           </xsl:element>
