@@ -65,6 +65,18 @@
                             ../../header/setSpec[text()]='clevepl_p4014coll25' or
                             ../../header/setSpec[text()]='clevepl_p4014coll27' or
                             ../../header/setSpec[text()]='clevepl_p4014coll9' or
+                            ../../header/setSpec[text()]='cml_african' or
+                            ../../header/setSpec[text()]='cml_citydir' or
+                            ../../header/setSpec[text()]='cml_genealogy' or
+                            ../../header/setSpec[text()]='cml_maps' or
+                            ../../header/setSpec[text()]='cml_memory' or
+                            ../../header/setSpec[text()]='cml_ohio' or
+                            ../../header/setSpec[text()]='cml_p16802coll19' or
+                            ../../header/setSpec[text()]='cml_p16802coll28' or
+                            ../../header/setSpec[text()]='cml_p16802coll47' or
+                            ../../header/setSpec[text()]='cml_p16802coll50' or
+                            ../../header/setSpec[text()]='cml_postcard' or
+                            ../../header/setSpec[text()]='cml_yearbook' or
                             ../../header/setSpec[text()]='kent_allenevents' or
                             ../../header/setSpec[text()]='kent_allenimages' or
                             ../../header/setSpec[text()]='kent_amag' or
@@ -76,7 +88,6 @@
                             ../../header/setSpec[text()]='kent_fusion' or
                             ../../header/setSpec[text()]='kent_grimshaw' or
                             ../../header/setSpec[text()]='kent_icon' or
-                            ../../header/setSpec[text()]='kent_ijfae' or
                             ../../header/setSpec[text()]='kent_kaleidoscope' or
                             ../../header/setSpec[text()]='kent_ksumuseum' or
                             ../../header/setSpec[text()]='kent_ksuscp' or

@@ -20,24 +20,14 @@
 
 
 <!-- 
-     This XSLT is intended to return a list of metadata
-     fields in the OAI-PMH records sent for a collection.
-     The fields enumerated will be those populated with
-     metadata by the site, and not the "administrative"
-     elements that are part of the OAI-PMH system.
-
-     It is intended to be run against the "non-transformed"
-     data to ID the fields the site is sending, and we can
-     then ask them to map those fields to the ODN equivalents.
+     This XSLT is intended to return a numeric value showing the
+     number of OAI-PMH records in an XML harvest.
+     by the gt or get-transformed.sh procedure".
 -->
 
   <xsl:template match="@*|text()"/>
   <xsl:template match="//ListRecords">
-    
-    <xsl:for-each select="distinct-values(./record[*]/metadata[*]/*/*/name())">
-      <xsl:value-of select="."/>
-      <xsl:text>&#xa;</xsl:text>
-    </xsl:for-each>
+    <xsl:value-of select="count(./record)"/> | <xsl:value-of select="./record[1]/header[1]/setSpec"/> | <xsl:value-of select="./record[1]/metadata[1]/oai_qdc:qualifieddc[1]/edm:dataProvider"/> | <xsl:value-of select="./record[1]/metadata[1]/oai_qdc:qualifieddc[1]/dcterms:isPartOf"/><xsl:text>&#xa;</xsl:text>
   </xsl:template>
 
 
