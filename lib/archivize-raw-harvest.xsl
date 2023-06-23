@@ -44,7 +44,7 @@
            -s:pdk_boris-raw-oai_dc.xml \
            -o:output.xml \
             odnSetSpec='pdk_boris' \
-            origMetadataNamespace='http://www.openarchives.org/OAI/2.0/oai_dc/' \
+            origMetadataNamespace='oai_dc' \
             oaiProvenanceBaseUrl='https://cdm15716.contentdm.oclc.org/oai/oai.php'
 
   -->
@@ -63,7 +63,6 @@
 
   <xsl:template match="text()|@*"/>
 
-
   <!-- Create the base XML structure to hold the separate records -->
   <xsl:template match="/" >
       <xsl:element name="OAI-PMH" 
@@ -79,8 +78,8 @@
       </xsl:element>
   </xsl:template>
 
-  <!-- Process each record -->
-  <xsl:template match="oai-pmh:record">
+  <!-- Process each record, eliminating records flagged as "deleted" in the header -->
+  <xsl:template match="oai-pmh:record[not(oai-pmh:header/@status='deleted')]">
       <xsl:element name="record" xmlns="http://www.openarchives.org/OAI/2.0/">
           <!-- Modified header -->
           <xsl:element name="header" xmlns="http://www.openarchives.org/OAI/2.0/">
