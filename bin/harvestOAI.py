@@ -160,7 +160,7 @@ def main():
     # Not defaulting to values; if no harvest URI is provided, then print usage and abort
     if not args.link:
         print("""\n  No OAI-PMH base URL provided.  Exiting.\n""")
-        print("""  Usage:  harvestOAI.py  --l http://xxx.org/oai/oai.php  -o outputfile.xml  -s setSpec  -m metadataPrefix\n""")
+        print("""  Usage:  harvestOAI.py  -l http://xxx.org/oai/oai.php  -o outputfile.xml  -s setSpec  -m metadataPrefix\n""")
         exit()
 
     # Check OAI-PMH URL is valid
