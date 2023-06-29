@@ -24,8 +24,20 @@ OUTDIR_GZ=$INGEST_DATADIR/10__gzipped
 OUTDIR_ZIP=$INGEST_DATADIR/10__zipped
 
 
-rm -rf $OUTDIR_GZ/*
-rm -rf $OUTDIR_ZIP/*
+if [ ! -d $OUTDIR_GZ ]
+then
+    mkdir $OUTDIR_GZ
+else
+    rm -rf $OUTDIR_GZ/*
+fi
+
+if [ ! -d $OUTDIR_ZIP ]
+then
+    mkdir $OUTDIR_ZIP
+else
+    rm -rf $OUTDIR_ZIP/*
+fi
+
 
 cd $INDIR
 ls *xml | while read XMLFILE

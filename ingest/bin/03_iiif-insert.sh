@@ -19,21 +19,33 @@ else
     . conf/upload.conf
 fi
 
-
-
 STAGINGDIR=$INGEST_DATADIR/03a__iiif_and_deleted_simple_name
 OUTDIR=$INGEST_DATADIR/03__iiif-blanket-insert
 INDIR=$INGEST_DATADIR/02__deletes-removed
 XSLT=$SLODPLA_LIB/iiif-blanket-insert.xsl
 
-rm -rf $STAGINGDIR/* 2>/dev/null
-rm -rf $OUTDIR/* 2>/dev/null
+if [ ! -d $STAGINGDIR ]
+then
+    echo "Creating directory $STAGINGDIR"
+    mkdir $STAGINGDIR
+else
+    rm -rf $STAGINGDIR/* 2>/dev/null
+fi
+
+if [ ! -d $OUTDIR ]
+then
+    echo "Creating directory $OUTDIR"
+    mkdir $OUTDIR
+else
+    rm -rf $OUTDIR/* 2>/dev/null
+fi
 
 cd $INDIR
 ls | while read SETSPEC
 do
     mkdir $OUTDIR/$SETSPEC
-    echo "Beginning $SETSPEC"
+    echo '======================================================================================='
+    echo "Adding IIIF metadata to:  $SETSPEC"
     java net.sf.saxon.Transform -o:$OUTDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes-iiif.xml -xsl:$XSLT -s:$INDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes.xml
     cp $OUTDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes-iiif.xml $STAGINGDIR/$SETSPEC.xml
 done

@@ -28,8 +28,18 @@ cd $INDIR
 ls | while read SETSPEC
 do
     echo '======================================================================================='
-    echo "Beginning $SETSPEC"
+    echo "Removing deleted records:   $SETSPEC"
     java net.sf.saxon.Transform -s:$INDIR/$SETSPEC/$SETSPEC-REPOX.xml -xsl:$XSLT -o:$OUTDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes.xml
 done
 
+cat <<EOF
 
+Removal of deleted records is complete.  The data can be found at:
+
+  $OUTDIR
+
+The next step is to remove references to deleted records from the data.  To do that, run
+
+  ./bin/03_iiif-insert.sh
+
+EOF

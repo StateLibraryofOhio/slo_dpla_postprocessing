@@ -18,6 +18,8 @@ STAGINGDIR=$INGEST_DATADIR/09__staging
 INDIR=$INGEST_DATADIR/03__iiif-blanket-insert
 OUTDIR=$INGEST_DATADIR/04__rights_problems-removed
 XSLT=$SLODPLA_LIB/remove-rights-problems.xsl
+CWD=$(pwd)
+
 
 rm -rf $STAGINGDIR
 mkdir $STAGINGDIR
@@ -29,7 +31,8 @@ cd $INDIR
 ls | while read SETSPEC
 do
     mkdir $OUTDIR/$SETSPEC
-    echo "Beginning $SETSPEC"
+    echo '======================================================================================='
+    echo "Checking rights:  $SETSPEC"
     java net.sf.saxon.Transform -o:$OUTDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes-iiif-noRightsProblems.xml -xsl:$XSLT -s:$INDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes-iiif.xml
     cp $OUTDIR/$SETSPEC/$SETSPEC-REPOX-noDeletes-iiif-noRightsProblems.xml $STAGINGDIR/$SETSPEC.xml
 done
@@ -47,7 +50,7 @@ There are the beginnings of some reporting scripts that
 can be used to summarize the data, tally numbers, etc.
 You can find those scripts at:
 
-  $INGEST_BIN/report*.sh
+  $CWD/bin/report*.sh
 
 When you are satisfied with the data, then the next step 
 in the process is to compress the finalized files for upload
