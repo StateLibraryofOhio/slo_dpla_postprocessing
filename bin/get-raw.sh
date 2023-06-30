@@ -12,9 +12,10 @@
 #
 # Once the XML has had the supplemental aggregator metadata inserted,
 # it will be ready to re-map the incoming metadata values to the
-# appropriate ODN/DPLA fields.
+# appropriate ODN/DPLA fields, and (if needed) further filtering of
+# of the records.
 #
-# The script will look for information about the target harvest site
+# This script will look for information about the target harvest site
 # in a 'transform.conf' file in the current directory.  That file is 
 # created by running 'gu-setup'.
 # 
@@ -34,6 +35,7 @@
 # or in transform.conf as "SETSPEC=contrib_setid"
 #
 ############################################################
+
 # preliminary checks to confirm environment is configured
 
 if [ "$SLODPLA_ROOT" == "" ]
@@ -43,11 +45,29 @@ then
     The SLODPLA_ROOT environment variable is not set.
     Aborting.
     EOF
-    exit
+    exit 1
 fi
 
 
-# Option 1 on command line:  site's setSpec for the OAI set.
+# Confirm that the MySQL login file is present.
+# Config settings are stored in MySQL.
+
+if [ ! -f ~/.my.cnf  ]
+then
+    cat <<'    EOF'
+
+    -- ERROR --
+    No '~/.my.cnf' file found; Required for MySQL login.
+    Either create the file, or confirm that permissions
+    are correct on the existing file.
+    EOF
+    exit 1
+fi
+
+
+# Option $1 on command line used to invoke this script:
+# site's setSpec for the OAI set.
+#
 # This will be used to lookup the metadataPrefix in MySQL.
 
 if [ ! -f transform.conf ] && [ "$1" == "" ]
@@ -65,10 +85,11 @@ then
         $ ./get-raw.sh ohmem_p16007coll99
 
     EOF
-    exit
+    exit 1
 else
     if [ "$1" != "" ]
     then
+        # try using the ODN setSpec submitted on the command line
         SETSPEC=$1
 	SELECT_STATEMENT="select count(*) from source where odnSet='"${SETSPEC}"'"
 	RESULT=$(mysql -sNe "$SELECT_STATEMENT")
@@ -76,7 +97,7 @@ else
 	then
 	   echo "That is not a recognized ODN setSpec.  Exiting."
 	   echo ""
-           exit
+           exit 1
 	fi
 	# Retrieve the OAI-PMH metadataPrefix for the harvest from the
         # contributor's server
@@ -87,17 +108,30 @@ else
     fi
 fi
 
-if [ ! -f ~/.my.cnf  ]
-then
-    cat <<'    EOF'
 
-    -- ERROR --
-    No '~/.my.cnf' file found; Required for MySQL login.
-    Either create the file, or confirm that permissions
-    are correct on the existing file.
-    EOF
-    exit
+# Confirm that the log directory exists, and is writeable
+
+if [ ! -d "$SLODATA_LOGS" ]
+then
+    echo "The logging directory does not exist:  $SLODATA_LOGS"
+    echo "Aborting."
+    echo
+    exit 1
+elif [ ! -w "$SLODATA_LOGS" ]
+then
+    echo "The logging directory is not writeable:  $SLODATA_LOGS"
+    echo "Aborting."
+    echo
+    echo 1
 fi
+
+LOG_MONTH=$(date +%Y-%m)
+if [ ! -d "$SLODATA_LOGS/$LOG_MONTH" ]
+then
+    mkdir $SLODATA_LOGS/$LOG_MONTH
+fi
+
+JOB_LOG=${SETSPEC}_x_$(date +%Y%m%d_%H%m%s).log
 
 
 ###################################################################
@@ -119,6 +153,9 @@ CONTRIBUTOR_SETSPEC=$(mysql -se "$SELECT_STATEMENT")
 #echo "DEBUG:  The CONTRIBUTOR_SETSPEC is $CONTRIBUTOR_SETSPEC"
 
 
+
+
+
 echo ' '
 echo 'Attempting retrieval of OAI-PMH data from source repository:'
 
@@ -127,8 +164,11 @@ then
     chmod +w $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml
 fi
 
-python3 $SLODPLA_BIN/harvestOAI.py -l $CONTRIBUTOR_BASE_URL -o $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml -s $CONTRIBUTOR_SETSPEC -m $ORIG_PREFIX
+# the "tee" in the following splits output between screen and logfile
+# the "sed" in the following formats the screen output
+python3 $SLODPLA_BIN/harvestOAI.py -l $CONTRIBUTOR_BASE_URL -o $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml -s $CONTRIBUTOR_SETSPEC -m $ORIG_PREFIX 2>&1 | tee $SLODATA_LOGS/$LOG_MONTH/$JOB_LOG | sed -e 's/^/  /g'
 
+echo "  Job log at:  $SLODATA_LOGS/$LOG_MONTH/$JOB_LOG"
 echo "  Data is at:  $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
 
 # Remove write permissions on the newly downloaded files to ensure we don't
@@ -158,9 +198,7 @@ origMetadataNamespace=$(mysql -sNe "$SELECT_STATEMENT")
 
 cat <<EOF
 
-Beginning XSLT transform to add OAI-PMH aggregator metadata,
-and remove the "deleted" records from the data:
-
+Beginning XSLT transform to add ODN OAI-PMH aggregator metadata and remove the "deleted" records from the data...
 EOF
 
 java net.sf.saxon.Transform \
@@ -171,27 +209,65 @@ java net.sf.saxon.Transform \
      origMetadataNamespace="$origMetadataNamespace" \
      oaiProvenanceBaseUrl="$CONTRIBUTOR_BASE_URL"
 
+echo "Reformatting the archivized XML for analysis..."
 xmllint --format $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml > tmp.xml
 sed -e "s/^[ ]*//g" < tmp.xml > 2a.xml
 mv tmp.xml $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
 
-BEFORECOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml)
-AFTERCOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml)
+echo "Counting the records, and records deleted..."
+let BEFORECOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml)
+let AFTERCOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml)
+let DELETED_RECORD_COUNT=$BEFORECOUNT-$AFTERCOUNT
 
 
-cat <<EOF
-
-Finished adding the OAI-PMH aggregator metadata.
-
-Collecting details about the untransformed metadata to assist in constructing
-the base/mapping XSLT.
-================================================================================
+# write a log entry to the database
+cat >log-harvest.sql <<EOF
+  insert into oldTasks
+    (id,
+     oldTaskTime,
+     dataSourceSet,
+     logName,
+     ingestType,
+     status,
+     records,
+     retries,
+     retriesMax,
+     retriesDelay
+    )
+  values
+   ('${SETSPEC}_x',
+    '$(date +"%Y-%m-%d %H:%M:%S")',
+    '${SETSPEC}',
+    '$LOG_MONTH/$JOB_LOG',
+    'incrementalIngest',
+    'OK',
+    '$BEFORECOUNT',
+    '0',
+    '3',
+    '300'
+   );
 EOF
 
 
-# figure out which fields have metadata; used for creating the XSLT base transform
+echo "Created the SQL to log this harvest in MySQL:  log-harvest.sql"
+echo "Running SQL to log this harvest in MySQL..."
+mysql < log-harvest.sql
+echo
 
+cat <<EOF
+====================================================================================
+
+Collecting details about the untransformed metadata to assist in constructing
+the base/mapping XSLT.
+
+EOF
+
+# figure out which fields have metadata; used for creating the XSLT base transform
 java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/list-fields.xsl -s:2a.xml > fields-with-metadata-in-raw.txt
+echo "  Elements sent:"
+echo
+cat fields-with-metadata-in-raw.txt | sed -e 's/^/    /g'
+echo
 
 
 # check for null elements that we can remove; we don't want to send empty elements to DPLA
@@ -202,7 +278,8 @@ if [ -s null-elements.txt ]
 then
     echo '  *** There are null elements in the original data'
     echo '  *** see file:  null-elements.txt'
-    echo
+else
+    echo '  Not finding any null elements in the original data; good.'
 fi
 
 
@@ -223,6 +300,10 @@ then
     echo
     echo '  *** There are semicolons in the data.  Check:  Are they subfields?'
     echo '  *** see file:  values-with-semicolons.txt'
+    echo
+else
+    echo '  Not finding fields with semicolons (possible delimiters)'
+    echo 
 fi
 
 
@@ -235,6 +316,9 @@ then
     echo '  *** see file:  html.txt'
     grep '&lt;' 2a.xml > html.txt
     echo ""
+else
+    echo "  Did not detect any encoded '<' characters (possible HTML)"
+    echo
 fi
 
 
@@ -250,21 +334,22 @@ then
    grep "<date>" 2a.xml | grep "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*Z" | head -n 3 | cut -f 2 -d '>' | cut -f 1 -d '<' | sed -e "s/^/   /g" > datevals.txt
    echo ""
 else
-   echo "Checking for ISO-8601 date formats:  OK"
+   echo "  Checking for ISO-8601 date formats:  OK"
    echo ""
 fi
 
-echo ""
 echo "Finished.  Use this output to create the initial XSLT for REPOX."
 echo "Use the 'bt' command to debug the REPOX transform."
 echo ""
 
 
 
-
+echo "$AFTERCOUNT records are ready for consideration for DPLA inclusion."
+if [ $DELETED_RECORD_COUNT -gt 0 ]
+then
+    echo "Deleted records that were removed from the set:  $DELETED_RECORD_COUNT" 
+fi
 cat <<EOF
-$BEFORECOUNT records in; $AFTERCOUNT records out.
-
 Output is at:  $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
 
 Run the base XSLT transformation on the data to map fields to ODN equivalents:
