@@ -152,10 +152,6 @@ SELECT_STATEMENT="select oaiSet from source where odnSet='"${SETSPEC}"'"
 CONTRIBUTOR_SETSPEC=$(mysql -se "$SELECT_STATEMENT")
 #echo "DEBUG:  The CONTRIBUTOR_SETSPEC is $CONTRIBUTOR_SETSPEC"
 
-
-
-
-
 echo ' '
 echo 'Attempting retrieval of OAI-PMH data from source repository:'
 
@@ -164,9 +160,12 @@ then
     chmod +w $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml
 fi
 
+HARVEST_DATETIME=$(date +"%Y-%m-%d %H:%M:%S")
+
 # the "tee" in the following splits output between screen and logfile
 # the "sed" in the following formats the screen output
-python3 $SLODPLA_BIN/harvestOAI.py -l $CONTRIBUTOR_BASE_URL -o $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml -s $CONTRIBUTOR_SETSPEC -m $ORIG_PREFIX 2>&1 | tee $SLODATA_LOGS/$LOG_MONTH/$JOB_LOG | sed -e 's/^/  /g'
+# the "unbuffer" in the following line allows a line-by-line output to screen; requires installation of "expect" package
+unbuffer python3 $SLODPLA_BIN/harvestOAI.py -l $CONTRIBUTOR_BASE_URL -o $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml -s $CONTRIBUTOR_SETSPEC -m $ORIG_PREFIX 2>&1 | sed -e 's/^/  /g' #| tee $SLODATA_LOGS/$LOG_MONTH/$JOB_LOG 
 
 echo "  Job log at:  $SLODATA_LOGS/$LOG_MONTH/$JOB_LOG"
 echo "  Data is at:  $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
@@ -236,7 +235,7 @@ cat >log-harvest.sql <<EOF
     )
   values
    ('${SETSPEC}_x',
-    '$(date +"%Y-%m-%d %H:%M:%S")',
+    '$HARVEST_DATETIME',
     '${SETSPEC}',
     '$LOG_MONTH/$JOB_LOG',
     'incrementalIngest',
@@ -247,6 +246,10 @@ cat >log-harvest.sql <<EOF
     '300'
    );
 EOF
+
+# update the source record with the recordcount
+UPDATE_STATEMENT="update source set lastIngest='"${HARVEST_DATETIME}"' where odnSet='"${SETSPEC}"'"
+CONTRIBUTOR_BASE_URL=$(mysql -se "$UPDATE_STATEMENT ")
 
 
 echo "Created the SQL to log this harvest in MySQL:  log-harvest.sql"
@@ -357,5 +360,4 @@ Run the base XSLT transformation on the data to map fields to ODN equivalents:
      base-transform.sh $SETSPEC
 
 EOF
-
 

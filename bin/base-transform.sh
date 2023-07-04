@@ -66,7 +66,7 @@
 ###
 ### determine which set we're processing
 ###
-echo " "
+echo
 if [ "$SLODPLA_LIB" == '' ]
 then
     echo "The SLODPLA_ROOT environment variable is not configured."
