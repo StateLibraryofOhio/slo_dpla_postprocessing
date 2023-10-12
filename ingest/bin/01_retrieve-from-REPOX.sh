@@ -31,7 +31,7 @@ fi
 if [ ! -d $INGEST_DATADIR/01__each-set__from_repox ]
 then
     echo "Creating directory $INGEST_DATADIR/01__each-set__from_repox"
-    mkdir $INGEST_DATADIR/01__each-set__from_repox
+    mkdir -p $INGEST_DATADIR/01__each-set__from_repox
 fi
 
 chmod u+w $INGEST_DATADIR/01__each-set__from_repox
