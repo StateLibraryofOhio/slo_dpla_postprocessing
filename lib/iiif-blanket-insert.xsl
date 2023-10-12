@@ -66,6 +66,7 @@
                             ../../header/setSpec[text()]='clevepl_p4014coll27' or
                             ../../header/setSpec[text()]='clevepl_p4014coll9' or
                             ../../header/setSpec[text()]='cml_african' or
+                            ../../header/setSpec[text()]='cml_ccs' or
                             ../../header/setSpec[text()]='cml_citydir' or
                             ../../header/setSpec[text()]='cml_genealogy' or
                             ../../header/setSpec[text()]='cml_maps' or
