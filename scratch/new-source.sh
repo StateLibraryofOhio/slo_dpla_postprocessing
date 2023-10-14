@@ -35,11 +35,21 @@ done
 
 cat <<EOF
 
-Any existing OAI-PMH URIs for this provider will be listed below:
+If this provider has contributed sets before, then any existing OAI-PMH URIs for this provider will be listed below, but an existing provider can submit a brand new OAI-PMH URL:
 
 EOF
 
-FRANK=(`mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'`)
+#FRANK=(`mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';"`)
+#cat <<DEBUG
+#======================================================
+#DEBUG
+#for i in "${FRANK[@]}"; do
+#  echo "$i"
+#done
+#
+#cat <<DEBUG
+======================================================
+#DEBUG
 
 mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'
 
@@ -50,7 +60,7 @@ EOF
 echo -n ' >>> '
 read URL
 echo "  ...retrieving data..."
-echo ""
+
 # harvest the list of metadataFormats from the server
 rm -f MetadataFormats.xml
 wget  "$URL"'?verb=ListMetadataFormats' -O ListMetadataFormats.xml -o /dev/null
@@ -59,9 +69,11 @@ wget  "$URL"'?verb=ListMetadataFormats' -O ListMetadataFormats.xml -o /dev/null
 rm -f ListSets.xml
 wget  "$URL"'?verb=ListSets' -O ListSets.xml -o /dev/null
 cat <<EOF 
-  The sets available for harvesting from that OAI server are:
+
+The sets available for harvesting from that OAI server are:
 
 EOF
+
 java net.sf.saxon.Transform -s:ListSets.xml -xsl:ListSets.xsl | sort | sed -e 's/^/    /g'
 
 
