@@ -28,8 +28,15 @@ else
     . conf/upload.conf
 fi
 
+if [ ! -d $INGEST_DATADIR/01__each-set__from_repox ]
+then
+    echo "Creating directory $INGEST_DATADIR/01__each-set__from_repox"
+    mkdir -p $INGEST_DATADIR/01__each-set__from_repox
+fi
+
 chmod u+w $INGEST_DATADIR/01__each-set__from_repox
 chmod u+w $INGEST_DATADIR/01__each-set__from_repox/* 2>/dev/null
+
 rm -rf $INGEST_DATADIR/01__each-set__from_repox/*
 cd $INGEST_DATADIR/01__each-set__from_repox
 
