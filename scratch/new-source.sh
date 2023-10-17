@@ -48,7 +48,7 @@ EOF
 #done
 #
 #cat <<DEBUG
-======================================================
+#======================================================
 #DEBUG
 
 mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'
@@ -72,6 +72,7 @@ cat <<EOF
 
 The sets available for harvesting from that OAI server are:
 
+    Set Name --- setSpec
 EOF
 
 java net.sf.saxon.Transform -s:ListSets.xml -xsl:ListSets.xsl | sort | sed -e 's/^/    /g'
@@ -82,7 +83,7 @@ while [ "$SETSPEC" == '' ]
 do
 cat <<EOF
 
-Please enter the setSpec of the desired collection and hit ENTER:
+Please enter the setSpec (e.g. "p15716coll4") of the collection to be harvested and hit ENTER:
 EOF
 echo -n ' >>> '
 read SETSPEC
@@ -95,6 +96,13 @@ ODN_SETSPEC=''
 while [ "$ODN_SETSPEC" == '' ]
 do
 cat <<EOF
+
+We need to create a locally-unique identifier, or setSpec, for this dataset.
+
+Our convention is to use a  prefix_setid  syntax, where:
+
+   prefix == something general to all sets from that contributor (e.g. "ohmem")
+   setid  == a value unique to that set, typically the setSpec of the source OAI-PMH collection
 
 Please enter the ODN setSpec to be used for the collection and hit ENTER:
 EOF
