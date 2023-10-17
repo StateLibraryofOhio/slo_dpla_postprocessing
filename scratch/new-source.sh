@@ -104,7 +104,16 @@ Our convention is to use a  prefix_setid  syntax, where:
    prefix == something general to all sets from that contributor (e.g. "ohmem")
    setid  == a value unique to that set, typically the setSpec of the source OAI-PMH collection
 
-Please enter the ODN setSpec to be used for the collection and hit ENTER:
+Some possible options include:
+
+EOF
+mysql -N -e "select distinct substring_index(odnSet, '_', 1) from source where providerName='$PROVIDER' order by odnSet;" slo_aggregator | sed -e 's/^/    /g'
+
+#mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'
+
+cat <<EOF
+
+Please enter the ODN setSpec to be used for the new collection and hit ENTER:
 EOF
 echo -n ' >>> '
 read ODN_SETSPEC
