@@ -21,8 +21,14 @@
 <xsl:param name="METADATA_FORMAT"/>
 
 <!--
-$ java net.sf.saxon.Transform -s:ListSets.xml -xsl:get-command-line-parameter.xsl SETSPEC=p267401ccp2
-State Library of Ohio Digital Collection
+    This XSLT is intended to be run against the output from an 
+    OAI-PMH ListMetadataFormats request.
+
+    One parameter is passed in - a metadataPrefix that exists
+    in the file.
+
+    The XSLT returns the "schema" value corresponding to that
+    metadataFormat.
 -->
 
   <xsl:template match="@*|text()"/>

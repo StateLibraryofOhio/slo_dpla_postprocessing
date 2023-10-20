@@ -30,16 +30,10 @@ PrintMultipleSetNames.xsl
 
 Input:  ListSets.xml
 
-
 Receives a string parameter with one or multiple setSpecs, return the set description for each setSpec received
 
 MySQL contains a list of harvested setSpecs and the URLs they were harvested from.  This information is in the "source" record.
 This XSLT allows us to "SELECT oaiSet from source where oaiSource=...whatever the user submits.  We can pass that MySQL output to this XSLT as a parameter and easily (relatively) identify the not-yet-harvested sets on this server and display their details.
-
-
-java net.sf.saxon.Transform -xsl:GetSetName.xsl -s:ListSets.xml SETSPEC='boris'
-borisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisboris
-pkukla@symfony:~/tmp4/x$
 
 -->
 
@@ -47,44 +41,20 @@ pkukla@symfony:~/tmp4/x$
 
   <xsl:template match="/*:OAI-PMH/*:ListSets">
     <xsl:for-each select="*:set">
-      <xsl:sort select="*:setSpec"/>
-<!-- <xsl:value-of select="*:setSpec"/><xsl:text>
-</xsl:text>
--->
-<!-- from https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements -->
+      <xsl:sort select="*:description"/>
+      <!-- from https://stackoverflow.com/questions/1007018/xslt-expression-to-check-if-variable-belongs-to-set-of-elements -->
       <xsl:choose>
         <xsl:when test="contains(
                            concat(' ', $SETSPEC, ' '),
                            concat(' ', normalize-space(*:setSpec), ' ')
                          )">
- <!--     <xsl:for-each select="tokenize($SETSPEC, ' ')">
- -->
 
-         <xsl:value-of select="concat('Item ', *:setSpec, ' IS in the list.')"/> <!-- <./*:setDescription"/> -->
-<xsl:text>
-</xsl:text>
-     <!-- <xsl:value-of select="$SETSPEC"/><xsl:text>|||</xsl:text><xsl:value-of select="//*:set/setSpec"/>
-      -->
+         <xsl:value-of select="*:setName"/> --- <xsl:value-of select="*:setSpec"/>
+         <xsl:text>&#10;</xsl:text> <!-- newline -->
         </xsl:when>
-        <xsl:otherwise>
-         <xsl:value-of select="concat('Item ', *:setSpec, ' IS NOT in the list.')"/> <!-- <./*:setDescription"/> -->
-<xsl:text>
-</xsl:text>
-
-        </xsl:otherwise>
+        <xsl:otherwise/>
       </xsl:choose>
     </xsl:for-each>
   </xsl:template>
 
-<!--  <xsl:template match='*:set'>
-    <xsl:if test="./*:setSpec = $SETSPEC">
-      <xsl:value-of select="./*:setName"/>
-    </xsl:if>
-    <xsl:value-of select="$SETSPEC"/>
-  </xsl:template>
--->
-
-
 </xsl:stylesheet>
-
-

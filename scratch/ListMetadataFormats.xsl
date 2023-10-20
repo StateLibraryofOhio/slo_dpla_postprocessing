@@ -20,21 +20,20 @@
 
 
 <!--
-     This XSLT is intended to return a numeric value showing the
-     number of OAI-PMH records in an XML harvest.
-     by the gt or get-transformed.sh procedure".
+     This XSLT is intended to parse output from an OAI-PMH
+     ListMetadataFormats call and output the metadataPrefixes,
+     each on a separate line.
 -->
 
   <xsl:template match="@*|text()"/>
+
   <xsl:template match="//*:ListMetadataFormats">
     <xsl:for-each select="./*:metadataFormat">
       <xsl:sort select="*:metadataPrefix"/>
-        <xsl:value-of select="*:metadataPrefix"/><xsl:text>
-</xsl:text>
+        <xsl:value-of select="*:metadataPrefix"/>
+        <xsl:text>&#10;</xsl:text>     <!-- newline -->
     </xsl:for-each>
   </xsl:template>
-
-
 
 </xsl:stylesheet>
 

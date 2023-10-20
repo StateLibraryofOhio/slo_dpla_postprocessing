@@ -21,9 +21,11 @@
 <xsl:param name="SETSPEC"/>
 
 <!--
-java net.sf.saxon.Transform -xsl:GetSetName.xsl -s:ListSets.xml SETSPEC='boris'
-borisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborispkukla@symfony:~/tmp4/x$
+    This XSLT is intended to take a setSpec as an input parameter,
+    and output the corresponding setDescription.
 
+    It is expected that this XSLT will be applied to OAI-PMH
+    ListSets output.
 -->
 
   <xsl:template match="@*|text()"/>
@@ -33,8 +35,5 @@ borisborisborisborisborisborisborisborisborisborisborisborisborisborisborisboris
     </xsl:if>
   </xsl:template>
 
-
-
 </xsl:stylesheet>
-
 

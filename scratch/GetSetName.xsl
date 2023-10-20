@@ -21,9 +21,11 @@
 <xsl:param name="SETSPEC"/>
 
 <!--
-java net.sf.saxon.Transform -xsl:GetSetName.xsl -s:ListSets.xml SETSPEC='boris'
-borisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborisborispkukla@symfony:~/tmp4/x$
+    This XSLT is intended to receive a setSpec as a parameter,
+    and return the corresponding setName.
 
+    This XSLT is expected to be run against OAI-PMH ListMetadataFormats
+    output.
 -->
 
   <xsl:template match="@*|text()"/>
@@ -32,8 +34,6 @@ borisborisborisborisborisborisborisborisborisborisborisborisborisborisborisboris
       <xsl:value-of select="./*:setName"/>
     </xsl:if>
   </xsl:template>
-
-
 
 </xsl:stylesheet>
 

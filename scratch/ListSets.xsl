@@ -20,21 +20,19 @@
 
 
 <!--
-     This XSLT is intended to return a numeric value showing the
-     number of OAI-PMH records in an XML harvest.
-     by the gt or get-transformed.sh procedure".
+     This XSLT is intended to be run against OAI-PMH ListSets
+     output and will return the setName and setSpec for each
+     set, separated by three hyphens for end-user readability.
 -->
 
   <xsl:template match="@*|text()"/>
   <xsl:template match="//*:ListSets">
     <xsl:for-each select="./*:set">
       <xsl:sort select="*:setName"/>
-        <xsl:value-of select="*:setName"/> --- <xsl:value-of select="*:setSpec"/><xsl:text>
-</xsl:text>
+        <xsl:value-of select="*:setName"/> --- <xsl:value-of select="*:setSpec"/>
+        <xsl:text>&#10;</xsl:text> <!-- newline -->
     </xsl:for-each>
   </xsl:template>
-
-
 
 </xsl:stylesheet>
 
