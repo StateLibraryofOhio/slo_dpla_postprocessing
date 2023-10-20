@@ -53,6 +53,7 @@ EOF
 
 mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'
 
+
 cat <<EOF
 
 Please enter the base OAI-PMH URL for this dataset and hit ENTER:
@@ -68,9 +69,47 @@ wget  "$URL"'?verb=ListMetadataFormats' -O ListMetadataFormats.xml -o /dev/null
 # harvest the list of sets, dump list to screen
 rm -f ListSets.xml
 wget  "$URL"'?verb=ListSets' -O ListSets.xml -o /dev/null
-cat <<EOF 
+ALL_SETS_FROM_SERVER=$(java net.sf.saxon.Transform -xsl:ListAllSetSpecs.xsl -s:ListSets.xml)
 
-The sets available for harvesting from that OAI server are:
+cat <<EOF
+
+We are already harvesting the following collections from that server:
+
+EOF
+TRIMMED_URL=$(echo $URL | sed -e 's/https\?//g')
+echo "===================== $TRIMMED_URL ========================"
+SLO_HARVESTED_SET=$(mysql -N -e "select oaiSet from source where oaiSource like '%"$TRIMMED_URL"' order by oaiSet;" slo_aggregator | cut -f 2 | sed -e 's/^/    /g')
+
+
+cat <<EOF
+  ---------------------------------------------------
+  The following setSpecs on that server are currently
+  NOT being harvested into ODN:
+
+  This is horrifically slow and should be fixed.
+
+EOF
+
+echo $SLO_HARVESTED_SET $ALL_SETS_FROM_SERVER | tr ' ' '\n' | sort | uniq -u | while read THIS_SETSPEC
+do
+  THIS_SETNAME=$(java net.sf.saxon.Transform -xsl:GetSetName.xsl -s:ListSets.xml SETSPEC=$THIS_SETSPEC)
+    #sed -e 's/^/    /g'
+  echo "    $THIS_SETSPEC      $THIS_SETNAME"
+done
+
+cat <<EOF
+
+  ---------------------------------------------------
+
+press enter to continue...
+EOF
+read DEBUG
+
+
+cat <<EOF
+
+
+The full list of sets available for harvesting from that OAI server are:
 
     Set Name --- setSpec
 EOF
@@ -96,20 +135,30 @@ ODN_SETSPEC=''
 while [ "$ODN_SETSPEC" == '' ]
 do
 cat <<EOF
+=================================================================================================
 
-We need to create a locally-unique identifier, or setSpec, for this dataset.
+You need to create a locally-unique identifier, or setSpec, for this dataset.
 
 Our convention is to use a  prefix_setid  syntax, where:
 
    prefix == something general to all sets from that contributor (e.g. "ohmem")
    setid  == a value unique to that set, typically the setSpec of the source OAI-PMH collection
 
-Some possible options include:
+Some possible options for the "prefix" portion include:
 
 EOF
 mysql -N -e "select distinct substring_index(odnSet, '_', 1) from source where providerName='$PROVIDER' order by odnSet;" slo_aggregator | sed -e 's/^/    /g'
 
 #mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'
+
+cat <<EOF
+
+Some possible options for a local setSpec (based on guesswork) are:
+
+EOF
+SETSPEC_SANITIZED=$(echo $SETSPEC | sed -e "s/^publication:/:/g" -e 's/://g' -e 's/_//g')
+mysql -N -e "select distinct substring_index(odnSet, '_', 1) from source where providerName='$PROVIDER' order by odnSet;" slo_aggregator | \
+    sed -e "s/$/_$SETSPEC_SANITIZED/g" -e "s/^/    /g" 
 
 cat <<EOF
 
@@ -157,7 +206,7 @@ FILE_EXTRACT=''
 
 rm -f new-source_$SETSPEC.sql
 echo "SQL data is:  ================================================="
-cat <<EOF
+cat >new-source_$SETSPEC.sql <<EOF
 
   insert into 
     source (providerName, 
@@ -194,6 +243,8 @@ cat <<EOF
             '$SPLIT_RECORDS')
             
 EOF
+cat new-source_$SETSPEC.sql
+echo " "
 echo "The SQL to add the new set has been dumped to:  new-source_$SETSPEC.sql"
 
 
