@@ -1,0 +1,13 @@
+.sloapp-header-td{
+display: table-cell;
+padding: 10px;
+text-align: justify;
+}
+
+.td-displayDate {
+white-space: nowrap;
+}
+
+.sloapp-header-td {
+font-size: 125%;
+}
