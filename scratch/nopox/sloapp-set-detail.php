@@ -34,7 +34,7 @@ while ($sourceRow = $sourceResult->fetch())
 {
     echo '<p>providerName:   ' . htmlspecialchars($sourceRow['providerName']) . '</p>';
     echo '<p>description:    ' . htmlspecialchars($sourceRow['description']) . '</p>';
-    echo '<p>metadataPrefix: ' . htmlspecialchars($sourceRow['metadataFormat']) . '</p>';
+    echo '<p>metadataPrefix: ' . htmlspecialchars($sourceRow['metadataPrefix']) . '</p>';
     echo '<p>odnSet:         ' . htmlspecialchars($sourceRow['odnSet']) . '</p>';
     echo '<p>oaiSource:      ' . htmlspecialchars($sourceRow['oaiSource']) . '</p>';
     echo '<p>oaiSet:         ' . htmlspecialchars($sourceRow['oaiSet']) . '</p>';
