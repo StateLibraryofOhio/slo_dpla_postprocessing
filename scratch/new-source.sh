@@ -210,6 +210,9 @@ LAST_INGEST=''
 SOURCES_DIR_PATH=''
 RETRIEVE_STRATEGY=''
 FILE_EXTRACT=''
+COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
+
+
 
 # The result of this script is SQL.  The SQL is dumped to a file,
 # and instructions are dumped to the screen for running it against
@@ -254,8 +257,23 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$SOURCES_DIR_PATH',
             '$RETRIEVE_STRATEGY',
             '$FILE_EXTRACT',
-            '$SPLIT_RECORDS')
-            
+            '$SPLIT_RECORDS');
+
+  insert into
+    recordcount 
+         (dataSourceId,
+          recordcount,
+          lastLineCounted,
+          deletedRecords,
+          lastCountDate,
+          lastCountWithChangesDate)
+   values
+         ('$ODN_SETSPEC',
+          0,
+          0,
+          0,
+          '$COUNTDATE',
+          '$COUNTDATE');  
 EOF
 cat add-source_$ODN_SETSPEC.sql
 
