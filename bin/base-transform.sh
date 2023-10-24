@@ -151,7 +151,7 @@ fi
 
 # step 1: ID the base transform for
 
-QUERY="select metadataFormat from source where odnSet='"$ODN_SETSPEC"'"
+QUERY="select metadataPrefix from source where odnSet='"$ODN_SETSPEC"'"
 ORIGINAL_METADATA_FORMAT=$(mysql -sNe "$QUERY")
 
 if [ ! -f $SLODATA_ARCHIVIZED/$ODN_SETSPEC-odn-$ORIGINAL_METADATA_FORMAT.xml ] 
