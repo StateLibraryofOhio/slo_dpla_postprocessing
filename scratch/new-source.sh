@@ -260,7 +260,7 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$SPLIT_RECORDS');
 
   insert into
-    recordcount 
+    recordcount
          (dataSourceId,
           recordcount,
           lastLineCounted,
@@ -273,7 +273,18 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
           0,
           0,
           '$COUNTDATE',
-          '$COUNTDATE');  
+          '$COUNTDATE');
+
+  insert into
+    dataSourceState
+         (stateTimeStamp,
+          dataSourceId,
+          state)
+    values
+         ('$COUNTDATE',
+          '$ODN_SETSPEC',
+          'true');
+
 EOF
 cat add-source_$ODN_SETSPEC.sql
 
