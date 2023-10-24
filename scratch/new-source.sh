@@ -114,8 +114,8 @@ echo -n ' >>> '
 read SETSPEC
 done
 
-# use the setSpec to get the set description info and store it for later
-DESCRIPTION=$(java net.sf.saxon.Transform -s:ListSets.xml -xsl:GetSetDescription.xsl SETSPEC=$SETSPEC | sed -e "s/'/''/g")
+# use the setSpec to get the set name and store it for later
+DESCRIPTION=$(java net.sf.saxon.Transform -s:ListSets.xml -xsl:GetSetName.xsl SETSPEC=$SETSPEC | sed -e "s/'/''/g")
 
 # Multiple sites might have a "yearbook" setSpec for their dataset, so it is important that
 # we create a set identifier that is locally unique.
@@ -165,6 +165,16 @@ Please enter the ODN setSpec to be used for the new collection and hit ENTER:
 EOF
 echo -n ' >>> '
 read ODN_SETSPEC
+
+ODN_SETSPEC_CHECK=`mysql -N -e "select count(*) from source where odnSet='$ODN_SETSPEC';"`
+
+if [ "$ODN_SETSPEC_CHECK" == '1' ]
+then
+    echo "Error:  That setSpec is already being used.  Try another."
+    ODN_SETSPEC_CHECK=''
+    ODN_SETSPEC=''
+fi
+
 done
 
 
@@ -207,13 +217,13 @@ FILE_EXTRACT=''
 #
 # Not running it against the database at this time to avoid 
 # accidental creation of entries.
-rm -f new-source_$SETSPEC.sql
+rm -f add-source_$ODN_SETSPEC.sql
 echo "SQL data is:  ================================================="
 cat >add-source_$ODN_SETSPEC.sql <<EOF
 
   insert into 
     source (providerName, 
-            metadataFormat,
+            metadataPrefix,
             sourceSchema,
             lastIngest,
             status,
@@ -247,15 +257,15 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$SPLIT_RECORDS')
             
 EOF
-cat add-source_$SETSPEC.sql
+cat add-source_$ODN_SETSPEC.sql
 
 cat <<EOF
 
-The SQL to add the new set has been dumped to:  new-source_$SETSPEC.sql"
+The SQL to add the new set has been dumped to:  add-source_$ODN_SETSPEC.sql"
 
 If it looks good, you can load it via:
 
-    mysql < new-source_$SETSPEC.sql
+    mysql < add-source_$ODN_SETSPEC.sql
 
 EOF
 
