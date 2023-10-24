@@ -22,16 +22,14 @@
 
 <!--
     This XSLT is intended to take a setSpec as an input parameter,
-    and output the corresponding setDescription.
+    and output the corresponding dc:description.
 
-    It is expected that this XSLT will be applied to OAI-PMH
-    ListSets output.
 -->
 
   <xsl:template match="@*|text()"/>
   <xsl:template match='*:set'>
     <xsl:if test="./*:setSpec = $SETSPEC">
-      <xsl:value-of select="./*:setDescription"/>
+      <xsl:value-of select="./*:setDescription/dc:description"/>
     </xsl:if>
   </xsl:template>
 
