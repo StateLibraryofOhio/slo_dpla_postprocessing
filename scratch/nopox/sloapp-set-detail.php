@@ -42,8 +42,6 @@ while ($sourceRow = $sourceResult->fetch())
     echo '<p>lastIngest:     ' . htmlspecialchars($sourceRow['lastIngest']) . '</p>';
     echo '<p>status:         ' . htmlspecialchars($sourceRow['status']) . '</p>';
     echo '<p>typeOfSource:   ' . htmlspecialchars($sourceRow['typeOfSource']) . '</p>';
-    echo '<p>exportDirPath:  ' . htmlspecialchars($sourceRow['exportDirPath']) . '</p>';
-    echo '<p>recordIdPolicyType: ' . htmlspecialchars($sourceRow['recordIdPolicyType']) . '</p>';
     echo '<p>sourcesDirPath: ' . htmlspecialchars($sourceRow['sourcesDirPath']) . '</p>';
     echo '<p>retrieveStrategy: ' . htmlspecialchars($sourceRow['retrieveStrategy']) . '</p>';
     echo '<p>fileExtract: ' . htmlspecialchars($sourceRow['fileExtract']) . '</p>';

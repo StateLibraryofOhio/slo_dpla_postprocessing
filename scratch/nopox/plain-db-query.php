@@ -48,7 +48,6 @@ while ($providerRow = $providerResult->fetch())
     echo '<tr>';
     echo '<td>' . htmlspecialchars($sourceRow['description']) . '</td>';
     echo '<td>' . htmlspecialchars($sourceRow['oaiSource']) . '</td>';
-    echo '<td>' . htmlspecialchars($sourceRow['exportDirPath']) . '</td>';
     echo '<td>' . htmlspecialchars($sourceRow['oaiSet']) . '</td>';
     echo '<td>' . htmlspecialchars($sourceRow['metadataFormat']) . '</td>';
     echo '</tr>';

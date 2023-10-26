@@ -205,7 +205,6 @@ METADATA_FORMAT_SCHEMA=$(java net.sf.saxon.Transform -xsl:GetMetadataFormatSchem
 STATUS='unharvested'
 EXPORT_DIR_PATH="/opt/repoxdata/$ODN_SETSPEC/export"
 TYPE_OF_SOURCE='DataSourceOai'
-RECORD_ID_POLICY_TYPE='IdProvided'
 LAST_INGEST=''
 SOURCES_DIR_PATH=''
 RETRIEVE_STRATEGY=''
@@ -232,14 +231,11 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             status,
             typeOfSource,
             description,
-            exportDirPath,
-            recordIdPolicyType,
             oaiSource,
             oaiSet,
             odnSet,
             sourcesDirPath,
             retrieveStrategy,
-            fileExtract,
             splitRecordsRecordXpath)
     values
            ('$PROVIDER',
@@ -249,14 +245,11 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$STATUS',
             '$TYPE_OF_SOURCE',
             '$DESCRIPTION',
-            '$EXPORT_DIR_PATH',
-            '$RECORD_ID_POLICY_TYPE',
             '$URL',
             '$SETSPEC',
             '$ODN_SETSPEC',
             '$SOURCES_DIR_PATH',
             '$RETRIEVE_STRATEGY',
-            '$FILE_EXTRACT',
             '$SPLIT_RECORDS');
 
   insert into
