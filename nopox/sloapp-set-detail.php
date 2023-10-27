@@ -61,7 +61,7 @@ while ($sourceRow = $sourceResult->fetch())
 
 <?php
 
-$recordcountQuery = 'select * from recordcount where dataSourceId="' . htmlspecialchars($sloappSet)  . '"';
+$recordcountQuery = 'select * from recordcount where odnSet="' . htmlspecialchars($sloappSet)  . '"';
 
 //$providerResult = $pdo->query($providerQuery);
 
