@@ -36,8 +36,6 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  <xsl:template match="text()|@*"/>
-
   <!-- The following match="xxxx" statement will work with CONTENTdm-based collections, but likely will need to be adjusted for other systems -->
   <xsl:template match="//oai_qdc:qualifieddc">
     <oai_qdc:qualifieddc
