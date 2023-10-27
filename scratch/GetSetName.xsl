@@ -21,11 +21,10 @@
 <xsl:param name="SETSPEC"/>
 
 <!--
-    This XSLT is intended to receive a setSpec as a parameter,
-    and return the corresponding setName.
+    This XSLT is intended to take an OAI-PMH setSpec as an
+    input parameter, and output the corresponding setName.
 
-    This XSLT is expected to be run against OAI-PMH ListMetadataFormats
-    output.
+    This XSLT should be applied to OAI-PMH ListSets output.
 -->
 
   <xsl:template match="@*|text()"/>
@@ -36,5 +35,4 @@
   </xsl:template>
 
 </xsl:stylesheet>
-
 
