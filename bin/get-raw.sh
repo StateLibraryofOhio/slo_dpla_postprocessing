@@ -214,6 +214,11 @@ Run a set of diagnostics against the archival data:
 
      dissect-raw.sh $SETSPEC
 
+That information will be useful when customizing the base-transform XSLT
+file, which you'll find at:
+
+     $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xl
+
 Run the base XSLT transformation on the data to map fields to ODN equivalents:
 
      base-transform.sh $SETSPEC
