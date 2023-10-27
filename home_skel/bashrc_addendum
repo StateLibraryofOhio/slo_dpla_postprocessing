@@ -1,6 +1,13 @@
 
 
 # source SLODPLA environment
+# This sents up the framework of environment variables
+# needed for everything to work.
 . /usr/local/SLO-DPLA/conf/SLO-DPLA-environment.conf
 
+# Enable expansion of tab-completion with environment
+# variables.  Not necessary for the application, but 
+# very nice to have, given that $SLO_ROOT is referenced
+# constantly while keyboarding.
+shopt -s direxpand
 
