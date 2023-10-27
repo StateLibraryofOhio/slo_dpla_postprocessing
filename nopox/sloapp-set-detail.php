@@ -25,7 +25,6 @@ catch ( PDOException $e)
 }
 
 $sloappSet=$_GET['odnSet'];
-
 $sourceQuery = 'select * from source where odnSet="' . htmlspecialchars($sloappSet)  . '"';
 $sourceResult = $pdo->query($sourceQuery);
 
@@ -35,6 +34,7 @@ while ($sourceRow = $sourceResult->fetch())
     echo '<p>providerName:   ' . htmlspecialchars($sourceRow['providerName']) . '</p>';
     echo '<p>description:    ' . htmlspecialchars($sourceRow['description']) . '</p>';
     echo '<p>metadataPrefix: ' . htmlspecialchars($sourceRow['metadataPrefix']) . '</p>';
+    $originalMetadataPrefix = htmlspecialchars($sourceRow['metadataPrefix']);
     echo '<p>odnSet:         ' . htmlspecialchars($sourceRow['odnSet']) . '</p>';
     echo '<p>oaiSource:      ' . htmlspecialchars($sourceRow['oaiSource']) . '</p>';
     echo '<p>oaiSet:         ' . htmlspecialchars($sourceRow['oaiSet']) . '</p>';
@@ -44,7 +44,6 @@ while ($sourceRow = $sourceResult->fetch())
     echo '<p>typeOfSource:   ' . htmlspecialchars($sourceRow['typeOfSource']) . '</p>';
     echo '<p>sourcesDirPath: ' . htmlspecialchars($sourceRow['sourcesDirPath']) . '</p>';
     echo '<p>retrieveStrategy: ' . htmlspecialchars($sourceRow['retrieveStrategy']) . '</p>';
-    echo '<p>fileExtract: ' . htmlspecialchars($sourceRow['fileExtract']) . '</p>';
     echo '<p>splitRecordsRecordXPath: ' . htmlspecialchars($sourceRow['splitRecordsRecordXPath']) . '</p>';
 
 //    $sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
@@ -78,6 +77,40 @@ while ($recordcountRow = $recordcountResult->fetch())
 
 ?>
 <br>
+
+<h3>Harvested Files</h3>
+
+<?php
+
+//  $sourceQuery = 'select metadataPrefix from source where odnSet="' . htmlspecialchars($sloappSet)  . '"';
+//  $sourceResult = $pdo->query($sourceQuery);
+
+
+  $rawHarvestFile = 'datasets/raw/' . $sloappSet . '-raw-' . $originalMetadataPrefix . '.xml';
+  if (file_exists($rawHarvestFile)) {
+      echo "<h3><a href=\"$rawHarvestFile\">Original, unmodified OAI-PMH contribution</a></h3>";
+  } else {
+      echo "<h3>No unmodified OAI-PMH file.  Never harvested?</h3><br>";
+  }
+
+
+  $archiveFile = 'datasets/archivized/' . $sloappSet . '-odn-' . $originalMetadataPrefix . '.xml';
+  if (file_exists($archiveFile)) {
+      echo "<h3><a href=\"$archiveFile\">OAI-Archival version</a></h3>";
+  } else {
+      echo "<h3>No archive file.  Never harvested?</h3><br>";
+  }
+
+  $readyForIngestFile = 'datasets/ready/' . $sloappSet . '.xml';
+  if (file_exists($readyForIngestFile)) {
+      echo "<h3><a href=\"$readyForIngestFile\">DPLA Submission</a></h3>";
+  } else {
+      echo "<h3>No files ready for upload to DPLA.</h3><br>";
+  }
+
+
+?>
+
 
 <h3>Harvest History:</h3>
 
