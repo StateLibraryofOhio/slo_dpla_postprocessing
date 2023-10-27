@@ -96,7 +96,7 @@ $oaiSet=htmlspecialchars($sourceRow['oaiSet']);
 echo '<h3>Collection details</h3>';
 //$oneRow = $sourceResult->fetch();
 //echo '<h2>Menchi-fluff ' . htmlspecialchars($oneRow['oaiSet']) . ' xyzzy ' . '</h2>';
-//$oldTasksQuery = 'select * from oldTasks where dataSourceSet="' .  . '"';
+//$oldTasksQuery = 'select * from oldTasks where odnSet="' .  . '"';
 
 ?>
 
