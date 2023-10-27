@@ -48,7 +48,12 @@ might be listed below:
 
 EOF
 
-mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | sed -e 's/^/    /g'
+mysql -N -e "select distinct oaiSource from source where providerName='$PROVIDER';" slo_aggregator | \
+   sed -e 's/^/    /g' \
+       -e 's/https:/http:/g' \
+       -e 's/\/$//g' | \
+       sort | \
+       uniq
 
 cat <<EOF
 
