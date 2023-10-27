@@ -190,7 +190,15 @@ mysql <<EOF
      deletedRecords = $DELETEDCOUNT,
      lastCountDate = '$COUNTDATE',
      lastCountWithChangesDate = '$COUNTDATE'
-  where dataSourceId = '$SETSPEC';
+  where odnSet = '$SETSPEC';
+EOF
+
+# update the "source" table's "lastIngest" row for this set
+mysql <<EOF
+  update source
+    set lastIngest = '$(date "+%Y-%m-%d %H:%M:%S")'
+  where odnSet = '$SETSPEC';
+
 EOF
 
 
@@ -198,89 +206,13 @@ cat <<EOF
 
 Finished adding the OAI-PMH aggregator metadata.
 
-Collecting details about the untransformed metadata to assist in constructing
-the base/mapping XSLT.
-================================================================================
-EOF
-
-
-# figure out which fields have metadata; used for creating the XSLT base transform
-
-java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/list-fields.xsl -s:2a.xml > fields-with-metadata-in-raw.txt
-
-
-# check for null elements that we can remove; we don't want to send empty elements to DPLA
-
-rm -f null-elements.txt
-grep '/>' 2a.xml | sort | uniq >> null-elements.txt
-if [ -s null-elements.txt ]
-then
-    echo '  *** There are null elements in the original data'
-    echo '  *** see file:  null-elements.txt'
-    echo
-fi
-
-
-# check for semicolons; these may indicate that the field has subfields which should be broken out into their own elements via:
-#
-#    <xsl:for-each select="tokenize(normalize-space(.), ';')">
-#      <xsl:if test="normalize-space(.) != ''">
-#        <xsl:element name="dcterms:contributor" namespace="http://purl.org/dc/terms/">
-#          <xsl:value-of select="normalize-space(.)"/>
-#        </xsl:element>
-#      </xsl:if>
-#    </xsl:for-each>
-
-rm -f values-with-semicolons.txt
-cat 2a.xml | sed -e 's/&amp;//g' | grep ';' >> values-with-semicolons.txt
-if [ -s values-with-semicolons.txt ]
-then
-    echo
-    echo '  *** There are semicolons in the data.  Check:  Are they subfields?'
-    echo '  *** see file:  values-with-semicolons.txt'
-fi
-
-
-# checking for encoded < characters, indicative of HTML in the metadata (bad!)
-
-if [ "`grep '&lt;' 2a.xml | wc -l`" -gt 0 ]
-then
-    echo ""
-    echo '  *** Found data that might be HTML tags!'
-    echo '  *** see file:  html.txt'
-    grep '&lt;' 2a.xml > html.txt
-    echo ""
-fi
-
-
-# checking for dates using the format "1969-01-30T08:00:00Z".  If these exist, then we want to modify
-# the transform to truncate beginning with the "T".
-
-if [ "`grep '<date>' 2a.xml | grep T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*Z | wc -l`" -gt 0 ]
-then
-   rm -f datevals.txt
-   echo ""
-   echo "  *** There may be date values using the ISO-8601 format "
-   echo "  *** see file:  datevals.txt"
-   grep "<date>" 2a.xml | grep "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]*Z" | head -n 3 | cut -f 2 -d '>' | cut -f 1 -d '<' | sed -e "s/^/   /g" > datevals.txt
-   echo ""
-else
-   echo "Checking for ISO-8601 date formats:  OK"
-   echo ""
-fi
-
-echo ""
-echo "Finished.  Use this output to create the initial XSLT for REPOX."
-echo "Use the 'bt' command to debug the REPOX transform."
-echo ""
-
-
-
-
-cat <<EOF
 $BEFORECOUNT records in; $AFTERCOUNT records out.
 
-Output is at:  $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
+Archival output is at:  $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
+
+Run a set of diagnostics against the archival data:
+
+     dissect-raw.sh $SETSPEC
 
 Run the base XSLT transformation on the data to map fields to ODN equivalents:
 
