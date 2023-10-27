@@ -84,7 +84,7 @@ wget  "$URL"'?verb=ListSets' -O ListSets.xml -o /dev/null
 
 # The following variable will contain all of the setSpecs available for harvesting from the
 # remote OAI-PMH server.  It's a string with values delimited by spaces.
-ALL_SETS_FROM_SERVER=$(java net.sf.saxon.Transform -xsl:ListAllSetSpecs.xsl -s:ListSets.xml)
+ALL_SETS_FROM_SERVER=$(java net.sf.saxon.Transform -xsl:list-all-setSpecs.xsl -s:ListSets.xml)
 
 # The following variable will contain all of the setSpecs that we've already harvested from 
 # that server.  It's a string with values delimited by spaces.
@@ -102,10 +102,10 @@ The sets we are not yet harvesting from that OAI-PMH server are:
     Set Name --- setSpec
 EOF
 
-# The "$UNHARVESTED_SETS" list is passed to the PrintMultipleSetNames.xsl stylesheet, and 
+# The "$UNHARVESTED_SETS" list is passed to the print-multiple-setNames.xsl stylesheet, and 
 # set names/setSpecs are printed for those sets.  (This ensures we don't define a set for
 # harvesting multiple times.)
-java net.sf.saxon.Transform -xsl:PrintMultipleSetNames.xsl -s:ListSets.xml SETSPEC="$UNHARVESTED_SETS" | sed -e 's/^/    /g'
+java net.sf.saxon.Transform -xsl:print-multiple-setNames.xsl -s:ListSets.xml SETSPEC="$UNHARVESTED_SETS" | sed -e 's/^/    /g'
 
 # read the setSpec of the remote collection we're trying to harvest
 SETSPEC=''
@@ -120,7 +120,7 @@ read SETSPEC
 done
 
 # use the setSpec to get the set name and store it for later
-DESCRIPTION=$(java net.sf.saxon.Transform -s:ListSets.xml -xsl:GetSetName.xsl SETSPEC=$SETSPEC | sed -e "s/'/''/g")
+DESCRIPTION=$(java net.sf.saxon.Transform -s:ListSets.xml -xsl:get-setName.xsl SETSPEC=$SETSPEC | sed -e "s/'/''/g")
 
 # Multiple sites might have a "yearbook" setSpec for their dataset, so it is important that
 # we create a set identifier that is locally unique.
@@ -189,7 +189,7 @@ The metadataFormats available for harvesting from that OAI server are:
 EOF
 
 # parse the previously-retrieved output for metadataFormats available on this server
-java net.sf.saxon.Transform -s:ListMetadataFormats.xml -xsl:ListMetadataFormats.xsl | sort | sed -e 's/^/    /g'
+java net.sf.saxon.Transform -s:ListMetadataFormats.xml -xsl:list-metadataPrefixes.xsl | sort | sed -e 's/^/    /g'
 
 METADATA_FORMAT=''
 while [ "$METADATA_FORMAT" == '' ]
@@ -204,7 +204,7 @@ done
 
 # the selected METADATA_FORMAT will have an associated "schema"; parse the ListSets.xml
 # to get that information
-METADATA_FORMAT_SCHEMA=$(java net.sf.saxon.Transform -xsl:GetMetadataFormatSchema.xsl -s:ListMetadataFormats.xml METADATA_FORMAT=$METADATA_FORMAT ) 
+METADATA_FORMAT_SCHEMA=$(java net.sf.saxon.Transform -xsl:get-metadataFormat-schema.xsl -s:ListMetadataFormats.xml METADATA_FORMAT=$METADATA_FORMAT ) 
 
 # set default values for other settings
 STATUS='unharvested'
