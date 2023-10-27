@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # This script is intended to run "archivized" data through the initial,
 # set-specific XSLT transform for the collection.  The transformation
@@ -118,8 +119,11 @@ fi
 # step 1:  find the filename listed in the "metadataTransformation" table
 #
 
-# query db to get transform filename
-BASE_TRANSFORM_FILE=$(mysql -sNe "select stylesheet from metadataTransformation where idRepox='"$ODN_SETSPEC"'")
+##### query db to get transform filename
+#####BASE_TRANSFORM_FILE=$(mysql -sNe "select stylesheet from metadataTransformation where idRepox='"$ODN_SETSPEC"'")
+
+BASE_TRANSFORM_FILE=$ODN_SETSPEC.xsl
+
 
 # test result for no matches
 if [ "$BASE_TRANSFORM_FILE" == "" ]
