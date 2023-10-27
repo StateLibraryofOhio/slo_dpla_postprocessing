@@ -28,7 +28,7 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  <xsl:template match="text()|@*"/>
+  
     <xsl:template match="//oai_dc:dc">
       <oai_qdc:qualifieddc
               xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"

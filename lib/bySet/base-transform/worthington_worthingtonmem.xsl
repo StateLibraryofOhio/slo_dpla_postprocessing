@@ -27,7 +27,7 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  <xsl:template match="text()|@*"/>
+  
   <xsl:template match="//oai_dc:dc">
     <oai_qdc:qualifieddc
             xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/"
