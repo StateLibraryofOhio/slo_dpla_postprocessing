@@ -217,6 +217,19 @@ FILE_EXTRACT=''
 COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 
 
+# Create an initial base XSLT transform file for this dataset
+cp $SLODPLA_LIB/00_STARTINGPOINT-COLL.xsl $SLODPLA_LIB/bySet/base-transform/$ODN_SETSPEC.xsl
+cat <<EOF
+===================================================================================
+XSLT Transform created at:
+
+    $SLODPLA_LIB/bySet/base-transform/$ODN_SETSPEC.xsl
+
+You will need to edit this file!
+
+
+EOF
+
 
 # The result of this script is SQL.  The SQL is dumped to a file,
 # and instructions are dumped to the screen for running it against
@@ -225,7 +238,11 @@ COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 # Not running it against the database at this time to avoid 
 # accidental creation of entries.
 rm -f add-source_$ODN_SETSPEC.sql
-echo "SQL data is:  ================================================="
+
+cat <<EOF
+===================================================================================
+EOF
+
 cat >add-source_$ODN_SETSPEC.sql <<EOF
 
   insert into 
@@ -284,7 +301,7 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
           'true');
 
 EOF
-cat add-source_$ODN_SETSPEC.sql
+# cat add-source_$ODN_SETSPEC.sql
 
 cat <<EOF
 
