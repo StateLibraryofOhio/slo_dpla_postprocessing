@@ -62,7 +62,7 @@ then
     Alternately, provide the ODN setSpec on the commandline
     as the first option.  For example:
 
-        $ ./get-raw.sh ohmem_p16007coll99
+        $ ./dissect-raw.sh ohmem_p16007coll99
 
     EOF
     exit
