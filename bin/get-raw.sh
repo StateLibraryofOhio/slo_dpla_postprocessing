@@ -217,7 +217,7 @@ Run a set of diagnostics against the archival data:
 That information will be useful when customizing the base-transform XSLT
 file, which you'll find at:
 
-     $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xl
+     $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xsl
 
 Run the base XSLT transformation on the data to map fields to ODN equivalents:
 
