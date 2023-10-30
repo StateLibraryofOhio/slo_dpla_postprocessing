@@ -237,14 +237,7 @@ Perform some basic diagnostics on the data:
 
 To add unvalidated IIIF to the data, run:
 
-     iiif-blanket-insert.sh  $ODN_SETSPEC-odn-transformed-qdc.xml
+     iiif-insert.sh  $ODN_SETSPEC-odn-transformed-qdc.xml
 
 EOF
-
-
-
-
-
-
-
 
