@@ -63,7 +63,7 @@
       <xsl:apply-templates select="dcterms:alternative"    mode="odn"/>                          <!-- create dcterms:alternative                                                    -->
       <xsl:apply-templates select="dc:contributor"         mode="odn"/>                          <!-- create dcterms:contributor                                                    -->
       <xsl:apply-templates select="dc:description"         mode="odn"/>                          <!-- create dcterms:description                                                    -->
-      <xsl:apply-templates select="dcterms:extent"         mode="midpointe_midpoint01"/>         <!-- create dcterms:extent                                                         -->
+      <xsl:apply-templates select="dcterms:extent"         mode="odn"/>                          <!-- create dcterms:extent                                                         -->
                                                                                                  <!-- dcterms:identifier is created above as part of the edm:isShownAt transform    -->
       <xsl:apply-templates select="dc:publisher"           mode="odn"/>                          <!-- create dcterms:publisher                                                      -->
       <xsl:apply-templates select="dc:relation"            mode="odn"/>                          <!-- create dc:relation                                                            -->
@@ -94,14 +94,6 @@
     <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
       <xsl:value-of select="normalize-space(.)"/>
     </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="dcterms:extent" mode="midpointe_midpoint01">
-    <xsl:if test="normalize-space(.) != ''">
-      <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
-        <xsl:value-of select="normalize-space(.)"/>
-      </xsl:element>
-    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>

@@ -42,7 +42,7 @@
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Armco Periodicals with table of contents in descriptions</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
-      <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
+      <xsl:apply-templates select="dc:identifier"            mode="midpointe_p16488coll21"/>  <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
       <xsl:apply-templates select="dc:rights"                mode="odn"/>                     <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
@@ -72,6 +72,23 @@
       <xsl:apply-templates select="dc:coverage"              mode="midpointe_p16488coll21"/>  <!-- create dcterms:spatial                                     -->
 
     </oai_qdc:qualifieddc>
+  </xsl:template>
+
+  <xsl:template match="dc:identifier" mode="midpointe_p16488coll21">
+    <xsl:choose>
+      <xsl:when test="starts-with(., 'http://') or starts-with(., 'https://')">
+        <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+        <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:variable name="cdm_root" select="substring-before(., '/cdm/ref/')"/>
+          <xsl:variable name="record_info" select="substring-after(., '/collection/')"/>
+          <xsl:variable name="alias" select="substring-before($record_info, '/id/')"/>
+          <xsl:variable name="pointer" select="substring-after($record_info, '/id/')"/>
+          <xsl:value-of select="concat($cdm_root, '/utils/getthumbnail/collection/', $alias, '/id/', $pointer)"/>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 
@@ -115,9 +132,11 @@
 
   <xsl:template match="dc:coverage" mode="midpointe_p16488coll21">
     <xsl:for-each select="tokenize(., ';')">
-      <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
-        <xsl:value-of select="normalize-space(.)"/>
-      </xsl:element>
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
