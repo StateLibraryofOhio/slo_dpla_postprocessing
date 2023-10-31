@@ -26,7 +26,34 @@ fi
 #
 # get values for details about this dataset:  $DPLA_PREFIX, $ORIG_PREFIX, $SETSPEC, $BASEURL
 
-. transform.conf
+#####. transform.conf
+
+if [ "$1" == '' ]
+then
+    echo "missing parameters.  usage: review-base-transform.sh  ohmem_p12345coll6_odn-transformed-qdc.xml"
+    echo ""
+    exit
+else
+    echo "parameters received; processing data..."
+fi
+
+XMLFILE=$1
+
+ODN_SETSPEC=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/get-setSpec.xsl -s:$XMLFILE)
+
+echo "I read odnSet of:  $ODN_SETSPEC"
+
+QUERY="select count(odnSet) from source where odnSet='"$ODN_SETSPEC"'"
+ROWCOUNT=$(mysql -sNe "$QUERY")
+
+if [ "$ROWCOUNT" == '0' ]
+then
+    echo "This file contains the following odnSet identifier:  $ODN_SETSPEC"
+    echo "This appears to be an invalid identifier."
+    exit
+fi
+
+
 
 #
 # confirm that the expected input file is in place,
@@ -41,40 +68,9 @@ fi
 # not exist.
 
 
-INPUTFILE=$SETSPEC--review-qdc-conversion-input.xml
-INPUTFILE_INDENTED=$SETSPEC-transformed-qdc.xml
-
-if [ "$1" != "" ]
-then
-    if [ -f "$1" ]
-    then
-        echo "$1 is a file.  Attempting to use it."
-        xmllint --format $1 >  $INPUTFILE_INDENTED
-        sed -e "s/^[ ]*//g" < $1 > $INPUTFILE
-    else
-        echo "  Error:  $1 is not a file."
-        echo ""
-        echo "  usage:  review-qdc-conversion.sh <inputfile>.xml"
-        echo ""
-        echo "          <inputfile>.xml is optional if 2t.xml exists"
-        echo ""
-        exit
-    fi
-else
-    echo "  No filename supplied on command line."
-    echo "  Attempting to use 2t.xml"
-    if [ ! -f 2t.xml ]
-    then
-        echo "  Error:  The default '2t.xml' input file is missing."
-        echo "          Run the 'gt' utility, then try again."
-        echo ""
-        exit
-    else
-        sed -e "s/^[ ]*//g" < 2t.xml > $INPUTFILE
-        xmllint --format  2t.xml > $INPUTFILE_INDENTED
-    fi
-fi
-
+#INPUTFILE=$ODN_SETSPEC--review-qdc-conversion-input.xml
+#INPUTFILE_INDENTED=$ODN_SETSPEC-transformed-qdc.xml
+INPUTFILE=$XMLFILE
 
 #
 # transform harvested data to an eye-friendly form
@@ -168,6 +164,9 @@ fi
 
 if [ "`grep '><' *-transformed-*.xml | wc -l`" -gt 0 ]
 then 
+    echo "#############################################################################"
+    echo " # # # # # # # # TEST THIS AND CONFIRM THAT IT STILL WORKS  # # # # # # # # #"
+    echo ""
     echo "Found adjacent greater-than/less-than characters:"
     grep "><" *-transformed-*.xml
     echo ""
