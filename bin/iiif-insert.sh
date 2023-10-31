@@ -65,7 +65,7 @@ FULL_COUNT=`grep '<record' $NEWFILE | wc -l`
 
 cp $NEWFILE $ODN_SETSPEC-DPLA_ready.xml
 
-sed -e "s/^[ ]*//g" $ODN_SETSPEC-REPOX-transformed-$DPLA_PREFIX.xml > 2t.xml
+sed -e "s/^[ ]*//g" $ODN_SETSPEC-DPLA_ready.xml > 2t.xml
 
 tee outiiif.txt <<EOF
 
