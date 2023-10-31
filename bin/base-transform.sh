@@ -221,7 +221,7 @@ fi
 
 xmllint --format $ODN_SETSPEC-odn-transformed-qdc.xml >2.txt
 
-mv 2.txt ODN_SETSPEC-odn-transformed-qdc.xml
+mv 2.txt $ODN_SETSPEC-odn-transformed-qdc.xml
 
 cp $ODN_SETSPEC-odn-transformed-qdc.xml $ODN_SETSPEC-DPLA_ready.xml
 
