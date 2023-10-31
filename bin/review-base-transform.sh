@@ -290,8 +290,6 @@ There are $FULL_COUNT records in this set.
 $IIIF_MARKED_COUNT records contain IIIF metadata.
 $IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:rights value.
 
-REPOX setSpec:  $SETSPEC
-
 EOF
 
 # print out URLs for untransformed and transformed
