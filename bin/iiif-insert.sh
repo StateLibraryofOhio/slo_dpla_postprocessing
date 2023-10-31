@@ -79,6 +79,6 @@ The output can be found at:  $NEWFILE
 
 To perform a final review of the output, run:
 
-     review-qdc-conversion.sh  $NEWFILE
+     review-base-transform.sh  $NEWFILE
 
 EOF
