@@ -233,7 +233,7 @@ tee outgt.txt <<EOF
 
 Perform some basic diagnostics on the data:
 
-     review-qdc-conversion.sh $ODN_SETSPEC-odn-transformed-qdc.xml
+     review-base-transform.sh $ODN_SETSPEC-odn-transformed-qdc.xml
 
 To add unvalidated IIIF to the data, run:
 
