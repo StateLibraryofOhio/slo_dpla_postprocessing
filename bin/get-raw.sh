@@ -74,7 +74,8 @@ else
 	RESULT=$(mysql -sNe "$SELECT_STATEMENT")
 	if [ "$RESULT" == '0' ]
 	then
-	   echo "That is not a recognized ODN setSpec.  Exiting."
+	   echo "    -- ERROR --"
+           echo "    That is not a recognized ODN setSpec.  Exiting."
 	   echo ""
            exit
 	fi
@@ -95,6 +96,7 @@ then
     No '~/.my.cnf' file found; Required for MySQL login.
     Either create the file, or confirm that permissions
     are correct on the existing file.
+
     EOF
     exit
 fi
@@ -129,7 +131,13 @@ fi
 
 python3 $SLODPLA_BIN/harvestOAI.py -l $CONTRIBUTOR_BASE_URL -o $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml -s $CONTRIBUTOR_SETSPEC -m $ORIG_PREFIX
 
-echo "  Data is at:  $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
+cat <<EOF
+
+Data is at:
+
+  $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml
+EOF
+
 
 # Remove write permissions on the newly downloaded files to ensure we don't
 # contaminate the data.
@@ -159,7 +167,7 @@ origMetadataNamespace=$(mysql -sNe "$SELECT_STATEMENT")
 cat <<EOF
 
 Beginning XSLT transform to add OAI-PMH aggregator metadata,
-and remove the "deleted" records from the data:
+and remove the "deleted" records from the data.  One moment...
 
 EOF
 
@@ -203,25 +211,26 @@ EOF
 
 
 cat <<EOF
-
 Finished adding the OAI-PMH aggregator metadata.
 
 $BEFORECOUNT records in; $AFTERCOUNT records out.
 
-Archival output is at:  $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
+Archival output is at:
+
+  $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
 
 Run a set of diagnostics against the archival data:
 
-     dissect-raw.sh $SETSPEC
+    dissect-raw.sh $SETSPEC
 
 That information will be useful when customizing the base-transform XSLT
 file, which you'll find at:
 
-     $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xsl
+  $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xsl
 
 Run the base XSLT transformation on the data to map fields to ODN equivalents:
 
-     base-transform.sh $SETSPEC
+    base-transform.sh $SETSPEC
 
 EOF
 
