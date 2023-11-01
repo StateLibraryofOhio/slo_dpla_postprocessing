@@ -227,17 +227,23 @@ cp $ODN_SETSPEC-odn-transformed-qdc.xml $ODN_SETSPEC-DPLA_ready.xml
 
 sed -e "s/^[ ]*//g" $ODN_SETSPEC-odn-transformed-qdc.xml > 2t.xml
 
-
+BEFORECOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_ARCHIVIZED/$ODN_SETSPEC-odn-$ORIGINAL_METADATA_FORMAT.xml)
+AFTERCOUNT=$(java  net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:2t.xml)
 
 tee outgt.txt <<EOF
 
+Record counts:
+
+  Pre-transform:  $BEFORECOUNT
+  Post-transform: $AFTERCOUNT
+
 Perform some basic diagnostics on the data:
 
-     review-base-transform.sh $ODN_SETSPEC-odn-transformed-qdc.xml
+    review-base-transform.sh $ODN_SETSPEC-odn-transformed-qdc.xml
 
 To add unvalidated IIIF to the data, run:
 
-     iiif-insert.sh  $ODN_SETSPEC-odn-transformed-qdc.xml
+    iiif-insert.sh  $ODN_SETSPEC-odn-transformed-qdc.xml
 
 EOF
 
