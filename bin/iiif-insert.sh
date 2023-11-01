@@ -75,7 +75,9 @@ There are $FULL_COUNT records in this set.
 $IIIF_MARKED_COUNT records include IIIF metadata.
 $IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:rights value.
 
-The output can be found at:  $NEWFILE
+The output can be found at:
+
+     $NEWFILE
 
 To perform a final review of the output, run:
 
