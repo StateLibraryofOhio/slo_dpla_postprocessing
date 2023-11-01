@@ -77,10 +77,10 @@ $IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:ri
 
 The output can be found at:
 
-     $NEWFILE
+  $NEWFILE
 
 To perform a final review of the output, run:
 
-     review-base-transform.sh  $NEWFILE
+    review-base-transform.sh  $NEWFILE
 
 EOF
