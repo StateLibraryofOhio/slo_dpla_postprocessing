@@ -104,20 +104,23 @@ then
 fi
 
 
-###################################################################
-# Preliminary checks OK.  Begin step 1:  Confirm that
-# this data has been downloaded before.
-
+# Confirm that this data has been downloaded so we can actually
+# analyze it.
 if [ ! -f $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml ]
 then
-    echo "ERROR:  The 'raw' datafile is missing.  I looked at:"
-    echo " "
+    echo "ERROR:  The 'raw' datafile is missing.  I looked here:"
+    echo ""
     echo "        $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
+    echo ""
+    echo "You may need to harvest the data from the contributing"
+    echo "OAI-PMH server.  This might help:"
+    echo ""
+    echo "        gr $SETSPEC"
     echo ""
     exit
 elif [ ! -f $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml ]
 then
-    echo "ERROR:  The 'archivized' datafile is missing.  I looked at:"
+    echo "ERROR:  The 'archivized' datafile is missing.  I looked here:"
     echo ""
     echo "        $SLODATA_RAW/$SETSPEC-odn-$ORIG_PREFIX.xml"
     echo ""
@@ -131,8 +134,9 @@ else
     echo "     $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
     echo "     $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml"
     echo ""
+    cp $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml .
+    sed -e "s/^[ ]*//g" $SETSPEC-odn-$ORIG_PREFIX.xml > 2u.xml
 fi
-
 
 
 # Figure out how many records are in the dataset.  Some records might
@@ -153,13 +157,14 @@ echo ""
 
 
 cat <<EOF
-Collecting details about the untransformed metadata to assist in constructing
-the base/mapping XSLT.
+Collecting details about the untransformed metadata to assist in 
+constructing the set-specific / base XSLT transform.
 
 EOF
 
 
-# figure out which fields have metadata; used for creating the XSLT base transform
+# figure out which fields have metadata; You need this information
+# when you are creating the set-level XSLT base transform
 echo "Determining fields used for sending metadata..."
 java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/list-fields.xsl -s:$SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml > fields-with-metadata-in-raw.txt
 echo "  Complete.  See the list of fields:"
@@ -167,8 +172,8 @@ echo ""
 echo "      cat fields-with-metadata-in-raw.txt"
 echo ""
 
-# check for null elements that we can remove; we don't want to send empty elements to DPLA
 
+# check for null elements that we can remove; we don't want to send empty elements to DPLA
 rm -f null-elements.txt
 grep '/>' $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml | sort | uniq > null-elements.txt
 if [ -s null-elements.txt ]
@@ -231,12 +236,17 @@ else
 fi
 
 cat <<EOF
-Finished.  Use this output to create the initial XSLT for this set.
+Finished.
+
+Use this output to customize the set-specific XSLT for this set.
+You can find the set-specific XSLT for this set at:
+
+    $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xsl
 
 Use the 'bt' or 'base-transform.sh' command to apply the appropriate
 set-specific XSLT transforms against the archivized metadata:
 
-     base-transform.sh $SETSPEC
+    base-transform.sh $SETSPEC
 
 EOF
 
