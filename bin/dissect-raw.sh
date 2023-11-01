@@ -115,14 +115,14 @@ then
     echo "You may need to harvest the data from the contributing"
     echo "OAI-PMH server.  This might help:"
     echo ""
-    echo "        gr $SETSPEC"
+    echo "    gr $SETSPEC"
     echo ""
     exit
 elif [ ! -f $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml ]
 then
     echo "ERROR:  The 'archivized' datafile is missing.  I looked here:"
     echo ""
-    echo "        $SLODATA_RAW/$SETSPEC-odn-$ORIG_PREFIX.xml"
+    echo "  $SLODATA_RAW/$SETSPEC-odn-$ORIG_PREFIX.xml"
     echo ""
     exit
 
@@ -131,8 +131,8 @@ else
     # AND OAI-PMH metadata has been added to it
     echo "Found the two required datafiles at:"
     echo ""
-    echo "     $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
-    echo "     $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml"
+    echo "  $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
+    echo "  $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml"
     echo ""
     cp $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml .
     sed -e "s/^[ ]*//g" $SETSPEC-odn-$ORIG_PREFIX.xml > 2u.xml
@@ -167,9 +167,9 @@ EOF
 # when you are creating the set-level XSLT base transform
 echo "Determining fields used for sending metadata..."
 java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/list-fields.xsl -s:$SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml > fields-with-metadata-in-raw.txt
-echo "  Complete.  See the list of fields:"
+echo "Complete.  See the list of fields:"
 echo ""
-echo "      cat fields-with-metadata-in-raw.txt"
+echo "    cat fields-with-metadata-in-raw.txt"
 echo ""
 
 
@@ -241,7 +241,7 @@ Finished.
 Use this output to customize the set-specific XSLT for this set.
 You can find the set-specific XSLT for this set at:
 
-    $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xsl
+  $SLODPLA_LIB/bySet/base-transform/$SETSPEC.xsl
 
 Use the 'bt' or 'base-transform.sh' command to apply the appropriate
 set-specific XSLT transforms against the archivized metadata:
