@@ -110,7 +110,7 @@ if [ ! -f $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml ]
 then
     echo "ERROR:  The 'raw' datafile is missing.  I looked here:"
     echo ""
-    echo "        $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
+    echo "  $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml"
     echo ""
     echo "You may need to harvest the data from the contributing"
     echo "OAI-PMH server.  This might help:"
