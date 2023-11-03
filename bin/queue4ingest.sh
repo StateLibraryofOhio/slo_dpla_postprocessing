@@ -1,38 +1,27 @@
 #!/bin/bash
 #
-# This script is intended to:
+# This script is intended to copy "Staged" files into the
+# "Ready" directory where they'll sit until they can be
+# uploaded to DPLA.
 #
-#   * provide a summary of details that can be copied into an
-#     email to Penelope
-#
-#   * show a command to copy the data to your Windows
-#     workstation using pscp
-#
-#   * show a command to give you a final chance to review
-#     the output using the quick, automated scripts which are
-#     part of this package.
+# Files are kept in the "Staging" area until the base
+# XSLT transform results have been approved by Penelope.
+# When that approval has been received, this script will
+# be run.
 #
 # This script does not change / transform data.
 #
-# The data will be the "transformed" data, which has run
-# through ...
-# ...format for upload to DPLA.
+# Input for this script is an ODN setSpec.  The script
+# will look for the corresponding file in the directory
+# $SLODATA_STAGING.  That ODN setSpec should be passed
+# to this script as a parameter on the command line. e.g.
+# 
+#   queue4ingest.sh  ohmem_p12345coll6
 #
-# There must be a 'transform.conf' file in the current directory
-# when this is run.  That file is created by running 'gu-setup'.
-#
-# Input for this script is 2 files:
-#
-#
-#
-#
-# Output from this script is dumped to a file named...
-#
-# For example:
-#
-#   Input file:   ...
-#
-#   Output file:  ohmem_p12345coll6-DPLA_ready.zip
+# If the file is not present in the $SLODATA_STAGING
+# directory, then it's likely that it wasn't copied there
+# by the prior step in this process, the "staging.sh"
+# script.
 #
 
 echo ""

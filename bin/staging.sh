@@ -1,39 +1,32 @@
 #!/bin/bash
 #
-# This script is intended to:
-#
-#   * provide a summary of details that can be copied into an
-#     email to Penelope
-#
-#   * show a command to copy the data to your Windows
-#     workstation using pscp
-#
-#   * show a command to give you a final chance to review
-#     the output using the quick, automated scripts which are
-#     part of this package.
+# This script is intended to copy data to a "Staging" directory
+# ($SLODATA_STAGING) where it can be reviewed before formally
+# approving it for a DPLA ingest.
 #
 # This script does not change / transform data.
 #
-# The data will be the "transformed" data, which has run
-# through ...
-# ...format for upload to DPLA.
+# The data copied to the staging directory will be the 
+# "transformed" data, which has run has been through the base
+# XSLT transform (and, if applicable, the filter XSLT transform).
 #
-# There must be a 'transform.conf' file in the current directory
-# when this is run.  That file is created by running 'gu-setup'.
+# This script takes a filename as a commandline parameter,
+# where that filename corresponds to the data that has been
+# through the XSLT transforms and is ready for Penelope's 
+# review.
 #
-# Input for this script is 2 files:
+# The filename to pass to this script is the name of the XML
+# generate will be presented to you by the prior scripts
+# in this procedure.
 #
+#   Input file:   provided by user on command line
 #
+#   Output file:  $SLODATA_STAGING/{ODN_SETSPEC}.xml
 #
+# The script also spits out some basic details about the
+# metadata from the file.
 #
-# Output from this script is dumped to a file named...
-#
-# For example:
-#
-#   Input file:   ...
-#
-#   Output file:  ohmem_p12345coll6-DPLA_ready.zip
-#
+
 
 echo ""
 
@@ -110,7 +103,7 @@ $EDM_PREVIEW_COUNT records have edm:preview values.
 
 To perform a final review of the output, run:
 
-    review-qdc-conversion.sh  $STAGING_FILE
+    review-base-transform.sh  $STAGING_FILE
 
 EOF
 
