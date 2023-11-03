@@ -101,6 +101,13 @@ while ($recordcountRow = $recordcountResult->fetch())
       echo "<h3>No archive file.  Never harvested?</h3><br>";
   }
 
+  $stagingFile = 'datasets/staging/' . $sloappSet . '.xml';
+  if (file_exists($stagingFile)) {
+      echo "<h3><a href=\"$stagingFile\">Set-transformed version</a></h3>";
+  } else {
+      echo "<h3>No staging file.  Set transform not created?</h3><br>";
+  }
+
   $readyForIngestFile = 'datasets/ready/' . $sloappSet . '.xml';
   if (file_exists($readyForIngestFile)) {
       echo "<h3><a href=\"$readyForIngestFile\">DPLA Submission</a></h3>";
