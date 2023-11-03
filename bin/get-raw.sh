@@ -108,17 +108,12 @@ fi
 # We retrieve the contributor's original base OAI-PMH URL from mariadb.
 # SETSPEC is set in the transform.conf, dotted earlier in this script
 
-#echo ""
-#echo "DEBUG:  The SETSPEC is $SETSPEC"
 
 SELECT_STATEMENT="select oaiSource from source where odnSet='"${SETSPEC}"'"
 CONTRIBUTOR_BASE_URL=$(mysql -se "$SELECT_STATEMENT ")
-#echo "DEBUG:  The CONTRIBUTOR_BASE_URL=$CONTRIBUTOR_BASE_URL"
-#echo "DEBUG:  The full SELECT_STATEMENT is $SELECT_STATEMENT"
 
 SELECT_STATEMENT="select oaiSet from source where odnSet='"${SETSPEC}"'"
 CONTRIBUTOR_SETSPEC=$(mysql -se "$SELECT_STATEMENT")
-#echo "DEBUG:  The CONTRIBUTOR_SETSPEC is $CONTRIBUTOR_SETSPEC"
 
 
 echo ' '
@@ -155,14 +150,7 @@ chmod 555 $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml
 
 
 SELECT_STATEMENT="select namespace from metadataSchemas where shortDesignation='$ORIG_PREFIX'"
-#echo " "
-#echo "  DEBUG:  $SELECT_STATEMENT"
 origMetadataNamespace=$(mysql -sNe "$SELECT_STATEMENT")
-#echo "  DEBUG:  origMetadataNamespace=$origMetadataNamespace"
-#echo "  --"
-#echo "  DEBUG:  oaiProvenanceBaseUrl=$CONTRIBUTOR_BASE_URL"
-#echo " "
-
 
 cat <<EOF
 
