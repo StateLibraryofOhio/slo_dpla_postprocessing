@@ -83,4 +83,8 @@ To perform a final review of the output, run:
 
     review-base-transform.sh  $NEWFILE
 
+To copy the data to the Staging area, run:
+
+    staging.sh $NEWFILE 
+
 EOF
