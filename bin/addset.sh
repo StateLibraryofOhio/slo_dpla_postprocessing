@@ -8,9 +8,36 @@
 # based on that input, resulting in the creation of SQL which would
 # be run against the MySQL database to add the new set.
 #
-#  
-#
 
+# preliminary checks to confirm environment is configured
+
+if [ "$SLODPLA_ROOT" == "" ]
+then
+    cat <<'    EOF'
+    -- ERROR --
+    The SLODPLA_ROOT environment variable is not set.
+    Aborting.
+    EOF
+    exit
+fi
+
+
+if [ ! -f ~/.my.cnf  ]
+then
+    cat <<'    EOF'
+
+    -- ERROR --
+    No '~/.my.cnf' file found; Required for MySQL login.
+    Either create the file, or confirm that permissions
+    are correct on the existing file.
+
+    EOF
+    exit
+fi
+
+
+# Option 1 on command line:  site's setSpec for the OAI set.
+# This will be used to lookup the metadataPrefix in MySQL.
 cat <<EOF
 
 With this script, you will add a new dataset for harvesting into DPLA via Ohio Digital Network.
