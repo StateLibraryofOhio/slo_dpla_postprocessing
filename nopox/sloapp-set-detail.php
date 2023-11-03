@@ -5,8 +5,9 @@ This file is intended to display the details about a
 specific harvestable set.
 
 -->
+
 <?php
-echo "<p>This is the content for the sloapp-set-detail.php file.</p>";
+//echo "<p>This is the content for the sloapp-set-detail.php file.</p>";
 ?>
 
 
@@ -28,35 +29,46 @@ $sloappSet=$_GET['odnSet'];
 $sourceQuery = 'select * from source where odnSet="' . htmlspecialchars($sloappSet)  . '"';
 $sourceResult = $pdo->query($sourceQuery);
 
-echo '<h3>Collection details</h3>';
 while ($sourceRow = $sourceResult->fetch())
 {
-    echo '<p>providerName:   ' . htmlspecialchars($sourceRow['providerName']) . '</p>';
-    echo '<p>description:    ' . htmlspecialchars($sourceRow['description']) . '</p>';
-    echo '<p>metadataPrefix: ' . htmlspecialchars($sourceRow['metadataPrefix']) . '</p>';
+    $providerName = htmlspecialchars($sourceRow['providerName']);
+    $description =  htmlspecialchars($sourceRow['description']);
+    $metadataPrefix = htmlspecialchars($sourceRow['metadataPrefix']);
     $originalMetadataPrefix = htmlspecialchars($sourceRow['metadataPrefix']);
-    echo '<p>odnSet:         ' . htmlspecialchars($sourceRow['odnSet']) . '</p>';
-    echo '<p>oaiSource:      ' . htmlspecialchars($sourceRow['oaiSource']) . '</p>';
-    echo '<p>oaiSet:         ' . htmlspecialchars($sourceRow['oaiSet']) . '</p>';
-    echo '<p>sourceSchema:   ' . htmlspecialchars($sourceRow['sourceSchema']) . '</p>';
-    echo '<p>lastIngest:     ' . htmlspecialchars($sourceRow['lastIngest']) . '</p>';
-    echo '<p>status:         ' . htmlspecialchars($sourceRow['status']) . '</p>';
-    echo '<p>typeOfSource:   ' . htmlspecialchars($sourceRow['typeOfSource']) . '</p>';
-    echo '<p>sourcesDirPath: ' . htmlspecialchars($sourceRow['sourcesDirPath']) . '</p>';
-    echo '<p>retrieveStrategy: ' . htmlspecialchars($sourceRow['retrieveStrategy']) . '</p>';
-    echo '<p>splitRecordsRecordXPath: ' . htmlspecialchars($sourceRow['splitRecordsRecordXPath']) . '</p>';
+    $odnSet = htmlspecialchars($sourceRow['odnSet']);
+    $oaiSource = htmlspecialchars($sourceRow['oaiSource']);
+    $oaiSet = htmlspecialchars($sourceRow['oaiSet']);
+    $sourceSchema = htmlspecialchars($sourceRow['sourceSchema']);
+    $lastIngest =  htmlspecialchars($sourceRow['lastIngest']);
+    $status = htmlspecialchars($sourceRow['status']);
+    $typeOfSource = htmlspecialchars($sourceRow['typeOfSource']);
+    $sourcesDirPath = htmlspecialchars($sourceRow['sourcesDirPath']);
+    $retrieveStrategy =  htmlspecialchars($sourceRow['retrieveStrategy']);
+    $splitRecordsRecordXPath = htmlspecialchars($sourceRow['splitRecordsRecordXPath']);
 
 //    $sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
 }
 //}
 ?>
+
 <br>
+
+<h3>Collection details</h3>
+<table>
+<tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td> </tr>
+<tr><td>Set name</td>  <td><?php echo $description ?></td> </tr>
+<tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
+</table>
+<?php
+    echo "<table><tr><td>";
+?>
 
 <h3>Record Counts</h3>
 <ul>
-<li>Total records available to DPLA (eliminate deleted records; in a few cases, restrict records further)</li>
+<li>Total records available to DPLA (eliminate deleted and filtered records)</li>
 <li>Number of records available for DPLA IIIF/WikiMedia participation</li>
-</ul>
+
+
 
 <?php
 
@@ -69,17 +81,19 @@ $recordcountResult = $pdo->query($recordcountQuery);
 while ($recordcountRow = $recordcountResult->fetch())
 {
     $totalRecordsIncludingDeleted = htmlspecialchars($recordcountRow['recordCount']);
-    echo '<h2>With dels:  ' . $totalRecordsIncludingDeleted . '</h2>';
+    echo '<li>With dels:  ' . $totalRecordsIncludingDeleted . '</li>';
     $deletedRecords              =  htmlspecialchars($recordcountRow['deletedRecords']);
-    echo '<h2>Deletes:  ' . $deletedRecords . '</h2>';
-    echo '<h2>Undeleted:  ' . $totalRecordsIncludingDeleted-$deletedRecords . '</h2>';
+    echo '<li>Deletes:  ' . $deletedRecords . '</li>';
+    echo '<li>Undeleted:  ' . $totalRecordsIncludingDeleted-$deletedRecords . '</li>';
 }
-
 ?>
-<br>
+</ul>
+
+
 
 <h3>Harvested Files</h3>
 
+<ul>
 <?php
 
 //  $sourceQuery = 'select metadataPrefix from source where odnSet="' . htmlspecialchars($sloappSet)  . '"';
@@ -88,38 +102,48 @@ while ($recordcountRow = $recordcountResult->fetch())
 
   $rawHarvestFile = 'datasets/raw/' . $sloappSet . '-raw-' . $originalMetadataPrefix . '.xml';
   if (file_exists($rawHarvestFile)) {
-      echo "<h3><a href=\"$rawHarvestFile\">Original, unmodified OAI-PMH contribution</a></h3>";
+      echo "<li><a href=\"$rawHarvestFile\">Original, unmodified OAI-PMH contribution</a></li>";
   } else {
-      echo "<h3>No unmodified OAI-PMH file.  Never harvested?</h3><br>";
+      echo "<li>No unmodified OAI-PMH file.  Never harvested?</li>";
   }
-
 
   $archiveFile = 'datasets/archivized/' . $sloappSet . '-odn-' . $originalMetadataPrefix . '.xml';
   if (file_exists($archiveFile)) {
-      echo "<h3><a href=\"$archiveFile\">OAI-Archival version</a></h3>";
+      echo "<li><a href=\"$archiveFile\">OAI-Archival version</a></li>";
   } else {
-      echo "<h3>No archive file.  Never harvested?</h3><br>";
+      echo "<li>No archive file.  Never harvested?</li>";
   }
 
   $stagingFile = 'datasets/staging/' . $sloappSet . '.xml';
   if (file_exists($stagingFile)) {
-      echo "<h3><a href=\"$stagingFile\">Set-transformed version</a></h3>";
+      echo "<li><a href=\"$stagingFile\">Set-transformed version</a></li>";
   } else {
-      echo "<h3>No staging file.  Set transform not created?</h3><br>";
+      echo "<li>No staging file.  Set transform not created?</li>";
   }
 
   $readyForIngestFile = 'datasets/ready/' . $sloappSet . '.xml';
   if (file_exists($readyForIngestFile)) {
-      echo "<h3><a href=\"$readyForIngestFile\">DPLA Submission</a></h3>";
+      echo "<li><a href=\"$readyForIngestFile\">DPLA Submission</a></li>";
   } else {
-      echo "<h3>No files ready for upload to DPLA.</h3><br>";
+      echo "<li>No files ready for upload to DPLA.</li>";
   }
 
+?>
+</ul>
 
+
+
+
+<?php 
+$oldTasksQuery = 'select * from oldTasks where odnSet="' . htmlspecialchars($sloappSet)  . '" order by oldTaskTime limit 1';
+$oldTasksResult = $pdo->query($oldTasksQuery);
+
+echo '<h3><div align="right">You need to resume working at this point</div></h3>';
 ?>
 
-
 <h3>Harvest History:</h3>
+
+
 
 <?php
 
