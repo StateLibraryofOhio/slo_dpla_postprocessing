@@ -176,6 +176,20 @@ AFTERCOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:
 DELETEDCOUNT=$BEFORECOUNT-$AFTERCOUNT
 COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 
+
+#
+# The following IF statement's contents aren't indented because
+# of the way Bash handles environment variables and indentation
+# with cat <<EOF.  It's ugly, but ultimately prettier than it
+# might otherwise be.
+#
+# If there weren't any records in the file we downloaded, then
+# something went wrong.  Proceed according to the number of
+# records returned.
+
+if [ $BEFORECOUNT -gt 0 ]
+then
+
 # add a record to the "recordcount" table of the slo_aggregator DB
 # documenting the datetime and record counts for this harvest.
 mysql <<EOF
@@ -194,7 +208,26 @@ mysql <<EOF
   update source
     set lastIngest = '$(date "+%Y-%m-%d %H:%M:%S")'
   where odnSet = '$SETSPEC';
+EOF
 
+# add an entry to the oldTasks table for this harvest to
+# track harvest history
+mysql <<EOF
+  insert into oldTasks (
+    oldTaskTime,
+    odnSet,
+    ingestType,
+    status,
+    records
+  )
+  values
+  (
+    '$(date "+%Y-%m-%d %H:%M:%S")',
+    '$SETSPEC',
+    'incrementalIngest',
+    'OK',
+    '$AFTERCOUNT'
+  );
 EOF
 
 
@@ -222,4 +255,11 @@ Run the base XSLT transformation on the data to map fields to ODN equivalents:
 
 EOF
 
+else
+# unexpected error; don't insert records
+cat<<EOF
 
+   ERROR:  No records found in the OAI-PMH data retrieved
+
+EOF
+fi
