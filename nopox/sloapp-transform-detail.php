@@ -32,7 +32,7 @@ $sloappSet=$_GET['odnSet'];
 
 //$providerQuery = 'select name from provider order by name';
 
-$metadataTransformationQuery = 'select * from metadataTransformation where idRepox="' . htmlspecialchars($sloappSet)  . '"';
+$metadataTransformationQuery = 'select * from metadataTransformation where odnSet="' . htmlspecialchars($sloappSet)  . '"';
 
 //$providerResult = $pdo->query($providerQuery);
 
@@ -49,7 +49,7 @@ while ($metadataTransformationRow = $metadataTransformationResult->fetch())
 {
     echo '<p>editable:         ' . htmlspecialchars($metadataTransformationRow['editable']) . '</p>';
     echo '<p>version:  ' . htmlspecialchars($metadataTransformationRow['version']) . '</p>';
-    echo '<p>idRepox:      ' . htmlspecialchars($metadataTransformationRow['idRepox']) . '</p>';
+    echo '<p>odnSet:      ' . htmlspecialchars($metadataTransformationRow['odnSet']) . '</p>';
     echo '<p>localkey:     ' . htmlspecialchars($metadataTransformationRow['localkey']) . '</p>';
     echo '<p>description:  ' . htmlspecialchars($metadataTransformationRow['description']) . '</p>';
     echo '<p>sourceFormat:  ' . htmlspecialchars($metadataTransformationRow['sourceFormat']) . '</p>';

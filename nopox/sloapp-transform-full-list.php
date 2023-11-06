@@ -37,10 +37,10 @@ echo '<table>';
   while ($metadataTransformationRow = $metadataTransformationResult->fetch())
   {
     echo '<tr>';
-    echo '<td><a href="?action=transform-detail&odnSet=' . htmlspecialchars($metadataTransformationRow['idRepox']) . '">' . htmlspecialchars($metadataTransformationRow['description']) . '</a></td>';
+    echo '<td><a href="?action=transform-detail&odnSet=' . htmlspecialchars($metadataTransformationRow['odnSet']) . '">' . htmlspecialchars($metadataTransformationRow['description']) . '</a></td>';
     echo '<td>' . htmlspecialchars($metadataTransformationRow['sourceFormat']) . ' | ';
     echo htmlspecialchars($metadataTransformationRow['destinationFormat']) . '</td>';
-    echo '<td><a href="?action=transform-detail&odnSet=' . htmlspecialchars($metadataTransformationRow['idRepox']) . '">' . htmlspecialchars($metadataTransformationRow['stylesheet']) . '</a></td>';
+    echo '<td><a href="?action=transform-detail&odnSet=' . htmlspecialchars($metadataTransformationRow['odnSet']) . '">' . htmlspecialchars($metadataTransformationRow['stylesheet']) . '</a></td>';
     echo '</tr>';
   }
 echo '</table>'; 
