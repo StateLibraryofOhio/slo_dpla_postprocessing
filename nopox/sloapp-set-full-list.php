@@ -34,7 +34,7 @@ $sourceResult = $pdo->query($sourceQuery);
 
 //  $sourceQuery = "select * from source where providerName='" . $providerRow['name'] . "' order by description";
 //  $sourceResult = $pdo->query($sourceQuery);
-echo '<p><a href="?action=set-add">Add a new dataset</a></p>';
+//echo '<p><a href="?action=set-add">Add a new dataset</a></p>';
 echo '<table>';
   while ($sourceRow = $sourceResult->fetch())
   {
