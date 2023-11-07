@@ -55,13 +55,10 @@ while ($sourceRow = $sourceResult->fetch())
 
 <h3>Collection details</h3>
 <table>
-<tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td> </tr>
 <tr><td>Set name</td>  <td><?php echo $description ?></td> </tr>
+<tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td> </tr>
 <tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
 </table>
-<?php
-    echo "<table><tr><td>";
-?>
 
 <h3>Record Counts</h3>
 <ul>
@@ -137,26 +134,42 @@ while ($recordcountRow = $recordcountResult->fetch())
 <?php 
 $oldTasksQuery = 'select * from oldTasks where odnSet="' . htmlspecialchars($sloappSet)  . '" order by oldTaskTime limit 1';
 $oldTasksResult = $pdo->query($oldTasksQuery);
-
-echo '<h3><div align="right">You need to resume working at this point</div></h3>';
 ?>
 
 <h3>Harvest History:</h3>
+<ul>
 
-
+<!--<table>
+<tr><th>Date</th><th>record count (includes deletes for REPOX-migrated records)</th></tr>
+-->
 
 <?php
 
 $sloappSet=$_GET['odnSet'];
 
-$sourceQuery = 'select * from source where odnSet="' . htmlspecialchars($sloappSet)  . '"';
-$sourceResult = $pdo->query($sourceQuery);
+$oldTasksQuery = 'select * from oldTasks where odnSet="' . $odnSet  . '" order by oldTaskTime desc';
+$oldTasksResult = $pdo->query($oldTasksQuery);
 
-$sourceRow = $sourceResult->fetch();
+//$oldTasksRow = $oldTasksResult->fetch();
 
 //echo '<h3>maitai ' . htmlspecialchars($sourceRow['oaiSet']) . ' snowball</h3>';
-$oaiSet=htmlspecialchars($sourceRow['oaiSet']);
+//$oaiSet=htmlspecialchars($sourceRow['oaiSet']);
 
+while ($oldTasksRow = $oldTasksResult->fetch())
+{
+    $oldTaskTime = htmlspecialchars($oldTasksRow['oldTaskTime']);
+    $oldTaskFullCount = htmlspecialchars($oldTasksRow['records']);
+    //$totalRecordsIncludingDeleted = htmlspecialchars($recordcountRow['recordCount']);
+    //echo '<li>With dels:  ' . $totalRecordsIncludingDeleted . '</li>';
+    //$deletedRecords              =  htmlspecialchars($recordcountRow['deletedRecords']);
+    //echo '<li>Deletes:  ' . $deletedRecords . '</li>';
+    //echo '<tr><td>' . $oldTaskTime . '</td><td>' . $oldTaskFullCount . '</td></tr>';
+    echo '<li>' . $oldTaskTime . ' -- ' . $oldTaskFullCount . ' records';
+}
+?>
+</ul>
+
+<?php
 echo '<h3>Collection details</h3>';
 //$oneRow = $sourceResult->fetch();
 //echo '<h2>Menchi-fluff ' . htmlspecialchars($oneRow['oaiSet']) . ' xyzzy ' . '</h2>';
