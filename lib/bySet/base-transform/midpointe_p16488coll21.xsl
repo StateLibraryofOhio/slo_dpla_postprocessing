@@ -39,7 +39,7 @@
 
       <!-- STATIC VALUES FOR ODN-MAP fields -->
       <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">MidPointe Library System</xsl:element>     <!-- create edm:dataProvider -->
-      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Armco Periodicals with table of contents in descriptions</xsl:element>              <!-- create dcterms:isPartOf -->
+      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Armco Periodicals</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
       <xsl:apply-templates select="dc:identifier"            mode="midpointe_p16488coll21"/>  <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
