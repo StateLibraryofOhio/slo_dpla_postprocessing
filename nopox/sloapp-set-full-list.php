@@ -22,7 +22,22 @@ catch ( PDOException $e)
 
 //$providerQuery = 'select name from provider order by name';
 
-$sourceQuery = 'select * from source order by description';
+
+// URL parm to handle sorting columns
+$sloappSetSort=$_GET['odnSetSort'];
+
+if ($sloappSetSort == '') {
+   $sortOption = 'order by description';
+} else {
+   $sortOption = 'order by ' . $sloappSetSort;
+}
+
+//echo '<h1>Resume work here to add multiple sort options </h1>';
+
+$sourceQuery = 'select * from source ' . $sortOption;
+
+//echo '<h2>test  ' . $sourceQuery . '</h2>';
+
 
 //$providerResult = $pdo->query($providerQuery);
 
@@ -36,6 +51,11 @@ $sourceResult = $pdo->query($sourceQuery);
 //  $sourceResult = $pdo->query($sourceQuery);
 //echo '<p><a href="?action=set-add">Add a new dataset</a></p>';
 echo '<table>';
+echo '<tr><th><a href="/?action=collections&odnSetSort=description">Set name</a></th>
+          <th><a href="/?action=collections&odnSetSort=providerName">Contributing organization</a></th>
+          <th><a href="/?action=collections&odnSetSort=lastIngest">Last harvested</a></th>
+          <th><a href="/?action=collections&odnSetSort=odnSet">ODN setSpec</a></th>
+      </tr>';
   while ($sourceRow = $sourceResult->fetch())
   {
     echo '<tr>';
