@@ -59,6 +59,9 @@ e.g   http://servername/index.php?action=home
     elseif ($sloappAction == "notYet") {
        include "sloapp-notYet.php";
     }
+    elseif ($sloappAction="list-rights") {
+       include "sloapp-list-by-rights.php";
+    }
     else {
        include "sloapp-home.php";
        error_log("Unknown directive received: " . $sloappAction . ";  Redirecting to home tab");
