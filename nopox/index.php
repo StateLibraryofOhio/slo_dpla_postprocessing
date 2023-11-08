@@ -59,8 +59,11 @@ e.g   http://servername/index.php?action=home
     elseif ($sloappAction == "notYet") {
        include "sloapp-notYet.php";
     }
-    elseif ($sloappAction="list-rights") {
+    elseif ($sloappAction=="list-rights") {
        include "sloapp-list-by-rights.php";
+    }
+    elseif ($sloappAction=="list-all-rights") {
+       include "sloapp-rights-full-list.php";
     }
     else {
        include "sloapp-home.php";
