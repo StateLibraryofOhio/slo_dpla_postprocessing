@@ -86,6 +86,19 @@ while ($recordcountRow = $recordcountResult->fetch())
 ?>
 </ul>
 
+<h3>Rights associated with this set</h3>
+<ul>
+<?php
+    $rightsQuery = "select uri from setRights where odnSet='" . $odnSet . "'";
+    $rightsResult = $pdo->query($rightsQuery);
+    while ($rightsRow = $rightsResult->fetch())
+    {
+        $thisURI = htmlspecialchars($rightsRow['uri']);
+        echo '<li><a href="/?action=list-rights&uri=' . $thisURI . '">' . $thisURI . '</a></li>';
+    }
+?>
+</ul>
+
 
 
 <h3>Harvested Files</h3>
