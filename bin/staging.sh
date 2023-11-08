@@ -79,7 +79,7 @@ cat<<EOF
 
 The file has been copied to:
 
-  $SLODATA_STAGING/$SET.xml
+  $SLODATA_STAGING/$SETSPEC.xml
 
 
 ODN:  Re-harvest of "$SET" from $PROVIDER ($SETSPEC)
