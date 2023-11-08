@@ -43,7 +43,7 @@ while ($uriRow = $uriResult->fetch()) {
              "<a href='/?action=org-detail&provider=" . $providerName . "'>" . $providerName . '</a>' .
          "</li>";
 }
-echo "</ul>";
+echo "</ul><em>Note:  Click on the edm:rights URI to find other sets also containing records with that rights URI.</em>";
 
 //echo '<p>' . $uriQuery . '</p>';
 

@@ -31,7 +31,8 @@ while ($rightsRow = $rightsResult->fetch())
    $uriValue = htmlspecialchars($rightsRow['uri']);
    echo "<li><a href='/?action=list-rights&uri=" . $uriValue . "'>" . $uriValue . '</a></li>';
 }
-echo "</ul>";
+echo "</ul><em>Note:  Click on the edm:rights URI to find other sets also containing records with that rights URI.</em>";
+
 
 // URL parms to handle sorting columns
 //$sloappSetSort=$_GET['odnSetSort'];

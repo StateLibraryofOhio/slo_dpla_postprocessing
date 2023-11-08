@@ -98,7 +98,7 @@ while ($recordcountRow = $recordcountResult->fetch())
     }
 ?>
 </ul>
-
+<em>Note:  Click on the edm:rights URI to find other sets also containing records with that rights URI.</em>
 
 
 <h3>Harvested Files</h3>
@@ -181,6 +181,7 @@ while ($oldTasksRow = $oldTasksResult->fetch())
 }
 ?>
 </ul>
+<em>Note:  old harvest entry counts migrated from REPOX contain "deleted records", while the post-REPOX entries only count records that are viable for DPLA ingest...not "deleted" records, records without required fields, records that have been explicitly removed from the DPLA feed, etc.</em>
 
 <?php
 echo '<h3>Collection details</h3>';
