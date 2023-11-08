@@ -23,8 +23,10 @@ catch ( PDOException $e)
 //$providerQuery = 'select name from provider order by name';
 
 
-// URL parm to handle sorting columns
+// URL parms to handle sorting columns
 $sloappSetSort=$_GET['odnSetSort'];
+$sloappSetReverseSort=$_GET['d'];
+
 
 if ($sloappSetSort == '') {
    $sortOption = 'order by description';
@@ -32,9 +34,18 @@ if ($sloappSetSort == '') {
    $sortOption = 'order by ' . $sloappSetSort;
 }
 
+if ($sloappSetReverseSort == '') {
+   $sortDirection = '';
+   $otherSortDirection = '&d=1';
+} else {
+   $sortDirection = ' desc';
+   $otherSortDirection = '';
+}
+
+
 //echo '<h1>Resume work here to add multiple sort options </h1>';
 
-$sourceQuery = 'select * from source ' . $sortOption;
+$sourceQuery = 'select * from source ' . $sortOption . $sortDirection;
 
 //echo '<h2>test  ' . $sourceQuery . '</h2>';
 
@@ -51,10 +62,10 @@ $sourceResult = $pdo->query($sourceQuery);
 //  $sourceResult = $pdo->query($sourceQuery);
 //echo '<p><a href="?action=set-add">Add a new dataset</a></p>';
 echo '<table>';
-echo '<tr><th><a href="/?action=collections&odnSetSort=description">Set name</a></th>
-          <th><a href="/?action=collections&odnSetSort=providerName">Contributing organization</a></th>
-          <th><a href="/?action=collections&odnSetSort=lastIngest">Last harvested</a></th>
-          <th><a href="/?action=collections&odnSetSort=odnSet">ODN setSpec</a></th>
+echo '<tr><th><a href="/?action=collections&odnSetSort=description' . $otherSortDirection . '">Set name</a></th>
+          <th><a href="/?action=collections&odnSetSort=providerName' . $otherSortDirection . '">Contributing organization</a></th>
+          <th><a href="/?action=collections&odnSetSort=lastIngest' . $otherSortDirection . '">Last harvested</a></th>
+          <th><a href="/?action=collections&odnSetSort=odnSet' . $otherSortDirection . '">ODN setSpec</a></th>
       </tr>';
   while ($sourceRow = $sourceResult->fetch())
   {
