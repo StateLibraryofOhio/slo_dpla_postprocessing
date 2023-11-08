@@ -44,18 +44,16 @@ $providerResult = $pdo->query($providerQuery);
 
 //  $sourceQuery = "select * from source where providerName='" . $providerRow['name'] . "' order by description";
 //  $sourceResult = $pdo->query($sourceQuery);
-echo '<h3>Provider details</h3>';
 while ($providerRow = $providerResult->fetch())
 {
-    echo '<p>name:         ' . htmlspecialchars($providerRow['name']) . '</p>';
-    echo '<p>description:  ' . htmlspecialchars($providerRow['description']) . '</p>';
-    echo '<p>idRepox:      ' . htmlspecialchars($providerRow['idRepox']) . '</p>';
-    echo '<p>localkey:     ' . htmlspecialchars($providerRow['localkey']) . '</p>';
+    echo '<h2>' . htmlspecialchars($providerRow['name']) . '</h2>';
+    //echo '<p>description:  ' . htmlspecialchars($providerRow['description']) . '</p>';
+    //echo '<p>idRepox:      ' . htmlspecialchars($providerRow['idRepox']) . '</p>';
+    //echo '<p>localkey:     ' . htmlspecialchars($providerRow['localkey']) . '</p>';
     $sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
 }
 //}
 ?>
-<br>
 
 <!-- There are currently no "Contacts" in REPOX, because (as far as I can tell) it's 
      not possible to add them -- or display them -- in the REPOX UI.
