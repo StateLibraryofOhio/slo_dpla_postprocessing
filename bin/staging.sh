@@ -74,6 +74,13 @@ SET=`grep dcterms:isPartOf $STAGING_FILE | head -n 1 | cut -f 2 -d '>'|cut -f 1 
 cp $STAGING_FILE $SLODATA_STAGING/$SETSPEC.xml
 
 
+# update rights index in MySQL
+mysql -sNe "delete from setRights where odnSet='"$SETSPEC"'"
+grep edm:rights $STAGING_FILE | cut -f 2 -d '>' | cut -f 1 -d '<' | sort | uniq | while read URI
+do
+    mysql -sNe  "insert into setRights (odnSet, uri) values ('"$SETSPEC"', '"$URI"');"
+done
+
 cat<<EOF
 -----------------------------------------------------------
 
