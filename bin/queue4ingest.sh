@@ -108,7 +108,7 @@ then
     exit
 fi
 
-cp $STAGING_FILE $SLODATA_READY/$SETSPEC.xml
+cp $STAGING_FILE $SLODATA_INGEST/$SETSPEC.xml
 
 
 cat<<EOF
@@ -116,11 +116,11 @@ cat<<EOF
 
 The file has been copied to:
 
-  $SLODATA_READY/$SETSPEC.xml
+  $SLODATA_INGEST/$SETSPEC.xml
 
 To perform a final review of the output, run:
 
-    review-base-transform.sh  $SLODATA_READY/$SETSPEC.xml
+    review-base-transform.sh  $SLODATA_INGEST/$SETSPEC.xml
 
 EOF
 
