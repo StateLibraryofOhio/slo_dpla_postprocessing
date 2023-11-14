@@ -346,6 +346,33 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
           'true');
 
 EOF
+
+
+# If they're giving us a new provider, then we need to insert that
+# as a record in MySQL; test to see if it's new.
+echo "before"
+echo "PROVIDER:  $PROVIDER :::"
+PROVIDER_TEST=$(mysql -sNe "select count(*) from provider where name='"${PROVIDER}"';" )
+sleep 2
+echo "after"
+if [ "$PROVIDER_TEST" != '1' ]
+then
+cat >>add-source_$ODN_SETSPEC.sql <<EOF
+
+  insert into 
+    provider
+        (name,
+         description,
+         odnProvider)
+    values
+         ('$PROVIDER',
+          '$PROVIDER',
+          '$PROVIDER');     
+
+EOF
+
+fi
+
 # cat add-source_$ODN_SETSPEC.sql
 
 cat <<EOF
