@@ -54,7 +54,7 @@ EOF
 # Query MySQL for existing provider names, dump to screen for user to select
 # if the provider has previously submitted data to ODN.
 
-mysql -N -e "select distinct providerName from source;"  slo_aggregator | sed -e 's/^/    /g'
+mysql -N -e "select distinct name from provider;"  slo_aggregator | sed -e 's/^/    /g'
 
 while [ "$PROVIDER" == '' ]
 do
@@ -350,11 +350,7 @@ EOF
 
 # If they're giving us a new provider, then we need to insert that
 # as a record in MySQL; test to see if it's new.
-echo "before"
-echo "PROVIDER:  $PROVIDER :::"
-PROVIDER_TEST=$(mysql -sNe "select count(*) from provider where name='"${PROVIDER}"';" )
-sleep 2
-echo "after"
+PROVIDER_TEST=$(mysql -sNe "select count(*) from provider where name='${PROVIDER}';" )
 if [ "$PROVIDER_TEST" != '1' ]
 then
 cat >>add-source_$ODN_SETSPEC.sql <<EOF
@@ -368,7 +364,6 @@ cat >>add-source_$ODN_SETSPEC.sql <<EOF
          ('$PROVIDER',
           '$PROVIDER',
           '$PROVIDER');     
-
 EOF
 
 fi
