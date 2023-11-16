@@ -133,7 +133,7 @@ while ($recordcountRow = $recordcountResult->fetch())
       echo "<li>No staging file.  Set transform not created?</li>";
   }
 
-  $readyForIngestFile = 'datasets/ready/' . $sloappSet . '.xml';
+  $readyForIngestFile = 'datasets/ingest/' . $sloappSet . '.xml';
   if (file_exists($readyForIngestFile)) {
       echo "<li><a href=\"$readyForIngestFile\">DPLA Submission</a></li>";
   } else {
