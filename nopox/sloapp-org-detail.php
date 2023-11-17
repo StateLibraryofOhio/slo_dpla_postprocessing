@@ -30,20 +30,9 @@ catch ( PDOException $e)
 
 $sloappProvider=$_GET['provider'];
 
-//$providerQuery = 'select name from provider order by name';
-
 $providerQuery = 'select * from provider where name="' . htmlspecialchars($sloappProvider)  . '"';
-
-//$providerResult = $pdo->query($providerQuery);
-
 $providerResult = $pdo->query($providerQuery);
-// while ($Row = $providerResult->fetch())
-//  {
-  
-//  echo '<li>' . htmlspecialchars($providerRow['name']) . '</li>';
 
-//  $sourceQuery = "select * from source where providerName='" . $providerRow['name'] . "' order by description";
-//  $sourceResult = $pdo->query($sourceQuery);
 while ($providerRow = $providerResult->fetch())
 {
     echo '<h2>' . htmlspecialchars($providerRow['name']) . '</h2>';
@@ -52,7 +41,7 @@ while ($providerRow = $providerResult->fetch())
     //echo '<p>localkey:     ' . htmlspecialchars($providerRow['localkey']) . '</p>';
     $sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
 }
-//}
+
 ?>
 
 <!-- There are currently no "Contacts" in REPOX, because (as far as I can tell) it's 
@@ -71,19 +60,23 @@ while ($providerRow = $providerResult->fetch())
 <p>Not yet implemented.  Sorry.</p>
 <br>
 
+
+
+
+
 <h3>Submitted sets:</h3>
 
 <?php
-//$sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
+
+// get a count of all sets submitted by this organization
+$countSetsByProviderQuery = 'select count(*) from source where providerName="' . htmlspecialchars($sloappProvider)  . '"';
+$countSetsByProviderResult = $pdo->query($countSetsByProviderQuery);
+$countSetsByProviderNumber = $countSetsByProviderResult->fetch();
+
+echo "<p>total sets: " . $countSetsByProviderNumber['count(*)'] . "</p>";
 
 $sourceResult = $pdo->query($sourceQuery);
-// while ($Row = $providerResult->fetch())
-//  {
 
-//  echo '<li>' . htmlspecialchars($providerRow['name']) . '</li>';
-
-//  $sourceQuery = "select * from source where providerName='" . $providerRow['name'] . "' order by description";
-//  $sourceResult = $pdo->query($sourceQuery);
 echo '<table>';
 
   while ($sourceRow = $sourceResult->fetch())
@@ -97,7 +90,7 @@ echo '<table>';
     echo '</tr>';
   }
 echo '</table>';
-//}
+
 ?>
 
 
