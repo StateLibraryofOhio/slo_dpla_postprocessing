@@ -68,6 +68,9 @@ e.g   http://servername/index.php?action=home
     elseif ($sloappAction=="list-harvests") {
        include "sloapp-list-harvests.php";
     }
+    elseif ($sloappAction=="count-sets-by-org") {
+       include "sloapp-list-set-counts-by-org.php";
+    }
     else {
        include "sloapp-home.php";
        error_log("Unknown directive received: " . $sloappAction . ";  Redirecting to home tab");
