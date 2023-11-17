@@ -64,21 +64,16 @@ while ($sourceRow = $sourceResult->fetch())
 
 <h3>Record Counts</h3>
 <ul>
-<li>Total records available to DPLA (eliminate deleted and filtered records)</li>
-<li>Number of records available for DPLA IIIF/WikiMedia participation</li>
-
-
 
 <?php
 
 $recordcountQuery = 'select * from recordcount where odnSet="' . htmlspecialchars($sloappSet)  . '"';
-
-//$providerResult = $pdo->query($providerQuery);
-
 $recordcountResult = $pdo->query($recordcountQuery);
 
 while ($recordcountRow = $recordcountResult->fetch())
 {
+    $iiifViable = htmlspecialchars($recordcountRow['iiifViable']);
+    echo '<li>IIIF-viable by rights:  ' .  $iiifViable . '</li>';
     $totalRecordsIncludingDeleted = htmlspecialchars($recordcountRow['recordCount']);
     echo '<li>With dels:  ' . $totalRecordsIncludingDeleted . '</li>';
     $deletedRecords              =  htmlspecialchars($recordcountRow['deletedRecords']);
