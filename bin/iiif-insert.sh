@@ -67,6 +67,11 @@ cp $NEWFILE $ODN_SETSPEC-DPLA_ready.xml
 
 sed -e "s/^[ ]*//g" $ODN_SETSPEC-DPLA_ready.xml > 2t.xml
 
+
+IIIF_COUNT_UPDATE_QUERY="update recordcount set iiifViable='$IIIF_MARKED_COUNT' where odnSet='$ODN_SETSPEC';"
+mysql -sNe "$IIIF_COUNT_UPDATE_QUERY"
+
+
 tee outiiif.txt <<EOF
 
 Complete!
@@ -88,3 +93,4 @@ To copy the data to the Staging area, run:
     staging.sh $NEWFILE 
 
 EOF
+
