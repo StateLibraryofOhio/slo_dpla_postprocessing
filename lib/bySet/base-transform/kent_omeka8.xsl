@@ -24,7 +24,7 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  
+ 
   <xsl:template match="//oai_dc:dc">
     <oai_qdc:qualifieddc
             xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/"
@@ -80,7 +80,7 @@
 
   <xsl:template match="dc:description" mode="kent_omeka8">
     <xsl:element name="dcterms:description" namespace="http://purl.org/dc/terms/">
-      <xsl:value-of select="replace(replace(replace(replace(replace(., '&lt;a href=&quot;', ''), '&lt;/?em&gt;', ''), '&lt;br /&gt;', ''), '&lt;/a&gt;', ''), '&quot;&gt;', ' ')"/>
+      <xsl:value-of select="replace(replace(replace(replace(replace(replace(., '&lt;/?p&gt;', ''), '&lt;a href=&quot;', ''), '&lt;/?(em|span)&gt;', ''), '&lt;br /&gt;', ''), '&lt;/a&gt;', ''), '&quot;&gt;', ' ')"/>
     </xsl:element>
   </xsl:template>
 

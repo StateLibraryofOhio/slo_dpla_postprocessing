@@ -25,7 +25,7 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  
+
   <xsl:template match="//oai_dc:dc">
     <oai_qdc:qualifieddc
             xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/"
@@ -39,7 +39,7 @@
 
       <!-- STATIC VALUES FOR ODN-MAP fields -->
       <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">Kent State University</xsl:element>     <!-- create edm:dataProvider -->
-      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Kent State University Photographs and Maps</xsl:element>              <!-- create dcterms:isPartOf -->
+      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Kent State History: Digital Archive</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP fields -->
       <xsl:apply-templates select="dc:identifier"            mode="kent_omeka1"/>             <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->

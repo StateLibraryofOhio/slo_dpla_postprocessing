@@ -24,7 +24,7 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  
+
   <xsl:template match="//oai_qdc:qualifieddc">
     <oai_qdc:qualifieddc
             xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/"
@@ -42,7 +42,7 @@
 
       <!-- REQUIRED ODN-MAP FIELDS -->
       <xsl:apply-templates select="dc:identifier"            mode="bgsu_166"/>                <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
-      <xsl:apply-templates select="dc:rights"                mode="odn"/>                     <!-- create edm:rights    and dc:rights                         -->
+      <xsl:apply-templates select="dc:rights"                mode="bgsu_166"/>                <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
@@ -71,6 +71,21 @@
       <xsl:apply-templates select="dc:source"                mode="odn"/>                     <!-- frequently unused; remove by default                       -->
 
     </oai_qdc:qualifieddc>
+  </xsl:template>
+
+  <xsl:template match="dc:rights" mode="bgsu_166">
+    <xsl:choose>
+      <xsl:when test="contains(., 'rightsstatements.org')">
+        <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:element name="dc:rights" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="dc:identifier" mode="bgsu_166">
