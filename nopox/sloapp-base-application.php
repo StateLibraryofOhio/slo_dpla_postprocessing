@@ -4,5 +4,5 @@
 -->
 
 <?php
-echo "<p>Boris is the master of all he surveys</p>";
+echo "<h6>Boris is the master of all he surveys</h6>";
  ?>

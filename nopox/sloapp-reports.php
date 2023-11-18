@@ -1,5 +1,5 @@
 <?php
-echo "<p>This is the sloapp-reports.php content.</p>";
+echo "<p>These are a few examples of reports that we can devise.</p>";
 echo "";
 echo "<ul>
           <li><a href='/?action=list-all-rights'>Lists of collections by edm:rights</a></li>
