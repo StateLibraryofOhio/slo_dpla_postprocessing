@@ -44,27 +44,8 @@ while ($providerRow = $providerResult->fetch())
 
 ?>
 
-<!-- There are currently no "Contacts" in REPOX, because (as far as I can tell) it's 
-     not possible to add them -- or display them -- in the REPOX UI.
 
-     Leaving this here as a reminder that the table is in place in MySQL to hold the
-     Contact data, although I think it needs to have one or two columns added to it
-     in order to improve the joins between it and the provider table (and others?)
-
-     Note when adding Contacts:  Do we want to allow Contacts who are not tied to a
-     current site?  "Alumni" who worked on site and moved on, perhaps?
-
-     Also, record type of contacts?  Cataloger vs. technical vs. management?
- -->
-<h3>Site contacts:</h3>
-<p>Not yet implemented.  Sorry.</p>
-<br>
-
-
-
-
-
-<h3>Submitted sets:</h3>
+<h3>Site details:</h3>
 
 <?php
 
@@ -73,8 +54,22 @@ $countSetsByProviderQuery = 'select count(*) from source where providerName="' .
 $countSetsByProviderResult = $pdo->query($countSetsByProviderQuery);
 $countSetsByProviderNumber = $countSetsByProviderResult->fetch();
 
-echo "<p>total sets: " . $countSetsByProviderNumber['count(*)'] . "</p>";
+echo "<p>Total number of sets submitted:   " . $countSetsByProviderNumber['count(*)'] . "</p>";
 
+
+
+// get a count of all records submitted by this organization
+$countRecordsByProviderQuery = 'select sum(recordCount) from recordcount where odnSet in (select odnSet from source where providerName="' . htmlspecialchars($sloappProvider)  . '")';
+$countRecordsByProviderResult = $pdo->query($countRecordsByProviderQuery);
+$countRecordsByProviderNumber = $countRecordsByProviderResult->fetch();
+
+echo "<p>Total number of records submitted:  " . number_format($countRecordsByProviderNumber['sum(recordCount)'])  . "</p>";
+
+?>
+
+<h3>Submitted sets:</h3>
+
+<?php
 $sourceResult = $pdo->query($sourceQuery);
 
 echo '<table>';
@@ -98,4 +93,20 @@ echo '</table>';
 
 ?>
 
+
+<!-- There are currently no "Contacts" in REPOX, because (as far as I can tell) it's
+     not possible to add them -- or display them -- in the REPOX UI.
+
+     Leaving this here as a reminder that the table is in place in MySQL to hold the
+     Contact data, although I think it needs to have one or two columns added to it
+     in order to improve the joins between it and the provider table (and others?)
+
+     Note when adding Contacts:  Do we want to allow Contacts who are not tied to a
+     current site?  "Alumni" who worked on site and moved on, perhaps?
+
+     Also, record type of contacts?  Cataloger vs. technical vs. management?
+ -->
+<h3>Site contacts:</h3>
+<p>Not yet implemented.  Sorry.</p>
+<br>
 
