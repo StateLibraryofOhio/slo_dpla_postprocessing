@@ -57,6 +57,20 @@ $countSetsByProviderNumber = $countSetsByProviderResult->fetch();
 echo "<p>Total number of sets submitted:   " . $countSetsByProviderNumber['count(*)'] . "</p>";
 
 
+// find and display recordcount of the largest set, if there's more than 1 set
+if ( $countSetsByProviderNumber['count(*)'] > 1 ) {
+  $biggestSetByProviderQuery = 'select max(recordCount) from recordcount where odnSet in (select odnSet from source where providerName="' . htmlspecialchars($sloappProvider)  . '")';
+  $biggestSetByProviderResult = $pdo->query($biggestSetByProviderQuery);
+  $biggestSetByProviderNumber = $biggestSetByProviderResult->fetch();
+  echo "<p>Largest set:  " .  number_format($biggestSetByProviderNumber['max(recordCount)']);
+  // get the set description from the source table in a somewhat backwards fashion, and
+  // one that's prone to failure if multiple sets have the same recordcount
+  $biggestSetByProviderNameQuery = 'select description from source where odnSet=(select odnSet from recordcount where recordCount="' . $biggestSetByProviderNumber['max(recordCount)'] . ' limit 1")';
+  $biggestSetByProviderNameResult = $pdo->query($biggestSetByProviderNameQuery);
+  $biggestSetByProviderNameRow = $biggestSetByProviderNameResult->fetch();
+  echo " records  (set:  " . $biggestSetByProviderNameRow['description']  . ")</em></p>";
+}
+
 
 // get a count of all records submitted by this organization
 $countRecordsByProviderQuery = 'select sum(recordCount) from recordcount where odnSet in (select odnSet from source where providerName="' . htmlspecialchars($sloappProvider)  . '")';
