@@ -78,12 +78,17 @@ echo "<p>total sets: " . $countSetsByProviderNumber['count(*)'] . "</p>";
 $sourceResult = $pdo->query($sourceQuery);
 
 echo '<table>';
-
+echo '<th>Set Name</th><th>Record Count</th><th>Last Harvested</th><th>ODN setSpec</th></th>';
   while ($sourceRow = $sourceResult->fetch())
   {
     echo '<tr>';
     echo '<td><a href="?action=set-detail&odnSet=' . htmlspecialchars($sourceRow['odnSet']) . '">' . htmlspecialchars($sourceRow['description']) . '</a></td>';
-    echo '<td>' . htmlspecialchars($sourceRow['providerName']) . '</td>';
+
+    $setRecordcountQuery = 'select * from recordcount where odnSet="' . htmlspecialchars($sourceRow['odnSet']) . '"';
+    $setRecordcountResult = $pdo->query($setRecordcountQuery);
+    $setRecordcountResultAsArray =  $setRecordcountResult->fetch();
+    echo '<td>' . number_format(htmlspecialchars($setRecordcountResultAsArray['recordCount'])) . '</td>';
+    //echo '<td>' . htmlspecialchars($sourceRow['providerName']) . '</td>';
     $lastIngestDate = preg_split('/\s/', htmlspecialchars($sourceRow['lastIngest']));
     echo '<td class="td-displayDate">' . $lastIngestDate[0] . '</td>';
     echo '<td>' . htmlspecialchars($sourceRow['odnSet']) . '</td>';
