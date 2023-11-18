@@ -5,5 +5,7 @@
 
 -->
 <?php
-echo "<p>This is the sloapp-home.php content.</p><p>This will be the GUI admin console for the application that will replace REPOX in the Ohio Digital Network's preparation and processing of data for DPLA.</p>";
+echo "<p>This a console for the application that will replace REPOX in the Ohio Digital Network's preparation and processing of data for DPLA.</p>
+
+<p>This is currently runnning in \"read only\" mode, and only gives one the ability to view what it's doing, rather than change the data and configurations that it shows to you.</p>";
 ?>
