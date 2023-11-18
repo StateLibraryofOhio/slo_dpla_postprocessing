@@ -75,10 +75,10 @@ while ($recordcountRow = $recordcountResult->fetch())
     $iiifViable = htmlspecialchars($recordcountRow['iiifViable']);
     echo '<li>IIIF-viable by rights:  ' .  $iiifViable . '</li>';
     $totalRecordsIncludingDeleted = htmlspecialchars($recordcountRow['recordCount']);
-    echo '<li>With dels:  ' . $totalRecordsIncludingDeleted . '</li>';
-    $deletedRecords              =  htmlspecialchars($recordcountRow['deletedRecords']);
-    echo '<li>Deletes:  ' . $deletedRecords . '</li>';
-    echo '<li>Undeleted:  ' . $totalRecordsIncludingDeleted-$deletedRecords . '</li>';
+    echo '<li>With dels:  ' . number_format($totalRecordsIncludingDeleted) . '</li>';
+    $deletedRecords = htmlspecialchars($recordcountRow['deletedRecords']);
+    echo '<li>Deletes:  ' . number_format($deletedRecords) . '</li>';
+    echo '<li>Undeleted:  ' . number_format($totalRecordsIncludingDeleted-$deletedRecords) . '</li>';
 }
 ?>
 </ul>
@@ -174,7 +174,7 @@ while ($oldTasksRow = $oldTasksResult->fetch())
     //$deletedRecords              =  htmlspecialchars($recordcountRow['deletedRecords']);
     //echo '<li>Deletes:  ' . $deletedRecords . '</li>';
     //echo '<tr><td>' . $oldTaskTime . '</td><td>' . $oldTaskFullCount . '</td></tr>';
-    echo '<li>' . $oldTaskTime . ' -- ' . $oldTaskFullCount . ' records';
+    echo '<li>' . $oldTaskTime . ' -- ' . number_format($oldTaskFullCount) . ' records';
 }
 ?>
 </ul>
