@@ -73,7 +73,7 @@ $recordcountResult = $pdo->query($recordcountQuery);
 while ($recordcountRow = $recordcountResult->fetch())
 {
     $iiifViable = htmlspecialchars($recordcountRow['iiifViable']);
-    echo '<li>IIIF-viable by rights:  ' .  $iiifViable . '</li>';
+    echo '<li>IIIF-viable by rights:  ' .  number_format($iiifViable) . '</li>';
     $totalRecordsIncludingDeleted = htmlspecialchars($recordcountRow['recordCount']);
     echo '<li>With dels:  ' . number_format($totalRecordsIncludingDeleted) . '</li>';
     $deletedRecords = htmlspecialchars($recordcountRow['deletedRecords']);
