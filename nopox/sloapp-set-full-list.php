@@ -66,6 +66,7 @@ echo '<tr><th><a href="/?action=collections&odnSetSort=description' . $otherSort
           <th><a href="/?action=collections&odnSetSort=providerName' . $otherSortDirection . '">Contributing organization</a></th>
           <th><a href="/?action=collections&odnSetSort=lastIngest' . $otherSortDirection . '">Last harvested</a></th>
           <th><a href="/?action=collections&odnSetSort=odnSet' . $otherSortDirection . '">ODN setSpec</a></th>
+          <th>Record count</th>
       </tr>';
   while ($sourceRow = $sourceResult->fetch())
   {
@@ -75,6 +76,13 @@ echo '<tr><th><a href="/?action=collections&odnSetSort=description' . $otherSort
     $lastIngestDate = preg_split('/\s/', htmlspecialchars($sourceRow['lastIngest']));
     echo '<td class="td-displayDate">' . $lastIngestDate[0] . '</td>';
     echo '<td>' . htmlspecialchars($sourceRow['odnSet']) . '</td>';
+
+    $setRecordcountQuery = 'select * from recordcount where odnSet="' . htmlspecialchars($sourceRow['odnSet']) . '"';
+    $setRecordcountResult = $pdo->query($setRecordcountQuery);
+    $setRecordcountRow = $setRecordcountResult->fetch();
+    $setRecordcountValue = htmlspecialchars($setRecordcountRow['recordCount']);
+    echo "<td>" .  number_format($setRecordcountValue) . '</td>';
+
     echo '</tr>';
   }
 echo '</table>'; 
