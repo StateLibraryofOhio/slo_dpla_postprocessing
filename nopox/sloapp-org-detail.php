@@ -45,8 +45,8 @@ while ($providerRow = $providerResult->fetch())
 ?>
 
 
-<h3>Site details:</h3>
-
+<h3>Misc. organization details:</h3>
+<ul>
 <?php
 
 // get a count of all sets submitted by this organization
@@ -54,7 +54,7 @@ $countSetsByProviderQuery = 'select count(*) from source where providerName="' .
 $countSetsByProviderResult = $pdo->query($countSetsByProviderQuery);
 $countSetsByProviderNumber = $countSetsByProviderResult->fetch();
 
-echo "<p>Total number of sets submitted:   " . $countSetsByProviderNumber['count(*)'] . "</p>";
+echo "<li>Total number of sets submitted:   " . $countSetsByProviderNumber['count(*)'] . "</li>";
 
 
 // find and display recordcount of the largest set, if there's more than 1 set
@@ -62,13 +62,13 @@ if ( $countSetsByProviderNumber['count(*)'] > 1 ) {
   $biggestSetByProviderQuery = 'select max(recordCount) from recordcount where odnSet in (select odnSet from source where providerName="' . htmlspecialchars($sloappProvider)  . '")';
   $biggestSetByProviderResult = $pdo->query($biggestSetByProviderQuery);
   $biggestSetByProviderNumber = $biggestSetByProviderResult->fetch();
-  echo "<p>Largest set:  " .  number_format($biggestSetByProviderNumber['max(recordCount)']);
+  echo "<li>Largest set:  " . number_format($biggestSetByProviderNumber['max(recordCount)']);
   // get the set description from the source table in a somewhat backwards fashion, and
   // one that's prone to failure if multiple sets have the same recordcount
   $biggestSetByProviderNameQuery = 'select description from source where odnSet=(select odnSet from recordcount where recordCount="' . $biggestSetByProviderNumber['max(recordCount)'] . ' limit 1")';
   $biggestSetByProviderNameResult = $pdo->query($biggestSetByProviderNameQuery);
   $biggestSetByProviderNameRow = $biggestSetByProviderNameResult->fetch();
-  echo " records  (set:  " . $biggestSetByProviderNameRow['description']  . ")</em></p>";
+  echo ' records  ("' . $biggestSetByProviderNameRow['description']  . '")</em></li>';
 }
 
 
@@ -77,9 +77,10 @@ $countRecordsByProviderQuery = 'select sum(recordCount) from recordcount where o
 $countRecordsByProviderResult = $pdo->query($countRecordsByProviderQuery);
 $countRecordsByProviderNumber = $countRecordsByProviderResult->fetch();
 
-echo "<p>Total number of records submitted:  " . number_format($countRecordsByProviderNumber['sum(recordCount)'])  . "</p>";
+echo "<li>Total number of records submitted:  " . number_format($countRecordsByProviderNumber['sum(recordCount)'])  . "</li>";
 
 ?>
+</ul>
 
 <h3>Submitted sets:</h3>
 
