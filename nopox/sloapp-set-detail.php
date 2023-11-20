@@ -46,6 +46,7 @@ while ($sourceRow = $sourceResult->fetch())
     $retrieveStrategy =  htmlspecialchars($sourceRow['retrieveStrategy']);
     $splitRecordsRecordXPath = htmlspecialchars($sourceRow['splitRecordsRecordXPath']);
     $sourceCMS = htmlspecialchars($sourceRow['sourceCMS']);
+    $iiifParticipant = htmlspecialchars($sourceRow['iiifParticipant']);
 
 //    $sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
 }
@@ -60,6 +61,7 @@ while ($sourceRow = $sourceResult->fetch())
 <tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td> </tr>
 <tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
 <tr><td>Host CMS</td>  <td> <?php echo $sourceCMS ?> </td></tr>
+<tr><td>WikiMedia?</td><td><?php echo $iiifParticipant ?></td></tr>
 </table>
 
 <h3>Record Counts</h3>
