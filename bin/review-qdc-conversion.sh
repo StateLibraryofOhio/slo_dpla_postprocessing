@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Abort if the environment hasn't been setup properly
 

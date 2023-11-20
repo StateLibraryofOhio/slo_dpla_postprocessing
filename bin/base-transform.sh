@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # This script is intended to run "archivized" data through the initial,
 # set-specific XSLT transform for the collection.  The transformation
@@ -118,8 +119,11 @@ fi
 # step 1:  find the filename listed in the "metadataTransformation" table
 #
 
-# query db to get transform filename
-BASE_TRANSFORM_FILE=$(mysql -sNe "select stylesheet from metadataTransformation where idRepox='"$ODN_SETSPEC"'")
+##### query db to get transform filename
+#####BASE_TRANSFORM_FILE=$(mysql -sNe "select stylesheet from metadataTransformation where idRepox='"$ODN_SETSPEC"'")
+
+BASE_TRANSFORM_FILE=$ODN_SETSPEC.xsl
+
 
 # test result for no matches
 if [ "$BASE_TRANSFORM_FILE" == "" ]
@@ -151,7 +155,7 @@ fi
 
 # step 1: ID the base transform for
 
-QUERY="select metadataFormat from source where odnSet='"$ODN_SETSPEC"'"
+QUERY="select metadataPrefix from source where odnSet='"$ODN_SETSPEC"'"
 ORIGINAL_METADATA_FORMAT=$(mysql -sNe "$QUERY")
 
 if [ ! -f $SLODATA_ARCHIVIZED/$ODN_SETSPEC-odn-$ORIGINAL_METADATA_FORMAT.xml ] 
@@ -217,30 +221,29 @@ fi
 
 xmllint --format $ODN_SETSPEC-odn-transformed-qdc.xml >2.txt
 
-mv 2.txt ODN_SETSPEC-odn-transformed-qdc.xml
+mv 2.txt $ODN_SETSPEC-odn-transformed-qdc.xml
 
 cp $ODN_SETSPEC-odn-transformed-qdc.xml $ODN_SETSPEC-DPLA_ready.xml
 
 sed -e "s/^[ ]*//g" $ODN_SETSPEC-odn-transformed-qdc.xml > 2t.xml
 
-
+BEFORECOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_ARCHIVIZED/$ODN_SETSPEC-odn-$ORIGINAL_METADATA_FORMAT.xml)
+AFTERCOUNT=$(java  net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:2t.xml)
 
 tee outgt.txt <<EOF
 
+Record counts:
+
+  Pre-transform:  $BEFORECOUNT
+  Post-transform: $AFTERCOUNT
+
 Perform some basic diagnostics on the data:
 
-     review-qdc-conversion.sh $ODN_SETSPEC-odn-transformed-qdc.xml
+    review-base-transform.sh $ODN_SETSPEC-odn-transformed-qdc.xml
 
 To add unvalidated IIIF to the data, run:
 
-     iiif-blanket-insert.sh  $ODN_SETSPEC-odn-transformed-qdc.xml
+    iiif-insert.sh  $ODN_SETSPEC-odn-transformed-qdc.xml
 
 EOF
-
-
-
-
-
-
-
 
