@@ -20,7 +20,7 @@
 
 
 <!--
-     This XSLT is intended to list "dcterms:type|isShownAt"
+     This XSLT is intended to list "dcterms:type|edm:preview"
      for records without edm:preview values in a "transformed"
      XML dataset.
 -->
@@ -29,8 +29,7 @@
 
   <xsl:template match="text()|@*"/>
   <xsl:template match="record[not(./metadata/oai_qdc:qualifieddc/edm:preview)]">
-   <xsl:value-of select="./metadata/oai_qdc:qualifieddc/dcterms:type"/>|<xsl:value-of select="./metada
-ta/oai_qdc:qualifieddc/edm:isShownAt"/><xsl:text>
+   <xsl:value-of select="./metadata/oai_qdc:qualifieddc/dcterms:type"/>|<xsl:value-of select="./metadata/oai_qdc:qualifieddc/edm:isShownAt"/><xsl:text>
 </xsl:text>
   </xsl:template>
 
