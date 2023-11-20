@@ -73,12 +73,18 @@ $recordcountResult = $pdo->query($recordcountQuery);
 while ($recordcountRow = $recordcountResult->fetch())
 {
     $iiifViable = htmlspecialchars($recordcountRow['iiifViable']);
-    echo '<li>IIIF-viable by rights:  ' .  number_format($iiifViable) . '</li>';
+    if ( $iiifViable == '' ) { $iiifViable = 0; }
+    echo '<li>IIIF-eligible records (by edm:rights):  ' .  number_format($iiifViable) . '</li>';
+
     $totalRecordsIncludingDeleted = htmlspecialchars($recordcountRow['recordCount']);
-    echo '<li>With dels:  ' . number_format($totalRecordsIncludingDeleted) . '</li>';
+    if ( $totalRecordsIncludingDeleted == '' ) { $totalRecordsIncludingDeleted = 0; }
+    echo '<li>Full count, including deleted records:  ' . number_format($totalRecordsIncludingDeleted) . '</li>';
+
     $deletedRecords = htmlspecialchars($recordcountRow['deletedRecords']);
-    echo '<li>Deletes:  ' . number_format($deletedRecords) . '</li>';
-    echo '<li>Undeleted:  ' . number_format($totalRecordsIncludingDeleted-$deletedRecords) . '</li>';
+    if ( $deletedRecords == '' ) { $deletedRecords = 0; }
+    echo '<li>Deleted records:  ' . number_format($deletedRecords) . '</li>';
+
+    echo '<li>Non-deleted records:  ' . number_format($totalRecordsIncludingDeleted-$deletedRecords) . '</li>';
 }
 ?>
 </ul>
