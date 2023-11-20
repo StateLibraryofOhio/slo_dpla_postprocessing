@@ -325,10 +325,12 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
           recordcount,
           lastLineCounted,
           deletedRecords,
+          iiifViable,
           lastCountDate,
           lastCountWithChangesDate)
    values
          ('$ODN_SETSPEC',
+          0,
           0,
           0,
           0,
