@@ -47,24 +47,29 @@ while ($sourceRow = $sourceResult->fetch())
     $splitRecordsRecordXPath = htmlspecialchars($sourceRow['splitRecordsRecordXPath']);
     $sourceCMS = htmlspecialchars($sourceRow['sourceCMS']);
     $iiifParticipant = htmlspecialchars($sourceRow['iiifParticipant']);
-
-//    $sourceQuery = 'select * from source where providerName="' . htmlspecialchars($providerRow['name'])  . '" order by description';
 }
-//}
 ?>
 
 <br>
 
-<h3>Collection details</h3>
+<h3><?php echo $description ?></h3>
 <table>
-<tr><td>Set name</td>  <td><?php echo $description ?></td> </tr>
 <tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td> </tr>
 <tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
 <tr><td>Host CMS</td>  <td> <?php echo $sourceCMS ?> </td></tr>
-<tr><td>WikiMedia?</td><td><?php echo $iiifParticipant ?></td></tr>
+<tr><td>WikiMedia</td><td>
+<?php if ( $iiifParticipant == 'y' ) 
+  {
+    echo "This set is not flagged to contribute records to WikiMedia";
+  } else {
+    echo "This set is flagged to contribute records to WikiMedia";  
+  }
+?>
+</td></tr>
 </table>
 
-<h3>Record Counts</h3>
+
+<h4>Record Counts</h4>
 <ul>
 
 <?php
@@ -91,7 +96,7 @@ while ($recordcountRow = $recordcountResult->fetch())
 ?>
 </ul>
 
-<h3>Rights associated with this set</h3>
+<h4>Rights associated with this set</h4>
 <ul>
 <?php
     $rightsQuery = "select uri from setRights where odnSet='" . $odnSet . "'";
@@ -106,7 +111,7 @@ while ($recordcountRow = $recordcountResult->fetch())
 <em>Note:  Click on the edm:rights URI to find other sets also containing records with that rights URI.</em>
 
 
-<h3>Harvested Files</h3>
+<h4>Harvested Files</h4>
 
 <ul>
 <?php
@@ -154,12 +159,8 @@ $oldTasksQuery = 'select * from oldTasks where odnSet="' . htmlspecialchars($slo
 $oldTasksResult = $pdo->query($oldTasksQuery);
 ?>
 
-<h3>Harvest History:</h3>
+<h4>Harvest History:</h4>
 <ul>
-
-<!--<table>
-<tr><th>Date</th><th>record count (includes deletes for REPOX-migrated records)</th></tr>
--->
 
 <?php
 
@@ -167,11 +168,6 @@ $sloappSet=$_GET['odnSet'];
 
 $oldTasksQuery = 'select * from oldTasks where odnSet="' . $odnSet  . '" order by oldTaskTime desc';
 $oldTasksResult = $pdo->query($oldTasksQuery);
-
-//$oldTasksRow = $oldTasksResult->fetch();
-
-//echo '<h3>maitai ' . htmlspecialchars($sourceRow['oaiSet']) . ' snowball</h3>';
-//$oaiSet=htmlspecialchars($sourceRow['oaiSet']);
 
 while ($oldTasksRow = $oldTasksResult->fetch())
 {
@@ -189,10 +185,6 @@ while ($oldTasksRow = $oldTasksResult->fetch())
 <em>Note:  old harvest entry counts migrated from REPOX contain "deleted records", while the post-REPOX entries only count records that are viable for DPLA ingest...not "deleted" records, records without required fields, records that have been explicitly removed from the DPLA feed, etc.</em>
 
 <?php
-echo '<h3>Collection details</h3>';
-//$oneRow = $sourceResult->fetch();
-//echo '<h2>Menchi-fluff ' . htmlspecialchars($oneRow['oaiSet']) . ' xyzzy ' . '</h2>';
-//$oldTasksQuery = 'select * from oldTasks where odnSet="' .  . '"';
 
 ?>
 
