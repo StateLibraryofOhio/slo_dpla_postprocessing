@@ -76,4 +76,7 @@ update source set iiifParticipant='y' where odnSet in (
                             'ohmem_p267401ccp2',
                             'ohmem_p267401cdi',
                             'tlcpl_p16007coll88'
-     )
+     );
+
+update source set iiifParticipant='n' where iiifParticipant is NULL;
+
