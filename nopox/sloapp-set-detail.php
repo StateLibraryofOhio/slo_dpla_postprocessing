@@ -58,7 +58,7 @@ while ($sourceRow = $sourceResult->fetch())
 <tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
 <tr><td>Host CMS</td>  <td> <?php echo $sourceCMS ?> </td></tr>
 <tr><td>WikiMedia</td><td>
-<?php if ( $iiifParticipant == 'y' ) 
+<?php if ( $iiifParticipant == 'n' ) 
   {
     echo "This set is not flagged to contribute records to WikiMedia";
   } else {
