@@ -267,7 +267,36 @@ read IIIF_PARTICIPANT
 done
 
 
-# set default values for other settings
+
+# Query MySQL for existing sourceCMS values, dump to screen 
+# for user to select as an option.
+
+cat <<EOF
+
+Do you know which Content Management System is being used to host
+this collection?  Here's a list of thosse that are currently in
+use:
+
+EOF
+mysql -N -e "select distinct sourceCMS from source;"  slo_aggregator | sed -e 's/^/    /g'
+
+SOURCE_CMS=''
+while [ "$SOURCE_CMS" == '' ]
+do
+cat <<EOF
+
+If the Content Management System for this collection isn't listed
+here, then just hit <ENTER> to set it to "undetermined"; this will
+have no affect upon the functionality of the system, and is only
+used for informational purposes.
+
+EOF
+echo -n ' >>> '
+read SOURCE_CMS
+done
+
+
+# Set default values for other settings
 STATUS='unharvested'
 EXPORT_DIR_PATH="/opt/repoxdata/$ODN_SETSPEC/export"
 TYPE_OF_SOURCE='DataSourceOai'
@@ -321,6 +350,7 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             sourcesDirPath,
             retrieveStrategy,
             splitRecordsRecordXpath,
+            sourceCMS,
             iiifParticipant)
     values
            ('$PROVIDER',
@@ -336,6 +366,7 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$SOURCES_DIR_PATH',
             '$RETRIEVE_STRATEGY',
             '$SPLIT_RECORDS',
+            '$SOURCE_CMS',
             '$IIIF_PARTICIPANT');
 
   insert into
