@@ -251,6 +251,22 @@ done
 # to get that information
 METADATA_FORMAT_SCHEMA=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/get-metadataFormat-schema.xsl -s:ListMetadataFormats.xml METADATA_FORMAT=$METADATA_FORMAT ) 
 
+
+# Should this set be enrolled in the WikiMedia program?  If so, then we will 
+# add dcterms:isReferencedBy elements to qualifying records later in the process.
+
+IIIF_PARTICIPANT=''
+while [ "$IIIF_PARTICIPANT" != 'y' ] && [ "$IIIF_PARTICIPANT" != 'Y' ] && [ "$IIIF_PARTICIPANT" != 'n' ] && [ "$IIIF_PARTICIPANT" != 'N' ]
+do
+cat <<EOF
+
+Enroll this collection in WikiMedia / IIIF processing?  y/n
+EOF
+echo -n ' >>> '
+read IIIF_PARTICIPANT
+done
+
+
 # set default values for other settings
 STATUS='unharvested'
 EXPORT_DIR_PATH="/opt/repoxdata/$ODN_SETSPEC/export"
@@ -265,6 +281,7 @@ COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 # Create an initial base XSLT transform file for this dataset
 cp $SLODPLA_LIB/00_STARTINGPOINT-COLL.xsl $SLODPLA_LIB/bySet/base-transform/$ODN_SETSPEC.xsl
 cat <<EOF
+
 ===================================================================================
 XSLT Transform created at:
 
@@ -303,7 +320,8 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             odnSet,
             sourcesDirPath,
             retrieveStrategy,
-            splitRecordsRecordXpath)
+            splitRecordsRecordXpath,
+            iiifParticipant)
     values
            ('$PROVIDER',
             '$METADATA_FORMAT',
@@ -317,7 +335,8 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$ODN_SETSPEC',
             '$SOURCES_DIR_PATH',
             '$RETRIEVE_STRATEGY',
-            '$SPLIT_RECORDS');
+            '$SPLIT_RECORDS',
+            '$IIIF_PARTICIPANT');
 
   insert into
     recordcount
