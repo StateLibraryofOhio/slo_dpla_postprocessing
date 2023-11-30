@@ -143,12 +143,7 @@
                     </xsl:when>
                  </xsl:choose>
           </xsl:when>
-          <xsl:otherwise>
-          <!-- not eligible...create null element -->
-              <xsl:element name="dcterms:isReferencedBy" namespace="http://purl.org/dc/terms/"/>
-          </xsl:otherwise>
        </xsl:choose>
-
     </xsl:copy>
   </xsl:template>
 
