@@ -77,6 +77,9 @@ e.g   http://servername/index.php?action=home
     elseif ($sloappAction=="list-iiif-counts") {
        include "sloapp-list-iiif-counts.php";
     }
+    elseif ($sloappAction=="doc-base") {
+       include "doc/doc-base.php";
+    }
     else {
        include "sloapp-home.php";
        error_log("Unknown directive received: " . $sloappAction . ";  Redirecting to home tab");
