@@ -1,10 +1,7 @@
-<p>Command line nopox</p>
 
-<p>It's ugly, but fast.</p>
+<p>Scripts have been created to handle tasks at the server command line.  These tasks center around the management of the system and things that alter data.  All write-operations are accomplished via the command line.  The web-based interface is only for reporting.</p>
 
-<p>The following scripts have been created to handle tasks at the server command line.  These tasks center around the management of the system and things that alter data.</p>
-
-<p>At this point, some SQL updates will still required.</p>
+<p>At this time, some SQL updates will still required.</p>
 
 <h3>Environment</h3>
 <p>To successfully use the command line scripts, you must setup your environment; This allows easy access to MySQL, and defines where various application directories are located.  That means ensuring that you have a .my.cnf file in your home directory, and ensuring that you load the appropriate environment variables via ". /usr/local/SLO-DPLA/conf/SLO-DPLA-environment.conf".</p>
@@ -27,7 +24,7 @@
   <td>dissect-raw.sh</td><td>This script examines newly-harvested data and generates a bunch of output that will prove helpful in customizing the base XSLT transform for this dataset.  This script WILL create output files in your working directory for use in customizing the set's XSLT, and you should run the script in a "scratch" directory so that these files don't end up intermingled with important stuff.</td>
 </tr>
 <tr>
-  <td><em>(create a subsection on creating and debugging an XSLT transform)</em></td><td></td>
+  <td><em>(create a subsection on creating and debugging an XSLT transform)</em></td><td><a href="?action=doc-xslt">Find out more about creating an XSLT file</a></td>
 </tr>
 <tr>
   <td>base-transform.sh</td><td>Use this to apply the dataset's XSLT files against the harvested XML.  The resulting XML should conform to the ODN Metadata Application Profile (a.k.a. "MAP"; see:  https://ohiodigitalnetwork.org/contributors/getting-started/map/).  Note that it is possible for this script to run TWO different XSLT files against the dataset; All datasets need to be harmonized with the ODN MAP, but a few have additional filtering options that must be performed, and this script will also run those additional filtering operations, where applicable.  The output from this set is NOT dumped to the $SLODATA directory structure, but instead is left in the current working directory to be further manipulated by the IIIF modification.</td>

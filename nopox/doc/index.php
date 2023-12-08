@@ -55,6 +55,14 @@ e.g   http://servername/index.php?action=home
        include "sloapp-doc-header.php";
        include "doc-commandline.php";
     }
+    elseif ($sloappAction=="doc-xslt") {
+       include "sloapp-doc-header.php";
+       include "doc-xslt.php";
+    }
+    elseif ($sloappAction=="doc-webui") {
+       include "sloapp-doc-header.php";
+       include "doc-webui.php";
+    }
     else {
        include "../sloapp-home.php";
        error_log("Unknown directive received: " . $sloappAction . ";  Redirecting to home tab");
