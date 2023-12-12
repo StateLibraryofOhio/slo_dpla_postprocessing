@@ -35,7 +35,7 @@ echo "Record Count	IIIF Viable	Set OAI setSpec	Set Name" >> $OUTFILE
 ls *xml | while read FILENAME
 do
     IIIFCOUNT=`grep '<dcterms:isReferencedBy>' $FILENAME | wc -l | cut -f 1 -d ' '`
-    RECORDCOUNT=`grep '<dcterms:title>'  $FILENAME | wc -l | cut -f 1 -d ' '`
+    RECORDCOUNT=`grep '<edm:isShownAt>'  $FILENAME | wc -l | cut -f 1 -d ' '`
     SETNAME=`grep '<dcterms:isPartOf>' $FILENAME | head -n 1 | cut -f 2 -d '>' | cut -f 1 -d '<'`
     SETSPEC=`echo $FILENAME | sed -e 's/.xml//g'`
     echo "$RECORDCOUNT	$IIIFCOUNT	$SETSPEC	$SETNAME" >> $OUTFILE
