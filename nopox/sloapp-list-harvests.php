@@ -24,7 +24,8 @@ $oldTasksQuery = "select odnSet, oldTaskTime from oldTasks order by oldTaskTime 
 $oldTasksResult = $pdo->query($oldTasksQuery);
 
 echo "<h4>Harvest history</h4>";
-echo "<table border='1'";
+echo "<table border='1'>";
+echo "<tr><th>ODN setSpec</th><th>Harvest Date</th><th>Set Name</th><th>Contributor</th></tr>";
 while ($oldTasksRow = $oldTasksResult->fetch()) {
     $cleanOdnSet = htmlspecialchars($oldTasksRow['odnSet']);
     $cleanOldTaskTime = htmlspecialchars($oldTasksRow['oldTaskTime']);
