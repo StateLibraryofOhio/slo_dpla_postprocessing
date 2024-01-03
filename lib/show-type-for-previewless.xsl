@@ -20,7 +20,11 @@
 
 <!--
      This XSLT is intended to list the isShownAt URIs for records
-     without dcterms:type values in a "transformed" XML dataset.
+     without edm:preview values in a "transformed" XML dataset.
+
+     The dcterms:type values are also displayed for these records,
+     as it is normal / acceptable for some types of records to
+     not have thumbnails.
 -->
 
 <xsl:mode on-no-match="shallow-copy"/>
