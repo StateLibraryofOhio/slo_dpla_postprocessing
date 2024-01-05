@@ -76,9 +76,11 @@
 
 <p>Check all included metadata:  Are there subfields (probably semicolon-delimited) that must be broken out into separate XML elements?</p>
 
+<p>If a dc:subject element for a record is submitted with the metadata "cat; dog; pony;", then the XML data being uploaded to DPLA should break out each of those values into its own dcterms:subject element.</p>
+
 <hr>
 
-<p>Check the metadata for HTML.  It's ugly, and should be removed when it can be done easily.  The characters have been changed to html entities such as &amp;amp; and be relatively easily spotted by grepping for semicolons (although there's a lot of other stuff that comes up which isn't HTML).</p>
+<p>Check the metadata for HTML.  It's ugly, and should be removed when it can be done easily.  Various characters have been changed to html entities such as &amp;amp; and be relatively easily spotted by grepping for semicolons (although there's a lot of other stuff that comes up which isn't HTML).</p>
 
 <hr>
 

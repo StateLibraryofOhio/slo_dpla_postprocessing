@@ -1,13 +1,61 @@
 
 <p>Scripts have been created to handle tasks at the server command line.  These tasks center around the management of the system and things that alter data.  All write-operations are accomplished via the command line.  The web-based interface is only for reporting.</p>
 
-<p>At this time, some SQL updates will still required.</p>
+<p>At this time, some manual SQL updates will still be required.</p>
 
 <h3>Environment</h3>
-<p>To successfully use the command line scripts, you must setup your environment; This allows easy access to MySQL, and defines where various application directories are located.  That means ensuring that you have a .my.cnf file in your home directory, and ensuring that you load the appropriate environment variables via ". /usr/local/SLO-DPLA/conf/SLO-DPLA-environment.conf".</p>
+<p>To successfully use the command line scripts, you must setup your environment through the configuration of various environment variables and application settings.</p>
 
+<table border=1>
+  <tr>
+    <th>Config file</th>
+    <th>Setting(s)</th>
+  </tr>
 
-<p>These scripts would all be found in $SLODPLA_BIN.  They make copious use of XSLT scripts that are found in/under $SLODPLA_LIB.</p>
+  <tr>
+    <td>~/.bashrc</td>
+    <td># easily jump to the $SLODPLA_ROOT directory<br>
+        alias go="cd $SLODPLA_ROOT"<br>
+        <br>
+        # disable annoying change in bash<br>
+        bind "set enable-bracketed-paste off"<br>
+        <br>
+        # disable annoying change in bash<br>
+        shopt -s direxpand<br>
+        <br>
+        # point at the Saxon Java libraries<br>
+        export CLASSPATH=$CLASSPATH:/usr/local/lib/Saxon/*<br>
+        <br>
+        # load the appropriate environment vars from the app config file
+        . /usr/local/SLO-DPLA/conf/SLO-DPLA-environment.conf<br>
+    </td>
+  </tr>
+  <tr>
+    <td>~/.my.cnf</td>
+    <td>[client]<br>
+        user=pkukla<br>
+        host=localhost<br>
+        password=your_mariadb_password<br>
+        database=slo_aggregator
+    </td>
+  </tr>
+  <tr>
+    <td>Git editor
+    </td>
+    <td>git config --global core.editor vim
+    </td>
+  </tr>
+
+  <tr>
+    <td>$SLODPLA_CONF/SLO-DPLA-environment.conf</td>
+    <td>Various environment variables that point to locations on disk where the app stores:<br>
+         * data<br>
+         * executables and scripts<br>
+         * config files<br>
+         * XSLT files</td>
+  </tr>
+
+</table>
 
 
 
@@ -47,7 +95,7 @@
 <ul>
 <li>remove-set.sh</li>
 </ul>
-
+<p>Note that the "remove-set.sh" script is not currently removing the set-specific XSLT files associated with the set, and that should be done manually.</p>
 
 <p>These scripts intentionally spew a lot of output to the screen.  When you're new to the application, this flood of information will probably be overwhelming, but that output can be helpful when trying to debug a problem with the metadata transformation process.</p>
 
@@ -58,7 +106,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;$ java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/somefile.xsl -s:input.xml
 <br>
 <br>
-Note, in particular, the "$SLODPLA_LIB/show-*.xsl" scripts (and similar constructs) can be quite useful in certain conditions.</p>
+Note, in particular, the "$SLODPLA_LIB/show-*.xsl" scripts (and similar constructs) can be quite useful.  When you have a dataset that has problems with the data, you can use these scripts to determine the URLs for the individual records affected by the problem(s).  These URLs can then be sent back to the contributing institution, making it easier to find and fix the metadata problems.</p>
 
 
 

@@ -6,7 +6,7 @@
 <ul>
 <li>Many different remote data sources</li>
 <li>Multiple Content Management Systems providing us data</li>
-<li>Many different remote catalogers, so many cataloging quirks to clean up</li>
+<li>Many different remote catalogers, so there are many cataloging quirks to clean up</li>
 <li>Currently all using OAI-PMH for retrieval, but conceivably we could accept other formats</li>
 </ul>
 
@@ -57,7 +57,10 @@ Installation (current)
     * Saxon for Java (download from saxonica.com)
     * Java (apt package:  openjdk-19-jdk)
     * apt package  libxml-commons-resolver1.1-java
-    * Git &amp; utilities (apt package:  gh)
+    * apt package  libxml2-utils
+    * Git &amp; utilities (apt package:  gh; Do NOT use the "snap" package!!!)
+    * apt package apache2
+    * apt package unzip
 
 
 Configuration
@@ -92,9 +95,13 @@ Git repo information
 
 
 Database schema documentation
-    * Note:  Transliterated from the REPOX XML config; some pieces don't do anything but seemed good to leave in, on the possibility of using them in the future
-    * Note:  No special indexes / views / foreign keys / etc. in the database; it's small and simple
+  * Note:  Transliterated from the REPOX XML config; some pieces don't do anything but seemed good to leave in, on the possibility of using them in the future
+  * Note:  No special indexes / views / foreign keys / etc. in the database; it's small and simple
 
+  To create the database:
+    MariaDB [mysql]> create database slo_aggregator;
+    MariaDB [mysql]> create user 'pkukla'@'localhost' identified by 'newhire';
+    MariaDB [mysql]> grant all privileges on *.* to 'pkukla'@'localhost';
 
 
 
