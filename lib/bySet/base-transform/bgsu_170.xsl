@@ -65,7 +65,7 @@
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
-      <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
+      <xsl:apply-templates select="dcterms:rightsHolder"     mode="bgsu_170"/>                <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
       
       <xsl:apply-templates select="dc:source"                mode="odn"/>                     <!-- frequently unused; remove by default                       -->
@@ -76,6 +76,17 @@
 
   <xsl:template match="dcterms:created" mode="bgsu_170"/>
   <xsl:template match="dcterms:isReferencedBy"   mode="bgsu_170"/>
+
+  <xsl:template match="dcterms:rightsHolder" mode="bgsu_170">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:rightsHolder" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
 
   <xsl:template match="dc:language" mode="bgsu_170">
     <xsl:for-each select="tokenize(., ';')">
@@ -111,12 +122,12 @@
     <xsl:choose>
       <xsl:when test="contains(., '/collections/')">
         <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:when>
       <xsl:when test="contains(., '/thumbnails/')">
         <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:when>
     </xsl:choose>

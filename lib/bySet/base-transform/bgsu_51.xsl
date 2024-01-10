@@ -115,7 +115,7 @@
 
   <xsl:template match="dc:title" mode="bgsu_51">
     <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:title">
-       <xsl:value-of select="replace(replace(., '&lt;br /&gt;', ''), '&lt;/?em&gt;', '')"/>
+       <xsl:value-of select="normalize-space(replace(replace(., '&lt;br /&gt;', ''), '&lt;/?em&gt;', ''))"/>
     </xsl:element>
   </xsl:template>
 

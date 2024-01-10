@@ -48,7 +48,7 @@
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="delawaremem_daisy"/>       <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
-      <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
+      <xsl:apply-templates select="dc:date"                  mode="delawaremem_daisy"/>       <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="delawaremem_daisy"/>       <!-- create dcterms:subject                                     -->
@@ -62,7 +62,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="delawaremem_daisy"/>       <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
@@ -114,6 +114,28 @@
               </xsl:otherwise>
             </xsl:choose>
         </xsl:if>
+     </xsl:for-each>
+  </xsl:template>
+
+
+  <xsl:template match="dc:relation" mode="delawaremem_daisy">
+    <xsl:for-each select="tokenize(., '&#xA;')">
+       <xsl:if test="normalize-space(.) != ''">
+         <xsl:element name="dc:relation" namespace="http://purl.org/dc/relation/1.1/">
+           <xsl:value-of select="normalize-space(.)"/>
+         </xsl:element>
+       </xsl:if>
+     </xsl:for-each>
+  </xsl:template>
+
+
+  <xsl:template match="dc:date" mode="delawaremem_daisy">
+    <xsl:for-each select="tokenize(., '&#xA;')">
+       <xsl:if test="normalize-space(.) != ''">
+         <xsl:element name="dc:date" namespace="http://purl.org/dc/relation/1.1/">
+           <xsl:value-of select="normalize-space(.)"/>
+         </xsl:element>
+       </xsl:if>
      </xsl:for-each>
   </xsl:template>
 

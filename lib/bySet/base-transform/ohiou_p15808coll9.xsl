@@ -49,7 +49,7 @@
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="ohiou_p15808coll9"/>       <!-- create dcterms:creator                                     -->
       <xsl:apply-templates select="dc:date"                  mode="ohiou_p15808coll9"/>       <!-- create dc:date                                             -->
-      <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
+      <xsl:apply-templates select="dc:format"                mode="ohiou_p15808coll9"/>       <!-- create dc:format                                           -->
       <xsl:apply-templates select="dcterms:spatial"          mode="ohiou_p15808coll9"/>       <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
@@ -79,6 +79,15 @@
   <xsl:template match="dcterms:medium" mode="ohiou_p15808coll9"/>
   <xsl:template match="dcterms:isPartOf" mode="ohiou_p15808coll9"/>
 
+  <xsl:template match="dc:format" mode="ohiou_p15808coll9">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:format" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <xsl:template match="dc:date" mode="ohiou_p15808coll9">
     <xsl:for-each select="tokenize(., ';')">

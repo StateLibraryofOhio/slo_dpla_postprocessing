@@ -80,7 +80,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
@@ -90,7 +90,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
@@ -100,7 +100,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dc:format" namespace="http://purl.org/dc/elements/1.1/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
@@ -110,7 +110,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
@@ -120,7 +120,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
@@ -130,7 +130,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dcterms:contributor" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
@@ -140,7 +140,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="."/>
+          <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>

@@ -115,7 +115,7 @@
   <xsl:template match="dc:format" mode="midpointe_p16488coll2">
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
-        <xsl:element namespace="http://purl.org/dc/elements/" name="dc:format">
+        <xsl:element namespace="http://purl.org/dc/elements/1.1/" name="dc:format">
           <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>
