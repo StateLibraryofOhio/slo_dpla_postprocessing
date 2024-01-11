@@ -1,0 +1,27 @@
+To remove open/close HTML tags with a single match, use
+
+  &lt;/?p&gt;   --> example for the <p> tag
+
+Match multiple variant terms by enclosing the options in parens and delimiting with pipes,
+e.g.:
+
+    &lt;/?(p|strong|em)&gt;
+
+
+Full example:
+
+  <xsl:template match="dc:description" mode="kent_luna">
+    <xsl:element name="dcterms:description" namespace="http://purl.org/dc/terms/">
+      <xsl:value-of select="normalize-space(replace(replace(., '&lt;/?(p|span|strong)&gt;', ''), '&amp;nbsp;', ''))"/>
+    </xsl:element>
+  </xsl:template>
+
+
+To also catch the attributes on tags:
+
+  <xsl:template match="dc:description" mode="kent_omeka1">
+    <xsl:element name="dcterms:description" namespace="http://purl.org/dc/terms/">
+      <xsl:value-of select="normalize-space(replace(replace(., '&lt;/?(p.*?|span.*?|strong.*?|a.*?|br.*?|em.*?|span.*?|div.*?)&gt;', ''), '&a
+mp;nbsp;', ''))"/>
+    </xsl:element>
+  </xsl:template>
