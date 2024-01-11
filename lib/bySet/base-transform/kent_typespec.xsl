@@ -85,7 +85,7 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:element name="dcterms:description" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="replace(replace(replace(replace(replace(., '&amp;nbsp;', ' '), '&lt;em&gt;', ''), '&lt;p&gt;', ''), '&lt;/em&gt;', ''), '&lt;/p&gt;', '')"/>
+          <xsl:value-of select="normalize-space(replace(replace(., '&lt;/?(p|em|strong)&gt;', ''), '&amp;nbsp;', ''))"/>
         </xsl:element>
       </xsl:otherwise>
     </xsl:choose>
