@@ -78,7 +78,7 @@
   <xsl:template match="dc:coverage" mode="midpointe_monroehs">
     <xsl:for-each select="tokenize(., ';')">
       <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
-        <xsl:value-of select="."/>
+        <xsl:value-of select="normalize-space(.)"/>
       </xsl:element>
     </xsl:for-each>
   </xsl:template>
