@@ -64,7 +64,7 @@
       <xsl:apply-templates select="dcterms:extent"           mode="plochc_p16998coll61"/>     <!-- create dcterms:extent                     -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="plochc_p16998coll61"/>     <!-- create dcterms:publisher                  -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                        -->
+      <xsl:apply-templates select="dc:relation"              mode="plochc_p16998coll61"/>     <!-- create dc:relation                        -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:apply-templates select="dcterms:rightsHolder"     mode="plochc_p16998coll61"/>     <!-- create dcterms:rightsHolder               -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                   -->
@@ -89,6 +89,16 @@
   <xsl:template match="dcterms:rightsHolder" mode="plochc_p16998coll61"/>
 
   <xsl:template match="dc:format" mode="plochc_p16998coll61"/>
+
+  <xsl:template match="dc:relation" mode="plochc_p16998coll61">
+    <xsl:for-each select="tokenize(., ',')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(replace(., 'fr', 'French'))"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <xsl:template match="dcterms:spatial" mode="plochc_p16998coll61">
     <xsl:if test="matches(normalize-space(.), '[-]?[0-9]*.[0-9]+, [-]?[0-9]*.[0-9]+')">
