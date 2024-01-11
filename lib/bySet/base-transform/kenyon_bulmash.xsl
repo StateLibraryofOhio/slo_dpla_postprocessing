@@ -80,7 +80,7 @@
 
   <xsl:template match="dc:description.abstract" mode="kenyon_bulmash">
     <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:description">
-      <xsl:value-of select="replace(replace(replace(., '&lt;[/]*[Ppbuie][m]*&gt;', ''), '&lt;[/]*strong&gt;', ''), '&lt;br /&gt;', '')"/>
+      <xsl:value-of select="normalize-space(replace(replace(replace(replace(replace(., '&#xE2;&#x80;&#x99;', ' -- '), '&lt;[/]*[Ppbuie][m]*&gt;', ' '), '&lt;[/]*strong&gt;', ''), '&lt;br /&gt;', ' '), '&lt;/p', ''))"/>
     </xsl:element>
   </xsl:template>
 
