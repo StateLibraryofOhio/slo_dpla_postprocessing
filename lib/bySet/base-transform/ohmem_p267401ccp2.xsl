@@ -265,7 +265,7 @@
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
         <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
-          <xsl:value-of select="replace(normalize-space(.), '[\[\]]', '')"/>
+          <xsl:value-of select="normalize-space(replace(normalize-space(.), '[\[\]]', ''))"/>
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
