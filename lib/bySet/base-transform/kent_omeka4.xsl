@@ -62,7 +62,7 @@
       <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
       <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
       <xsl:apply-templates select="dc:description"           mode="kent_omeka4"/>             <!-- create dcterms:description                                 -->
-      <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
+      <xsl:apply-templates select="dcterms:extent"           mode="kent_omeka4"/>             <!-- create dcterms:extent                                      -->
       <xsl:apply-templates select="dc:duration"              mode="kent_omeka4"/>             <!-- create dcterms:extent                                      -->
       <xsl:apply-templates select="dc:extent"                mode="kent_omeka4"/>             <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
@@ -128,7 +128,7 @@
 
   <xsl:template match="dc:extent" mode="kent_omeka4">
     <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
-      <xsl:value-of select="."/>
+      <xsl:value-of select="normalize-space(.)"/>
     </xsl:element>
   </xsl:template>
 
