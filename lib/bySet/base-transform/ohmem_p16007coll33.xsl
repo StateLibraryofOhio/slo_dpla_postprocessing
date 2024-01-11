@@ -62,7 +62,7 @@
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="ohmem_p16007coll33"/>      <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="ohmem_p16007coll33"/>      <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
@@ -88,6 +88,16 @@
   <xsl:template match="dcterms:valid" mode="ohmem_p16007coll33"/>
 
   <xsl:template match="dcterms:created" mode="ohmem_p16007coll33"/>
+
+  <xsl:template match="dc:relation"  mode="ohmem_p16007coll33">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <xsl:template match="dc:publisher"  mode="ohmem_p16007coll33">
     <xsl:for-each select="tokenize(., ';')">
