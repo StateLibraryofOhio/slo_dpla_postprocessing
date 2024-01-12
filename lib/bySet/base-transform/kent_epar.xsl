@@ -83,9 +83,11 @@
   </xsl:template>
 
   <xsl:template match="dc:source" mode="kent_epar">
-    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
-      <xsl:value-of select="normalize-space(.)"/>
-    </xsl:element>
+    <xsl:if test="normalize-space(.) != 'Excellence in Performing Arts Research'">
+      <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+        <xsl:value-of select="normalize-space(.)"/>
+      </xsl:element>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="dc:date" mode="kent_epar">

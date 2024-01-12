@@ -65,7 +65,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="cml_maps"/>                <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
-      <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dcterms:isPartOf"         mode="cml_maps"/>                <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
@@ -78,6 +78,7 @@
     </oai_qdc:qualifieddc>
   </xsl:template>
 
+  <xsl:template match="dcterms:isPartOf" mode="cml_maps"/>
 
   <xsl:template match="dc:identifier" mode="cml_maps">
     <xsl:choose>

@@ -64,7 +64,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
-      <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dcterms:isPartOf"         mode="ohmem_p16007coll100"/>     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="ohmem_p16007coll100"/>     <!-- create dcterms:temporal                                    -->

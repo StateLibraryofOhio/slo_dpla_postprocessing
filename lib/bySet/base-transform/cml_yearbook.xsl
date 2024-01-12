@@ -63,7 +63,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="cml_yearbook"/>            <!-- create dcterms:publisher  - unwanted, remove               -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
-      <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dcterms:isPartOf"         mode="cml_yearbook"/>            <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="cml_yearbook"/>            <!-- create dcterms:temporal  - unwanted, remove                -->
@@ -98,6 +98,16 @@
   <xsl:template match="dcterms:medium" mode="cml_yearbook"/>
 
   <xsl:template match="dcterms:extent" mode="cml_yearbook"/>
+
+  <xsl:template match="dcterms:isPartOf" mode="cml_yearbook">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != '') and (normalize-space(.) != 'Columbus and Ohio Yearbook Collection') and (normalize-space(.) != 'Columbus Yearbook Collection')">
+        <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <xsl:template match="dcterms:spatial" mode="cml_yearbook">
     <xsl:for-each select="tokenize(., ';')">

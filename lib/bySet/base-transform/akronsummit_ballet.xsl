@@ -62,7 +62,7 @@
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="akronsummit_ballet"/>      <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
@@ -70,6 +70,8 @@
 
     </oai_qdc:qualifieddc>
   </xsl:template>
+
+  <xsl:template match="dc:relation" mode="akronsummit_ballet"/>
 
   <xsl:template match="dc:creator" mode="akronsummit_ballet">
     <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">

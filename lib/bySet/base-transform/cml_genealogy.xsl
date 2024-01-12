@@ -63,7 +63,7 @@
       <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="cml_genealogy"/>           <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
-      <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dcterms:isPartOf"         mode="cml_genealogy"/>           <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="cml_genealogy"/>           <!-- create dcterms:temporal                                    -->
@@ -95,6 +95,16 @@
   <xsl:template match="dcterms:provenance" mode="cml_genealogy"/>
   <xsl:template match="dcterms:isVersionOf" mode="cml_genealogy"/>
   <xsl:template match="dcterms:references" mode="cml_genealogy"/>
+
+  <xsl:template match="dcterms:isPartOf" mode="cml_genealogy">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != 'Genealogy Collection') and (normalize-space(.) != 'Genealogy collection') and (normalize-space(.) != 'Geneology Collection')">
+        <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <xsl:template match="dcterms:spatial" mode="cml_genealogy">
     <xsl:for-each select="tokenize(., ';')">

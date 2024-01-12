@@ -118,9 +118,11 @@
   </xsl:template>
 
   <xsl:template match="dc:relation.ispartof" mode="kent_omeka1">
-    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
-      <xsl:value-of select="normalize-space(.)"/>
-    </xsl:element>
+    <xsl:if test="normalize-space(.) != 'Kent State History: Digital Archive'">
+      <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+        <xsl:value-of select="normalize-space(.)"/>
+      </xsl:element>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="dc:repository" mode="kent_omeka1">

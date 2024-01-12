@@ -75,16 +75,12 @@
     </oai_qdc:qualifieddc>
   </xsl:template>
 
+  <xsl:template match="dcterms:isPartOf" mode="ohmem_p267401coll34"/>
   <xsl:template match="dc:contributor" mode="ohmem_p267401coll34"/>
-
   <xsl:template match="dc:date" mode="ohmem_p267401coll34"/>
-
   <xsl:template match="dc:language" mode="ohmem_p267401coll34"/>
-
   <xsl:template match="dc:rights" mode="ohmem_p267401coll34"/>
-
   <xsl:template match="dc:source" mode="ohmem_p267401coll34"/>
-
   <xsl:template match="dcterms:extent" mode="ohmem_p267401coll34"/>
 
   <xsl:template match="dcterms:spatial" mode="ohmem_p267401coll34">
@@ -130,17 +126,6 @@
           <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
         <xsl:element name="dcterms:temporal" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="normalize-space(.)"/>
-        </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
-  </xsl:template>
-
-
-  <xsl:template match="dcterms:isPartOf" mode="ohmem_p267401coll34">
-    <xsl:for-each select="tokenize(., ';')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element namespace="http://purl.org/dc/elements/1.1/" name="dc:relation">
           <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
       </xsl:if>

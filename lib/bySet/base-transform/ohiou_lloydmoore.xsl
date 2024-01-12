@@ -63,7 +63,7 @@
       <xsl:apply-templates select="dcterms:isReferencedBy"   mode="ohiou_lloydmoore"/>        <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="ohiou_lloydmoore"/>        <!-- create dc:relation                                         -->
-      <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dcterms:isPartOf"         mode="ohiou_lloydmoore"/>        <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="ohiou_lloydmoore"/>        <!-- create dcterms:temporal                                    -->
@@ -79,7 +79,6 @@
   <xsl:template match="dcterms:isReferencedBy" mode="ohiou_lloydmoore"/>
   <xsl:template match="dcterms:temporal" mode="ohiou_lloydmoore"/>
   <xsl:template match="dc:contributor" mode="ohiou_lloydmoore"/>
-
 
   <!-- use the URL dc:identifier to both populate edm:isShownAt and use known CONTENTdm thumbnail path to construct thumbnail URL for edm:preview -->
   <xsl:template match="dc:identifier" mode="ohiou_lloydmoore">
@@ -98,7 +97,6 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
-
 
   <xsl:template match="dcterms:created" mode="ohiou_lloydmoore">
     <xsl:for-each select="tokenize(., ';')">

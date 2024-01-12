@@ -108,11 +108,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="dc:relation.ispartof" mode="kent_omeka3">
-    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
-      <xsl:value-of select="."/>
-    </xsl:element>
-  </xsl:template>
+  <xsl:template match="dc:relation.ispartof" mode="kent_omeka3"/>
 
   <xsl:template match="dc:repository" mode="kent_omeka3">
     <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">

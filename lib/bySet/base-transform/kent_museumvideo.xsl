@@ -72,6 +72,8 @@
   </xsl:template>
 
   <xsl:template match="dc:format" mode="kent_museumvideo"/>
+  <xsl:template match="dc:source" mode="kent_museumvideo"/>
+
 
   <xsl:template match="dc:identifier" mode="kent_museumvideo">
     <xsl:if test="contains(., 'kent.edu/museumvideo/')">
@@ -94,13 +96,6 @@
         </xsl:element>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
-
-
-  <xsl:template match="dc:source" mode="kent_museumvideo">
-    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
-      <xsl:value-of select="."/>
-    </xsl:element>
   </xsl:template>
 
 </xsl:stylesheet>

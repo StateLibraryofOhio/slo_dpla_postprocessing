@@ -52,7 +52,7 @@
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
-      <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
+      <xsl:apply-templates select="dcterms:spatial"          mode="clevelandstateu_wynne"/>   <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
@@ -63,7 +63,7 @@
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="clevelandstateu_wynne"/>   <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
@@ -78,9 +78,14 @@
 
   <xsl:template match="dc:source" mode="clevelandstateu_wynne"/>
   <xsl:template match="dcterms:isPartOf" mode="clevelandstateu_wynne"/>
+  <xsl:template match="dc:relation" mode="clevelandstateu_wynne"/>
 
-
-
-
+  <xsl:template match="dcterms:spatial" mode="clevelandstateu_wynne">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
+        <xsl:value-of select="normalize-space(.)"/>
+      </xsl:element>
+    </xsl:for-each>
+  </xsl:template>
 
 </xsl:stylesheet>

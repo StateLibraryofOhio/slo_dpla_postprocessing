@@ -49,7 +49,7 @@
 
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="cml_kingartscomplex"/>     <!-- create dcterms:language                                    -->
-      <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
+      <xsl:apply-templates select="dc:creator"               mode="cml_kingartscomplex"/>     <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:apply-templates select="dcterms:spatial"          mode="cml_kingartscomplex"/>           <!-- create dcterms:spatial                                     -->
@@ -64,7 +64,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
-      <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dcterms:isPartOf"         mode="cml_kingartscomplex"/>     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="cml_kingartscomplex"/>                     <!-- create dcterms:temporal                                    -->
@@ -143,6 +143,15 @@
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template match="dc:creator" mode="cml_kingartscomplex">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != '')">
+        <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
 
 </xsl:stylesheet>
