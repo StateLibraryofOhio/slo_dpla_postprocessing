@@ -66,7 +66,7 @@
                             ../../header/setSpec[text()]='clevepl_p4014coll27' or
                             ../../header/setSpec[text()]='clevepl_p4014coll9' or
                             ../../header/setSpec[text()]='cml_african' or
-                            ../../header/setSpec[text()]='cml_ccs' or
+                            ../../header/setSpec[text()]='ccs_collection' or
                             ../../header/setSpec[text()]='cml_citydir' or
                             ../../header/setSpec[text()]='cml_genealogy' or
                             ../../header/setSpec[text()]='cml_maps' or
@@ -140,7 +140,7 @@
                             ../../header/setSpec[text()]='midpointe_p16488coll13' or
                             ../../header/setSpec[text()]='midpointe_p16488coll5' or
                             ../../header/setSpec[text()]='ohiou_p15808coll1' or
-                            ../../header/setSpec[text()]='ohmem_p15005coll2' or
+                            ../../header/setSpec[text()]='slo_p15005coll2' or
                             ../../header/setSpec[text()]='ohmem_p15005coll36' or
                             ../../header/setSpec[text()]='ohmem_p16007coll11' or
                             ../../header/setSpec[text()]='ohmem_p16007coll12' or
