@@ -145,8 +145,8 @@
                             ../../header/setSpec[text()]='slo_p16007coll11' or
                             ../../header/setSpec[text()]='slo_p16007coll12' or
                             ../../header/setSpec[text()]='slo_p16007coll13' or
-                            ../../header/setSpec[text()]='ohmem_p16007coll17' or
-                            ../../header/setSpec[text()]='ohmem_p16007coll20' or
+                            ../../header/setSpec[text()]='slo_p16007coll17' or
+                            ../../header/setSpec[text()]='slo_p16007coll20' or
                             ../../header/setSpec[text()]='ohmem_p16007coll21' or
                             ../../header/setSpec[text()]='ohmem_p16007coll25' or
                             ../../header/setSpec[text()]='ohmem_p16007coll33' or
