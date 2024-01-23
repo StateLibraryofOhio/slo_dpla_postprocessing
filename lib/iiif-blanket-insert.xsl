@@ -141,10 +141,10 @@
                             ../../header/setSpec[text()]='midpointe_p16488coll5' or
                             ../../header/setSpec[text()]='ohiou_p15808coll1' or
                             ../../header/setSpec[text()]='slo_p15005coll2' or
-                            ../../header/setSpec[text()]='ohmem_p15005coll36' or
-                            ../../header/setSpec[text()]='ohmem_p16007coll11' or
-                            ../../header/setSpec[text()]='ohmem_p16007coll12' or
-                            ../../header/setSpec[text()]='ohmem_p16007coll13' or
+                            ../../header/setSpec[text()]='slo_p15005coll36' or
+                            ../../header/setSpec[text()]='slo_p16007coll11' or
+                            ../../header/setSpec[text()]='slo_p16007coll12' or
+                            ../../header/setSpec[text()]='slo_p16007coll13' or
                             ../../header/setSpec[text()]='ohmem_p16007coll17' or
                             ../../header/setSpec[text()]='ohmem_p16007coll20' or
                             ../../header/setSpec[text()]='ohmem_p16007coll21' or
