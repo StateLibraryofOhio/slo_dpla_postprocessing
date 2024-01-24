@@ -54,7 +54,8 @@ while ($sourceRow = $sourceResult->fetch())
 
 <h3><?php echo $description ?></h3>
 <table>
-<tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td> </tr>
+<tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td></tr>
+<tr><td>OAI setSpec</td>  <td><?php echo $oaiSet ?></td></tr>
 <tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
 <tr><td>Host CMS</td>  <td> <?php echo $sourceCMS ?> </td></tr>
 <tr><td>WikiMedia</td><td>
