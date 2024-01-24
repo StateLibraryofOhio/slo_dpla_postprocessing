@@ -63,7 +63,7 @@
       <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="ohmem_p267401cdi"/>        <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
-      <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
+      <xsl:apply-templates select="dc:publisher"             mode="ohmem_p267401cdi"/>        <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="ohmem_p267401cdi"/>        <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
@@ -89,6 +89,17 @@
         </xsl:element>
       </xsl:when>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="dc:publisher" mode="ohmem_p267401cdi">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:publisher" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+
   </xsl:template>
 
   <xsl:template match="dcterms:extent" mode="ohmem_p267401cdi">

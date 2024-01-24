@@ -153,7 +153,7 @@
                             ../../header/setSpec[text()]='slo_p16007coll35' or
                             ../../header/setSpec[text()]='slo_p16007coll47' or
                             ../../header/setSpec[text()]='slo_p267401ccp2' or
-                            ../../header/setSpec[text()]='ohmem_p267401cdi' or
+                            ../../header/setSpec[text()]='slo_p267401cdi' or
                             ../../header/setSpec[text()]='ohiou_mss' or
                             ../../header/setSpec[text()]='tlcpl_p16007coll88'
                            )">
