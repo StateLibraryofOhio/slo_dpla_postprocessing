@@ -113,7 +113,7 @@
 
   <xsl:template match="dc:coverage.spatial.lat" mode="kenyon_zhoudocs">
     <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:spatial">
-      <xsl:value-of select="normalize-space(concat(., ', ', //dc:coverage.spatial.long))"/>
+      <xsl:value-of select="normalize-space(concat(., ', ', ../dc:coverage.spatial.long))"/>
     </xsl:element>
   </xsl:template>
 
