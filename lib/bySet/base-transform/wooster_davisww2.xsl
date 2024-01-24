@@ -20,7 +20,8 @@
 
   <xsl:output omit-xml-declaration="yes" indent="yes"/>
   
-
+  <!-- This XSLT transform was created when this set was initially submitted to SLO, but the set was subsequently pulled because it had no 
+       rights values.  I left this XSLT in place to save ourselves the trouble of recreating it, if necessary. -->
 
   <!-- pull in our common template file -->
   <xsl:include href="odn_templates.xsl"/>
@@ -89,7 +90,7 @@
 
   <xsl:template match="dc:coverage.spatial.lat" mode="wooster_davisww2">
     <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:spatial">
-      <xsl:value-of select="normalize-space(concat(., ', ', //dc:coverage.spatial.long))"/>
+      <xsl:value-of select="normalize-space(concat(., ', ', ../dc:coverage.spatial.long))"/>
     </xsl:element>
   </xsl:template>
 

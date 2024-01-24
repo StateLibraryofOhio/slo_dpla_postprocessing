@@ -87,12 +87,11 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="dc:coverage.spatial.lat" mode="wooster_buildingsgrounds"/>
-<!--   <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:spatial">
-      <xsl:value-of select="normalize-space(concat(., ', ', //dc:coverage.spatial.long))"/>
+  <xsl:template match="dc:coverage.spatial.lat" mode="wooster_buildingsgrounds">
+   <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:spatial">
+      <xsl:value-of select="normalize-space(concat(., ', ', ../dc:coverage.spatial.long))"/>
     </xsl:element> 
   </xsl:template>
--->
 
   <xsl:template match="dc:description.abstract" mode="wooster_buildingsgrounds">
     <xsl:element name="dcterms:description" namespace="http://purl.org/dc/terms/">
