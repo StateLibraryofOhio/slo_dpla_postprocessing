@@ -37,7 +37,7 @@
                                 http://worldcat.org/xmlschemas/oclcterms/1.4/oclcterms-1.4.xsd">
 
       <!-- STATIC VALUES FOR ODN-MAP fields -->
-      <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">Lorain Public Library</xsl:element>     <!-- create edm:dataProvider -->
+      <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">Lorain Public Library System</xsl:element>     <!-- create edm:dataProvider -->
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Lorain City Yearbooks</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
