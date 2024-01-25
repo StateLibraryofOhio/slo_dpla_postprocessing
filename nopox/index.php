@@ -80,6 +80,9 @@ e.g   http://servername/index.php?action=home
     elseif ($sloappAction=="doc-base") {
        include "doc/?action=doc-base.php";
     }
+    elseif ($sloappAction=="report-counts-by-provider") {
+       include "sloapp-report-counts-by-provider.php";
+    }
     else {
        include "sloapp-home.php";
        error_log("Unknown directive received: " . $sloappAction . ";  Redirecting to home tab");
