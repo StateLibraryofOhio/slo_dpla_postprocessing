@@ -55,10 +55,11 @@ while ($sourceRow = $sourceResult->fetch())
 <h3><?php echo $description ?></h3>
 <table>
 <tr><td width="125">Provider</td>  <td><?php echo $providerName ?></td></tr>
-<tr><td>OAI setSpec</td>  <td><?php echo $oaiSet ?></td></tr>
-<tr><td>ODN setSpec</td>  <td><?php echo $odnSet ?></td></tr>
-<tr><td>Host CMS</td>  <td> <?php echo $sourceCMS ?> </td></tr>
-<tr><td>WikiMedia</td><td>
+<tr><td>OAI setSpec</td>    <td><?php echo $oaiSet ?></td></tr>
+<tr><td>Metadata Format</td><td><?php echo $metadataPrefix ?></td></tr>
+<tr><td>Base URL</td>       <td><a href="<?php echo $oaiSource ?>"><?php echo $oaiSource ?></a></td></tr>
+<tr><td>Host CMS</td>       <td><?php echo $sourceCMS ?></td></tr>
+<tr><td>WikiMedia</td>      <td>
 <?php if ( $iiifParticipant == 'n' ) 
   {
     echo "This set is not flagged to contribute records to WikiMedia";
@@ -67,6 +68,7 @@ while ($sourceRow = $sourceResult->fetch())
   }
 ?>
 </td></tr>
+<tr><td>ODN setSpec</td>    <td><?php echo $odnSet ?></td></tr>
 </table>
 
 
@@ -120,10 +122,18 @@ while ($recordcountRow = $recordcountResult->fetch())
 //  $sourceQuery = 'select metadataPrefix from source where odnSet="' . htmlspecialchars($sloappSet)  . '"';
 //  $sourceResult = $pdo->query($sourceQuery);
 
+  echo '<li><a href="' 
+       . $oaiSource 
+       . '?verb=ListRecords&metadataPrefix=' 
+       . $metadataPrefix
+       . '&set=' 
+       . $oaiSet
+       . '">The data, on their server</a></li>';
+
 
   $rawHarvestFile = 'datasets/raw/' . $sloappSet . '-raw-' . $originalMetadataPrefix . '.xml';
   if (file_exists($rawHarvestFile)) {
-      echo "<li><a href=\"$rawHarvestFile\">Original, unmodified OAI-PMH contribution</a></li>";
+      echo "<li><a href=\"$rawHarvestFile\">Original, unmodified OAI-PMH contribution on our server</a></li>";
   } else {
       echo "<li>No unmodified OAI-PMH file.  Never harvested?</li>";
   }
