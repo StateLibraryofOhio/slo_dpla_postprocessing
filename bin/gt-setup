@@ -1,26 +1,66 @@
 #!/bin/bash
+#
+# This script is intended to add a configuration file to the
+# current working directory.
+#
+# The file is named "transform.conf".
+#
+# The "transform.conf" can be used by subsequent scripts to
+# detect the set being processed, thus ensuring that the
+# value doesn't need to be entered as a parameter when
+# invoking those scripts on the command line.
+#
+# This script will over-write any existing "transform.conf"
+# files that are in the current working directory.
+#
+# The script accepts one parameter, which is expected to be
+# an "odnSet" from the "source" table of the slo_aggregator
+# database.
+#
+# If the parameter provided does not exactly match any odnSet
+# values in the database, a wildcard search is run.  Any sets
+# matching that query will have their odnSet and description
+# values dumped to screen.  One handy use for this is to
+# search odnSet prefixes (e.g. "ohmem_") at the commandline
+# to get the script to prompt you with potential options.
+#
+#   Usage:  gu-setup odnSet
+#
 
 
-if [ "$1" == '' -o "$2" == '' ]
+SETSPEC=$1
+
+if [ "$SETSPEC" == '' ]
 then
-    echo "missing parameters.  usage:  gu-setup REPOX_SETSPEC UNTRANSFORMED_METADATA_PREFIX"
+    echo $'\n  missing parameters.  usage:  gu-setup odnSet\n'
+    exit
 else
-    rm -f transform.conf
-    touch transform.conf
-    echo "DPLA_PREFIX=qdc" >> transform.conf
-    echo "ORIG_PREFIX=$2"  >> transform.conf
-    echo "SETSPEC=$1"      >> transform.conf
-    echo "BASEURL='http://ohiodplahub.library.ohio.gov:8080/repox/OAIHandler'" >> transform.conf
-
-    ln -s  $SLODPLA_BIN/get-transformed.sh gt
-    ln -s  $SLODPLA_BIN/get-untransformed.sh gu
-    ln -s  $SLODPLA_BIN/review-qdc-conversion.sh review_qdc
-    ln -s  $SLODPLA_BIN/delete-removal.sh delete-removal
-    ln -s  $SLODPLA_BIN/iiif-blanket-insert.sh iiif-blanket-insert
-    echo ""
-    echo "The current directory has been configured as an ODN DPLA set workarea."
-    echo ""
-    echo "Run 'gu' to retrieve untransformed data from REPOX."
-    echo "Run 'gt' to retrieve transformed   data from REPOX."
-    echo ""
+    SETSPEC_COUNT=$(mysql -sNe 'select count(odnSet) from source where odnSet="'$SETSPEC'"')
+    if [ "$SETSPEC_COUNT" != 1 ]
+    then
+        echo $'\n  That odnSet is not found in the database\n'
+        SETSPEC_BEGINCOUNT=$(mysql -sNe 'select count(odnSet) from source where odnSet like "%'$SETSPEC'%"')
+        if [ "$SETSPEC_BEGINCOUNT" != 0 ]
+        then
+            echo $'  Some suggestions based on your attempt:\n'
+            mysql -sNe 'select odnSet, description from source where odnSet like "%'$SETSPEC'%" order by odnSet' | sed -e 's/^/    /g'
+            echo ""
+            mysql -sNe 'select odnSet from source where odnSet like "%'$SETSPEC'%"' | cut -f 1 -d '_' | sort | uniq | sed -e 's/^/    /g'
+            echo ""
+        fi
+        exit
+    else
+        echo $'\n  OK:  Found the odnSet specified'
+    fi
 fi
+
+rm -f transform.conf
+touch transform.conf
+echo "SETSPEC=$SETSPEC" >> transform.conf
+
+echo $'\n  The current directory has been configured as an ODN DPLA set workarea.\n'
+echo "  Run 'get-raw.sh' to retrieve untransformed data from the contributor's server."
+echo "  Run 'dissect-raw.sh' to run diagnostics on the archival data."
+echo "  Run 'base-transform.sh' to run set-level XSLT transforms against the archival data."
+
+echo $'\n  Complete.\n'
