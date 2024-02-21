@@ -10,13 +10,17 @@
 #
 if [[ $(pwd)/ = $SLODATA_WORKING/* ]]
 then
-    echo "This is a safe place to run the command."
+    echo "This is a safe-ish place to dump output."
+    echo ""
 else
-    echo ""
-    echo "You should run this command in a sub-directory under:"
-    echo ""
-    echo "     $SLODATA_WORKING"
-    echo ""
+    cat <<EOF
+    You should run this command in a sub-directory under:
+    
+          $SLODATA_WORKING
+
+    This will keep the data off the OS filesystem/QCOW2.
+
+EOF
     exit
 fi
 
