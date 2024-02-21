@@ -28,6 +28,12 @@
 #
 
 
+# ensure this script is run under the $SLODATA_WORKING
+# directory; abort if running elsewhere.
+echo ""
+. $SLODPLA_BIN/check-safewrite.sh
+
+
 echo ""
 
 # confirm that the config file exists

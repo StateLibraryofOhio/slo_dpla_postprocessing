@@ -19,8 +19,13 @@
 #
 #   Output file:  ohmem_p12345coll6_transformed_iiif-added.xml
 #
-echo ""
 
+# ensure this script is run under the $SLODATA_WORKING
+# directory; abort if running elsewhere.
+echo ""
+. $SLODPLA_BIN/check-safewrite.sh
+
+echo ""
 if [ "$1" == '' ]
 then
     echo "missing parameters.  usage: iiif-insert.sh  ohmem_p12345coll6_odn-transformed-qdc.xml"

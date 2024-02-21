@@ -64,6 +64,13 @@
 ##  a.k.a. "bt"
 
 
+# ensure this script is run under the $SLODATA_WORKING
+# directory; abort if running elsewhere.
+echo ""
+. $SLODPLA_BIN/check-safewrite.sh
+
+
+
 ###
 ### determine which set we're processing
 ###

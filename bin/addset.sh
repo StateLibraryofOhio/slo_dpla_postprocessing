@@ -36,6 +36,12 @@ then
 fi
 
 
+# ensure this script is run under the $SLODATA_WORKING
+# directory
+
+. $SLODPLA_BIN/check-safewrite.sh
+
+
 # Option 1 on command line:  site's setSpec for the OAI set.
 # This will be used to lookup the metadataPrefix in MySQL.
 cat <<EOF

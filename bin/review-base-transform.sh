@@ -23,6 +23,12 @@ then
 fi
 
 
+# ensure this script is run under the $SLODATA_WORKING
+# directory; abort if running elsewhere.
+echo ""
+. $SLODPLA_BIN/check-safewrite.sh
+
+
 #
 # get values for details about this dataset:  $DPLA_PREFIX, $ORIG_PREFIX, $SETSPEC, $BASEURL
 
