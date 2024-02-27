@@ -49,7 +49,7 @@
 
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
-      <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
+      <xsl:apply-templates select="dc:creator"               mode="delawaremem_yearbooks"/>   <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
@@ -168,6 +168,16 @@
      </xsl:for-each>
   </xsl:template>
 
-
+  <xsl:template match="dc:creator" mode="delawaremem_yearbooks">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:if test="normalize-space(.) != '.'">
+          <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:element>
+        </xsl:if>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
 </xsl:stylesheet>
