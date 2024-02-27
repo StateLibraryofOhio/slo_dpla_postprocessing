@@ -79,13 +79,13 @@ else
 	   echo ""
            exit
 	fi
-	# Retrieve the OAI-PMH metadataPrefix for the harvest from the
-        # contributor's server
-	SELECT_STATEMENT="select metadataPrefix from source where odnSet='"${SETSPEC}"'"
-        ORIG_PREFIX=$(mysql -sNe "$SELECT_STATEMENT")
     else
         . transform.conf
     fi
+    # Retrieve the OAI-PMH metadataPrefix for the harvest from the
+    # contributor's server
+    SELECT_STATEMENT="select metadataPrefix from source where odnSet='"${SETSPEC}"'"
+    ORIG_PREFIX=$(mysql -sNe "$SELECT_STATEMENT")
 fi
 
 if [ ! -f ~/.my.cnf  ]
