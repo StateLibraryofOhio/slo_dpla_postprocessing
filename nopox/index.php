@@ -80,8 +80,8 @@ e.g   http://servername/index.php?action=home
     elseif ($sloappAction=="doc-base") {
        include "doc/?action=doc-base.php";
     }
-    elseif ($sloappAction=="report-counts-by-provider") {
-       include "sloapp-report-counts-by-provider.php";
+    elseif ($sloappAction=="report-counts-overview") {
+       include "sloapp-report-counts-overview.php";
     }
     else {
        include "sloapp-home.php";
