@@ -51,12 +51,15 @@ else
         exit
     else
         echo $'\n  OK:  Found the odnSet specified'
+        SELECT_STATEMENT="select metadataPrefix from source where odnSet='"${SETSPEC}"'"
+        ORIG_PREFIX=$(mysql -sNe "$SELECT_STATEMENT")
     fi
 fi
 
 rm -f transform.conf
 touch transform.conf
 echo "SETSPEC=$SETSPEC" >> transform.conf
+echo "ORIG_PREFIX=$ORIG_PREFIX" >> transform.conf
 
 echo $'\n  The current directory has been configured as an ODN DPLA set workarea.\n'
 echo "  Run 'get-raw.sh' to retrieve untransformed data from the contributor's server."
