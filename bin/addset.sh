@@ -280,7 +280,7 @@ done
 cat <<EOF
 
 Do you know which Content Management System is being used to host
-this collection?  Here's a list of thosse that are currently in
+this collection?  Here's a list of those that are currently in
 use:
 
 EOF
@@ -429,6 +429,13 @@ fi
 # cat add-source_$ODN_SETSPEC.sql
 
 cat <<EOF
+
+You can setup this directory as a temporary working directory for analyzing
+the data with the following command:
+
+    gu-setup $ODN_SETSPEC
+
+Before you do that, though, you must add the configuration to MySQL.
 
 The SQL to add the new set has been dumped to:  add-source_$ODN_SETSPEC.sql"
 
