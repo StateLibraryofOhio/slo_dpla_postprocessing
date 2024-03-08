@@ -121,7 +121,7 @@
   <xsl:template match="dc:relation" mode="delawaremem_daisy">
     <xsl:for-each select="tokenize(., '&#xA;')">
        <xsl:if test="normalize-space(.) != ''">
-         <xsl:element name="dc:relation" namespace="http://purl.org/dc/relation/1.1/">
+         <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
            <xsl:value-of select="normalize-space(.)"/>
          </xsl:element>
        </xsl:if>
@@ -132,7 +132,7 @@
   <xsl:template match="dc:date" mode="delawaremem_daisy">
     <xsl:for-each select="tokenize(., '&#xA;')">
        <xsl:if test="normalize-space(.) != ''">
-         <xsl:element name="dc:date" namespace="http://purl.org/dc/relation/1.1/">
+         <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
            <xsl:value-of select="normalize-space(.)"/>
          </xsl:element>
        </xsl:if>
