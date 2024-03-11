@@ -20,14 +20,15 @@
 
 <!--
      This XSLT is intended to list the isShownAt URIs for records
-     which have fewer or more than one value for dcterms:title
+     which have no value for dcterms:title, which is required,
+     and which can contain multiple values.
 -->
 
 <xsl:mode on-no-match="shallow-copy"/>
 
   <xsl:template match="text()|@*"/>
   <xsl:template match="record">
-    <xsl:if test="not(count(./metadata/oai_qdc:qualifieddc/dcterms:title)=1)">
+    <xsl:if test="not(count(./metadata/oai_qdc:qualifieddc/dcterms:title)>0)">
       <xsl:value-of select="count(./metadata/oai_qdc:qualifieddc/dcterms:title)"/>|<xsl:value-of select="metadata/oai_qdc:qualifieddc/edm:isShownAt"/><xsl:text> 
 </xsl:text>
     </xsl:if>
