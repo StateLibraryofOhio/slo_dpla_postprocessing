@@ -48,7 +48,7 @@
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type  -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="plochc_p16998coll15"/>     <!-- create dcterms:language                   -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                   -->
       <xsl:apply-templates select="dc:creator"               mode="plochc_p16998coll15"/>     <!-- create dcterms:creator                    -->
       <xsl:apply-templates select="dc:date"                  mode="plochc_p16998coll15"/>     <!-- create dc:date                            -->
       <xsl:apply-templates select="dc:format"                mode="plochc_p16998coll15"/>     <!-- create dc:format                          -->
@@ -139,16 +139,6 @@
         <xsl:value-of select="normalize-space(.)"/>
       </xsl:element>
     </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="dc:language" mode="plochc_p16998coll15">
-    <xsl:for-each select="tokenize(., ';')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
-          <xsl:value-of select="normalize-space(replace(., 'ger', 'German'))"/>
-        </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
   </xsl:template>
 
   <!-- use the URL dc:identifier to both populate edm:isShownAt and use known CONTENTdm thumbnail path to construct thumbnail URL for edm:preview -->

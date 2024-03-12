@@ -46,7 +46,7 @@
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="osu_xp68kg24f"/>           <!-- create dcterms:language                                    -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
@@ -106,12 +106,6 @@
       </xsl:when>
       <xsl:otherwise/>
     </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="dc:language" mode="osu_xp68kg24f">
-    <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
-      <xsl:value-of select="replace(normalize-space(.), 'ger', 'German')"/>
-    </xsl:element>
   </xsl:template>
 
 </xsl:stylesheet>

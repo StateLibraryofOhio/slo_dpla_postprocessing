@@ -48,7 +48,7 @@
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type  -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="plochc_p16998coll8"/>      <!-- create dcterms:language                   -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                   -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                    -->
       <xsl:apply-templates select="dc:date"                  mode="plochc_p16998coll8"/>      <!-- create dc:date                            -->
       <xsl:apply-templates select="dc:format"                mode="plochc_p16998coll8"/>      <!-- unwanted; remove                          -->
@@ -94,16 +94,6 @@
   <xsl:template match="dcterms:tableOfContents" mode="plochc_p16998coll8"/>
 
   <xsl:template match="dc:publisher" mode="plochc_p16998coll8"/>
-
-  <xsl:template match="dc:language" mode="plochc_p16998coll8">
-    <xsl:for-each select="tokenize(., ';')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
-          <xsl:value-of select="normalize-space(.)"/>
-        </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
-  </xsl:template>
 
   <xsl:template match="dcterms:spatial" mode="plochc_p16998coll8">
     <xsl:if test="matches(normalize-space(.), '[-]?[0-9]*.[0-9]+, [-]?[0-9]*.[0-9]+')">

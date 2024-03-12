@@ -47,7 +47,7 @@
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="ohmem_p16007coll33"/>      <!-- create dcterms:language                                    -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="ohmem_p16007coll33"/>      <!-- create dcterms:creator                                     -->
       <xsl:apply-templates select="dc:date"                  mode="ohmem_p16007coll33"/>      <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
@@ -125,32 +125,6 @@
       <xsl:element name="dcterms:contributor" namespace="http://purl.org/dc/terms/">
         <xsl:value-of select="normalize-space(.)"/>
       </xsl:element>
-    </xsl:for-each>
-  </xsl:template>
-
-  <xsl:template match="dc:language" mode="ohmem_p16007coll33">
-    <xsl:for-each select="tokenize(replace(., '\.',''), ';')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element name="dcterms:language" namespace="http://purl.org/dc/terms/">
-          <xsl:choose>
-            <xsl:when test="matches(normalize-space(.), 'eng')">
-              <xsl:value-of select="replace(normalize-space(.), 'eng', 'English')"/>
-            </xsl:when>
-            <xsl:when test="matches(normalize-space(.), 'pol')">
-              <xsl:value-of select="replace(normalize-space(.), 'pol', 'Polish')"/>
-            </xsl:when>
-            <xsl:when test="matches(normalize-space(.), 'hun')">
-              <xsl:value-of select="replace(normalize-space(.), 'hun', 'Hungarian')"/>
-            </xsl:when>
-            <xsl:when test="matches(normalize-space(.), 'ger')">
-              <xsl:value-of select="replace(normalize-space(.), 'ger', 'German')"/>
-            </xsl:when>
-            <xsl:when test="matches(normalize-space(.), 'arc')">
-              <xsl:value-of select="replace(normalize-space(.), 'arc', 'Aramaic')"/>
-            </xsl:when>
-          </xsl:choose>
-        </xsl:element>
-      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 

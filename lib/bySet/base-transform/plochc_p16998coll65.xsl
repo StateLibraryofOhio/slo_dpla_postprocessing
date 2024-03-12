@@ -58,7 +58,7 @@
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="plochc_p16998coll65"/>     <!-- create dcterms:language                                    -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="plochc_p16998coll65"/>     <!-- create dcterms:creator                                     -->
       <xsl:apply-templates select="dc:date"                  mode="plochc_p16998coll65"/>     <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="plochc_p16998coll65"/>     <!-- create dc:format                                           -->
@@ -94,16 +94,6 @@
   <xsl:template match="dc:format" mode="plochc_p16998coll65"/>
   <xsl:template match="dcterms:extent" mode="plochc_p16998coll65"/>
   <xsl:template match="dcterms:license" mode="plochc_p16998coll65"/>
-
-  <xsl:template match="dc:language" mode="plochc_p16998coll65">
-    <xsl:for-each select="tokenize(., ';')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
-          <xsl:value-of select="normalize-space(.)"/>
-        </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
-  </xsl:template>
 
   <xsl:template match="dc:contributor" mode="plochc_p16998coll65">
     <xsl:for-each select="tokenize(., ';')">

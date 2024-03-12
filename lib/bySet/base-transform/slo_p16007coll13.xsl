@@ -50,7 +50,7 @@
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="ohmem_p16007coll13"/>      <!-- create dcterms:language                                    -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
@@ -82,53 +82,10 @@
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="dc:language" mode="ohmem_p16007coll13">
-    <xsl:for-each select="tokenize(., ';')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element name="dcterms:language" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="normalize-space(.)"/>
-        </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
-  </xsl:template>
-
   <xsl:template match="dc:relation" mode="ohmem_p16007coll13"/>
 
   <xsl:template match="dcterms:license" mode="ohmem_p16007coll13"/>
  
-    <!-- <xsl:choose>
-      <xsl:when test="contains(lower-case(.), 'rightsstatements.org')">
-        <xsl:choose>
-          <xsl:when test="contains(., '|')">
-            <xsl:element name="edm:rights">
-              <xsl:value-of select="normalize-space(substring-before(., ' |'))"/>
-            </xsl:element>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:element name="edm:rights">
-              <xsl:value-of select="normalize-space(.)"/>
-            </xsl:element>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:choose>
-          <xsl:when test="contains(lower-case(normalize-space(.)), 'in copyright')"/>
-          <xsl:when test="contains(lower-case(normalize-space(.)), 'no copyright')"/>
-          <xsl:when test="contains(lower-case(normalize-space(.)), 'no known copyright')"/>
-          <xsl:when test="contains(lower-case(normalize-space(.)), 'copyright undetermined')"/>
-          <xsl:when test="contains(lower-case(normalize-space(.)), 'copyright not evaluated')"/>
-          <xsl:otherwise>
-            <xsl:element namespace="http://purl.org/dc/elements/1.1/" name="dc:rights">
-              <xsl:value-of select="normalize-space(.)"/>
-            </xsl:element>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  -->
-
   <xsl:template match="dc:contributor" mode="ohmem_p16007coll13">
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">

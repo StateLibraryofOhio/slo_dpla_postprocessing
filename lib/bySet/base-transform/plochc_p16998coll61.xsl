@@ -49,7 +49,7 @@
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
-      <xsl:apply-templates select="dc:language"              mode="plochc_p16998coll61"/>     <!-- create dcterms:language                   -->
+      <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                   -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                    -->
       <xsl:apply-templates select="dc:date"                  mode="plochc_p16998coll61"/>     <!-- create dc:date                            -->
       <xsl:apply-templates select="dc:format"                mode="plochc_p16998coll61"/>     <!-- unwanted; remove                          -->
@@ -106,16 +106,6 @@
         <xsl:value-of select="normalize-space(.)"/>
       </xsl:element>
     </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="dc:language" mode="plochc_p16998coll61">
-    <xsl:for-each select="tokenize(., ',')">
-      <xsl:if test="normalize-space(.) != ''">
-        <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
-          <xsl:value-of select="normalize-space(replace(., 'fr', 'French'))"/>
-        </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dcterms:medium" mode="plochc_p16998coll61">

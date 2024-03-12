@@ -105,9 +105,83 @@
   </xsl:template>
 
   <xsl:template match="dc:language" mode="odn">
-    <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
-      <xsl:value-of select="normalize-space(.)"/>
-    </xsl:element>
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:choose>
+        <xsl:when test="normalize-space(lower-case(.)) = 'akk'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Akkadian</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'ara'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Arabic</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'arc'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Aramaic, Imperial (700-300 BCE)</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'cat'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Catalan</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'ces'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Czech</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'nld'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Dutch</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'eng'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">English</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'fra'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">French</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'deu'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">German</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'heb'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Hebrew</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'hun'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Hungarian</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'ita'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Italian</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'jpn'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Japanese</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'lat'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Latin</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'pol'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Polish</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'sco'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Scots</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'sin'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Sinhalese</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'spa'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Spanish</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'swe'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Swedish</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'ota'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Turkish, Ottoman (1500-1928)</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'yid'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">Yiddish</xsl:element>
+        </xsl:when>
+        <xsl:when test="normalize-space(lower-case(.)) = 'zxx'">
+          <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">not applicable</xsl:element>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="normalize-space(.) != ''">
+            <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:language">
+              <xsl:value-of select="normalize-space(.)"/>
+            </xsl:element>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dc:publisher" mode="odn">
