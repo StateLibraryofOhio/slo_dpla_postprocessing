@@ -67,7 +67,7 @@
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
       <!-- OPTIONAL ODN-MAP fields -->
-      <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
+      <xsl:apply-templates select="dcterms:alternative"      mode="plochc_p16998coll68"/>     <!-- create dcterms:alternative                                 -->
       <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
       <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="plochc_p16998coll68"/>     <!-- create dcterms:extent                                      -->
@@ -119,6 +119,14 @@
     </xsl:for-each>
   </xsl:template>
 
-
+  <xsl:template match="dcterms:alternative" mode="plochc_p16998coll68">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:alternative" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
 </xsl:stylesheet>
