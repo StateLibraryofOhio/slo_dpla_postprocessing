@@ -48,15 +48,15 @@
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
-      <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
-      <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
+      <xsl:apply-templates select="dc:date"                  mode="cleveart_p17142coll1"/>    <!-- create dc:date                                             -->
+      <xsl:apply-templates select="dc:format"                mode="cleveart_p17142coll1"/>    <!-- create dc:format                                           -->
       <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
       <!-- OPTIONAL ODN-MAP fields -->
       <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
-      <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
+      <xsl:apply-templates select="dc:contributor"           mode="cleveart_p17142coll1"/>    <!-- create dcterms:contributor                                 -->
       <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
@@ -77,7 +77,6 @@
 
   <xsl:template match="dcterms:bibliographicCitation" mode="cleveart_p17142coll1"/>
 
-
   <xsl:template match="dc:rights" mode="cleveart_p17142coll1">
     <xsl:choose>
       <xsl:when test="contains(lower-case(.), 'rightsstatements.org')">
@@ -87,7 +86,6 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
-
 
   <!-- use the URL dc:identifier to both populate edm:isShownAt and use known CONTENTdm thumbnail path to construct thumbnail URL for edm:preview -->
   <!-- We do not want to save the extra values and send them to dcterms:identifier                                                                -->
@@ -108,6 +106,37 @@
       </xsl:when>
     </xsl:choose>
   </xsl:template>
+
+  <xsl:template match="dc:date" mode="cleveart_p17142coll1">
+    <xsl:for-each select="tokenize(normalize-space(.), ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="dc:format" mode="cleveart_p17142coll1">
+    <xsl:for-each select="tokenize(normalize-space(.), ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:format" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="dc:contributor" mode="cleveart_p17142coll1">
+    <xsl:for-each select="tokenize(normalize-space(.), ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:contributor" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
 
 
 </xsl:stylesheet>
