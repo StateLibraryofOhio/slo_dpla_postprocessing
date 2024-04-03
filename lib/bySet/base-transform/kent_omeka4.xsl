@@ -121,15 +121,23 @@
   <xsl:template match="dcterms:spatial" mode="kent_omeka4"/>
 
   <xsl:template match="dc:duration" mode="kent_omeka4">
-    <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
-      <xsl:value-of select="."/>
-    </xsl:element>
+    <xsl:for-each select="tokenize(normalize-space(.), ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dc:extent" mode="kent_omeka4">
-    <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
-      <xsl:value-of select="normalize-space(.)"/>
-    </xsl:element>
+    <xsl:for-each select="tokenize(normalize-space(.), ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dc:relation.ispartof" mode="kent_omeka4"/>
