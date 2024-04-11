@@ -20,24 +20,12 @@
 
   <xsl:output omit-xml-declaration="yes" indent="yes"/>
   
-  <!-- This is the template that SLO is using to create a new, collection-specific transform for REPOX for each collection. -->
-
-  <!-- Each collection-specific XSLT file should be added to REPOX as a new "Transform"  -->
-
-  <!-- Naming convention for the updated XSLT file is:         SITE_COLLECTION.xsl       -->
-  <!-- where                                                                             -->
-  <!--    "SITE"       == the contributing organization, and                             -->
-  <!--    "COLLECTION" == a unique ID for this dataset (typically the OAI-PMH setSpec)   -->
-
-  <!-- AT A MINIMUM, change the "THIS_PROVIDER_NAME" and "THIS_COLLECTION_NAME" values in the "STATIC VALUES" section! -->
-
-
   <!-- pull in our common template file -->
   <xsl:include href="odn_templates.xsl"/>
 
   
   <!-- The following match="xxxx" statement will work with CONTENTdm-based collections, but likely will need to be adjusted for other systems -->
-  <xsl:template match="//oai_qdc:qualifieddc">
+  <xsl:template match="//oai_dc:dc">
     <oai_qdc:qualifieddc
             xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/"
             xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -49,8 +37,8 @@
                                 http://worldcat.org/xmlschemas/oclcterms/1.4/oclcterms-1.4.xsd">
 
       <!-- STATIC VALUES FOR ODN-MAP fields -->
-      <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">THIS_PROVIDER_NAME</xsl:element>     <!-- create edm:dataProvider -->
-      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">THIS_COLLECTION_NAME</xsl:element>              <!-- create dcterms:isPartOf -->
+      <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">Dayton Metro Library</xsl:element>     <!-- create edm:dataProvider -->
+      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Edward B. Taylor Collection</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
       <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
@@ -61,8 +49,8 @@
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
-      <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
-      <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
+      <xsl:apply-templates select="dc:format"                mode="dayton_p16669coll14"/>     <!-- create dc:format                                           -->
+      <xsl:apply-templates select="dcterms:spatial"          mode="odn"/>                     <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
@@ -74,15 +62,62 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="dayton_p16669coll14"/>     <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
-      
+      <xsl:apply-templates select="dc:coverage"              mode="dayton_p16669coll14"/>
+
       <xsl:apply-templates select="dc:source"                mode="odn"/>                     <!-- frequently unused; remove by default                       -->
 
     </oai_qdc:qualifieddc>
+  </xsl:template>
+
+  <xsl:template match="dc:coverage" mode="dayton_p16669coll14">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:choose>
+        <xsl:when test="normalize-space(.) != 'Dayton, Ohio'">
+          <xsl:element name="dcterms:temporal" namespace="http://purl.org/dc/terms/">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:element>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:element>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
+
+
+  <xsl:template match="dc:format" mode="dayton_p16669coll14">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:choose>
+        <xsl:when test="normalize-space(.) != 'image/jpeg'">
+          <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:element>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:element name="dc:format" namespace="http://purl.org/dc/elements/1.1/">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:element>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
+
+
+  <xsl:template match="dc:relation" mode="dayton_p16669coll14">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != 'no'">
+        <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(replace(., '^yes - ', ''))"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
 </xsl:stylesheet>
