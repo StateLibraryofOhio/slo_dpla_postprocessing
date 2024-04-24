@@ -23,7 +23,7 @@ else
 fi
 
 
-INDIR=$INGEST_DATADIR/09__staging
+INDIR=$INGEST_DATADIR/02_titles-checked
 OUTFILE=$INGEST_REPORTDIR/iiif_count_by_collection.txt
 PREDIR=`pwd`
 
@@ -38,6 +38,7 @@ do
     RECORDCOUNT=`grep '<edm:isShownAt>'  $FILENAME | wc -l | cut -f 1 -d ' '`
     SETNAME=`grep '<dcterms:isPartOf>' $FILENAME | head -n 1 | cut -f 2 -d '>' | cut -f 1 -d '<'`
     SETSPEC=`echo $FILENAME | sed -e 's/.xml//g'`
+    # note embedded tabs in the line below; don't copy/paste this and expect it to work!
     echo "$RECORDCOUNT	$IIIFCOUNT	$SETSPEC	$SETNAME" >> $OUTFILE
 done
 

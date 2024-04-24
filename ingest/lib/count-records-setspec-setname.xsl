@@ -20,17 +20,17 @@
 
 
 <!-- 
-     This XSLT is intended to return a numeric value showing the
-     number of OAI-PMH records in an XML harvest.
-     by the gt or get-transformed.sh procedure".
+    This XSLT is intended to return pipe-delimited details
+    about each dataset:
+
+      record count | setSpec ID | provider name | set name
+
 -->
 
   <xsl:template match="@*|text()"/>
   <xsl:template match="//ListRecords">
     <xsl:value-of select="count(./record)"/> | <xsl:value-of select="./record[1]/header[1]/setSpec"/> | <xsl:value-of select="./record[1]/metadata[1]/oai_qdc:qualifieddc[1]/edm:dataProvider"/> | <xsl:value-of select="./record[1]/metadata[1]/oai_qdc:qualifieddc[1]/dcterms:isPartOf"/><xsl:text>&#xa;</xsl:text>
   </xsl:template>
-
-
 
 </xsl:stylesheet>
 

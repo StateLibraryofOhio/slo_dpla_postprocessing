@@ -14,10 +14,16 @@ else
 fi
 
 
-INDIR=$INGEST_DATADIR/03a__iiif_and_deleted_simple_name
+INDIR=$INGEST_DATADIR/02_titles-checked
 XSLT=$SLODPLA_LIB/count-records.xsl
 INGESTCOUNT=$INGEST_REPORTDIR/ingest-count.txt
 let SETCOUNT=0
+
+if [ ! -d $INDIR ]
+then
+    echo "Missing expected input directory.  Exiting."
+    exit
+fi
 
 rm -f $INGESTCOUNT
 touch $INGESTCOUNT

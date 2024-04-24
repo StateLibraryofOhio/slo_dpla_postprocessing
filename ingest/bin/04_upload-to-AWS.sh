@@ -10,7 +10,7 @@
 if [ ! -f conf/upload.conf ]
 then
     echo "Run this script with 'conf' as a subdirectory to your CWD."
-    echo "  e.g. './bin/01_retrieve-from-REPOX.sh'"
+    echo "  e.g. './bin/04_upload-to-AWS.sh'"
     echo "Exiting."
     echo
     exit
@@ -23,19 +23,28 @@ then
     echo
     echo "You must set the INGEST_DESTINATION config setting"
     echo "in the conf/upload.conf file before using this script."
+    echo "Exiting."
     echo
+    exit
 fi
 
 
-INDIR=$INGEST_DATADIR/10__gzipped
+INDIR=$INGEST_DATADIR/10_gzipped
 
 UPLOAD_DIR=$(date +%Y-%m-%d)
 
 cat <<EOBLOCK
 This procedure will begin the upload to DPLA.
+
+The data being uploaded is in this directory:
+
+  $INGEST_DATADIR/10_gzipped
+
+
 The data will be uploaded to:
 
   s3://dpla-hub-ohio/$UPLOAD_DIR/
+
 
 Are you ABSOLUTELY SURE you are ready to do this?
 
@@ -47,6 +56,7 @@ read REQUEST
 
 if [ "$REQUEST" != 'yes' ]
 then
+    echo "The answer I received wasn't 'yes'.  Aborting upload."
     exit
 fi
 

@@ -19,9 +19,15 @@ else
     . conf/upload.conf
 fi
 
-INDIR=$INGEST_DATADIR/09__staging
-OUTDIR_GZ=$INGEST_DATADIR/10__gzipped
-OUTDIR_ZIP=$INGEST_DATADIR/10__zipped
+INDIR=$INGEST_DATADIR/02_titles-checked
+OUTDIR_GZ=$INGEST_DATADIR/10_gzipped
+OUTDIR_ZIP=$INGEST_DATADIR/10_zipped
+
+if [ ! -d $INDIR ]
+then
+    echo "Missing expected input directory:  $INDIR"
+    exit
+fi
 
 
 if [ ! -d $OUTDIR_GZ ]
@@ -38,11 +44,16 @@ else
     rm -rf $OUTDIR_ZIP/*
 fi
 
+cat <<EOF
+
+Reading from directory:  $INDIR
+
+EOF
 
 cd $INDIR
 ls *xml | while read XMLFILE
 do
-    echo "Compressing $XMLFILE"
+    echo "  Compressing $XMLFILE"
     cp $XMLFILE $OUTDIR_GZ/
     gzip $OUTDIR_GZ/$XMLFILE
     zip $OUTDIR_ZIP/$XMLFILE.zip $XMLFILE
@@ -53,7 +64,7 @@ cat <<EOF
 
 Compression complete.
 
-Available as ZIP format, or GZIP, as you prefer.
+The data is available as ZIP format, or GZIP, as you prefer.
 
   $OUTDIR_GZ
   $OUTDIR_ZIP
@@ -61,7 +72,7 @@ Available as ZIP format, or GZIP, as you prefer.
 The final step in the process is to upload the files to the
 DPLA AWS storage.  That can be accomplished via:
 
-  ./bin/06_upload_to_AWS.sh
+  ./bin/04_upload-to-AWS.sh
 
 EOF
 

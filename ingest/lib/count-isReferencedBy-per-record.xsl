@@ -20,14 +20,24 @@
 
 
 <!-- 
-     This XSLT is intended to return a numeric value showing the
-     number of OAI-PMH records in an XML harvest.
-     by the gt or get-transformed.sh procedure".
+    This XSLT is intended to return dcterms:isReferencedBy
+    values for records that have more than one such value.
+    A properly-formatted record can only have one of these
+    values.
+
+    For records with more than one such value, you should
+    examine the XSLT transform to ensure it's correct, and
+    you should examine the provider's raw data to see whether
+    the problem lies there.  (Provider-based problems are
+    really only an issue for non-CONTENTdm sites.)
 -->
 
   <xsl:template match="@*|text()"/>
-  <xsl:template match="//oai_qdc:qualifieddc">
-    <xsl:value-of select="count(dcterms:isReferencedBy)"/> | <xsl:value-of select="./edm:isShownAt"/> <xsl:text>&#xa;</xsl:text>
+  <xsl:template match="record">
+    <xsl:if test="count(./metadata/oai_qdc:qualifieddc/dcterms:isReferencedBy)>1">
+      <xsl:value-of select="count(./metadata/oai_qdc:qualifieddc/dcterms:isReferencedBy)"/> | <xsl:value-of select="metadata/oai_qdc:qualifieddc/edm:isShownAt"/><xsl:text>
+</xsl:text>
+    </xsl:if>
   </xsl:template>
 
 

@@ -17,8 +17,14 @@ else
 fi
 
 
-INDIR=$INGEST_DATADIR/09__staging
+INDIR=$INGEST_DATADIR/02_titles-checked
 XSLT=$INGEST_LIB/count-isReferencedBy-per-record.xsl
+
+if [ ! -d $INDIR ]
+then
+    echo "Missing input directory.  Exiting."
+    exit
+fi
 
 cd $INDIR
 
