@@ -56,7 +56,7 @@ then
 
     -- ERROR --
     No 'transform.conf' file found in current directory.
-    Either run gu-update to create a transform.conf,
+    Either run gt-setup.sh to create a transform.conf,
     or change to the correct directory and try again.
 
     Alternately, provide the ODN setSpec on the commandline
