@@ -59,12 +59,13 @@ while ($sourceRow = $sourceResult->fetch())
 <tr><td>Metadata Format</td><td><?php echo $metadataPrefix ?></td></tr>
 <tr><td>Base URL</td>       <td><a href="<?php echo $oaiSource ?>"><?php echo $oaiSource ?></a></td></tr>
 <tr><td>Host CMS</td>       <td><?php echo $sourceCMS ?></td></tr>
+<tr><td>The Raw Data</td><td><a href="<?php echo $oaiSource ?>?verb=ListRecords&set=<?php echo $oaiSet ?>&metadataPrefix=<?php echo $metadataPrefix ?>"><?php echo $oaiSource ?>?verb=ListRecords&set=<?php echo $oaiSet ?>&metadataPrefix=<?php echo $metadataPrefix ?></a></td></tr>
 <tr><td>WikiMedia</td>      <td>
-<?php if ( $iiifParticipant == 'n' ) 
+<?php if ( $iiifParticipant == 'n' )
   {
     echo "This set is not flagged to contribute records to WikiMedia";
   } else {
-    echo "This set is flagged to contribute records to WikiMedia";  
+    echo "This set is flagged to contribute records to WikiMedia";
   }
 ?>
 </td></tr>
