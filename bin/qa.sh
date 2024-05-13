@@ -116,7 +116,7 @@ Data Provider:  $PROVIDER
 
 Set:  $SET
 
-REPOX setSpec:  $SETSPEC
+ODN setSpec:  $SETSPEC
 
 
 There are $FULL_COUNT records in this set.
