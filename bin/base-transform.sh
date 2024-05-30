@@ -220,7 +220,7 @@ if [ -f $SLODPLA_LIB/bySet/filter-transform/$ODN_SETSPEC.xsl ]
 then
     echo
     echo '************************************************'
-    echo "Found collection-specific transform; running it."
+    echo "Found filter-transform for this set; running it."
     java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/bySet/filter-transform/$ODN_SETSPEC.xsl -s:$ODN_SETSPEC-odn-transformed-qdc.xml -o:2.dat
     mv 2.dat $ODN_SETSPEC-odn-transformed-qdc.xml
 fi
