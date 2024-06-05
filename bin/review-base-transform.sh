@@ -294,7 +294,7 @@ Set Name:  $SETNAME
 
 There are $FULL_COUNT records in this set.
 $IIIF_MARKED_COUNT records contain IIIF metadata.
-$IIIF_ELIGIBLE_COUNT records are eligible for IIIF inclusion based on the edm:rights value.
+$IIIF_ELIGIBLE_COUNT records are eligible for WikiMedia inclusion based on the edm:rights value.
 
 EOF
 
