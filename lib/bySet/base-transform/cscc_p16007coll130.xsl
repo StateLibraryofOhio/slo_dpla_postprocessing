@@ -67,7 +67,7 @@
       <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
       <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
       <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
-      <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
+      <xsl:apply-templates select="dcterms:extent"           mode="cscc_p16007coll130"/>      <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
@@ -87,6 +87,7 @@
 
   <xsl:template match="dcterms:isPartOf" mode="cscc_p16007coll130"/>                         <!-- unwanted; remove -->
   <xsl:template match="dcterms:medium"  mode="cscc_p16007coll130"/>                         <!-- unwanted; remove -->
+  <xsl:template match="dcterms:extent" mode="cscc_p16007coll130"/>
 
   <xsl:template match="dcterms:license" mode="cscc_p16007coll130">
     <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">
