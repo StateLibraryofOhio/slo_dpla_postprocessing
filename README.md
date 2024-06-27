@@ -21,7 +21,7 @@ As part of the normal workflow, the "Subsequent manipulation" step includes the 
 
 See the information in the doc/ subdirectory for more technical details about how to make things work.
 
-The process expects that you are logged into a Linux system with Java and the Saxon libraries installed and in your CLASSPATH.
+The process expects that you are logged into a Linux system with Java and the Saxon libraries installed and in your $CLASSPATH.
 
 To run an XML file through an XSLT filter on a one-off basis, try something like:
 
