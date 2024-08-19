@@ -209,14 +209,4 @@ The "review-qdc-conversion.sh" script runs a variety of simple tests against the
 
 
 
-## Uploading data to DPLA
-
-The ingest process is handled via the scripts and files found under $SLODPLA_ROOT/ingest.  Within that directory is a readme file that contains additional details about exactly what needs to be done, but the process boils down to reading the files under $SLODATA_STAGING and running through a set of scripts.  Some of the scripts will prepare the data for upload and others are reports that will provide a final check prior to uploading the data to DPLA.
-
-
-
-
-
-
-
 

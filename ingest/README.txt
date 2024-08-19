@@ -90,11 +90,5 @@ S3 drive.
 
 The copy of the entire directory is fine (temp files and all),
 as it gives us the ability to review what went wrong if something
-doesn't go as expected and we need to troubleshoot our processes.
-
-There are some report scripts in the $SLODPLA_ROOT/ingest/bin
-directory.  I recommend running these reports and reviewing their
-output to determine if there are any problems with the data
-prior to uploading the data to DPLA.
-
+doesn't goe as expected and we need to troubleshoot our processes.
 
