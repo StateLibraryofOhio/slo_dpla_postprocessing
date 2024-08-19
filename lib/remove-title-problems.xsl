@@ -27,7 +27,7 @@
 
 <xsl:mode on-no-match="shallow-copy"/>
 
-  <xsl:template match="record[not(count(./metadata/oai_qdc:qualifieddc/dcterms:title)=1)]"/>
+  <xsl:template match="record[not(./metadata/oai_qdc:qualifieddc/dcterms:title)]"/>
 
 </xsl:stylesheet>
 
