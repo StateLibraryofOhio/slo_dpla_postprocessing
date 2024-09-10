@@ -26,9 +26,13 @@ def getFile(link, command, sleepTime=0):
     remoteAddr = link + '?verb=%s' % command
     print("\t getFile ... %s" % remoteAddr[-90:])
 
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'
+    }
+
     # Handle HTTP Response (Including Common Errors) from OAI-PMH Endpoint
     try:
-        resp = requests.get(remoteAddr)
+        resp = requests.get(remoteAddr, headers=headers)
         if resp.status_code != 200 and resp.status_code != 301:
             resp.raise_for_status()
         elif resp.status_code == 301:

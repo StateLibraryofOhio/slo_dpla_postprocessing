@@ -120,7 +120,7 @@ echo "  ...retrieving data..."
 
 # harvest the list of OAI-PMH metadataFormats from the server and dump to file for later reference
 rm -f MetadataFormats.xml
-wget  "$URL"'?verb=ListMetadataFormats' -O ListMetadataFormats.xml -o /dev/null
+wget  "$URL"'?verb=ListMetadataFormats' -O ListMetadataFormats.xml --header="Accept: text/html"  --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" -o /dev/null
 
 # eliminate the "http[s]" prefix from the OAI-PMH harveste URL, as some of the datasets
 # are being harvested from one version of the URL for one collection, and other collections
