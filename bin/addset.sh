@@ -111,10 +111,15 @@ then
     echo "Error:  You must provide a URL for OAI-PMH harvesting"
 elif [ "$URL" != "$(echo $URL| sed -e 's/ //g')" ]
 then
-    echo "Error:  The URL must begin with http"
+    echo "Error:  The URL must begin with http or https"
     URL=''
 fi
 done
+
+# Check for problems with intermediate SSL certificates.
+# Failure at this point aborts the script.
+. $SLODPLA_BIN/check-https-connection.sh
+
 
 echo "  ...retrieving data..."
 
@@ -122,7 +127,7 @@ echo "  ...retrieving data..."
 rm -f MetadataFormats.xml
 wget  "$URL"'?verb=ListMetadataFormats' -O ListMetadataFormats.xml --header="Accept: text/html"  --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36" -o /dev/null
 
-# eliminate the "http[s]" prefix from the OAI-PMH harveste URL, as some of the datasets
+# eliminate the "http[s]" prefix from the OAI-PMH harvester URL, as some of the datasets
 # are being harvested from one version of the URL for one collection, and other collections
 # are being harvested from the other version of the URL.  This catches both variants 
 # when we search MySQL for other sets harvested from this server.
