@@ -106,7 +106,7 @@ fi
 # Preliminary checks OK.  Begin step 1:  Get data from the site.
 
 # We retrieve the contributor's original base OAI-PMH URL from mariadb.
-# SETSPEC is set in the transform.conf, dotted earlier in this script
+# SETSPEC is set in the transform.conf, dotted earlier in this script.
 
 
 SELECT_STATEMENT="select oaiSource from source where odnSet='"${SETSPEC}"'"
@@ -114,7 +114,6 @@ CONTRIBUTOR_BASE_URL=$(mysql -se "$SELECT_STATEMENT ")
 
 SELECT_STATEMENT="select oaiSet from source where odnSet='"${SETSPEC}"'"
 CONTRIBUTOR_SETSPEC=$(mysql -se "$SELECT_STATEMENT")
-
 
 echo ' '
 echo 'Attempting retrieval of OAI-PMH data from source repository:'
