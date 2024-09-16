@@ -169,6 +169,7 @@ java net.sf.saxon.Transform \
 xmllint --format $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml > tmp.xml
 sed -e "s/^[ ]*//g" < tmp.xml > 2a.xml
 cp tmp.xml $SETSPEC-not_transformed-$ORIG_PREFIX.xml
+chmod 664 $SETSPEC-not_transformed-$ORIG_PREFIX.xml
 mv tmp.xml $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
 
 BEFORECOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml)
