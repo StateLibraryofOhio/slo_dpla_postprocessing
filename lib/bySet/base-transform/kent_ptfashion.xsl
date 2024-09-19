@@ -51,7 +51,7 @@
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
-      <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
+      <xsl:apply-templates select="dc:format"                mode="kent_ptfashion"/>          <!-- create dc:format                                           -->
       <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
@@ -76,6 +76,10 @@
 
 
   <xsl:template match="dc:source" mode="kent_ptfashion"/>
+
+  <xsl:template match="dc:format" mode="kent_ptfashion">
+    <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">PT<xsl:value-of select="substring-before(., ':')"/>H<xsl:value-of select="substring-before(substring-after(., ':'), ':')"/>M<xsl:value-of select="substring-after(substring-after(., ':'), ':')"/>S</xsl:element>
+  </xsl:template>
 
   <xsl:template match="dc:identifier" mode="kent_ptfashion">
     <xsl:if test="starts-with(., 'http')">
