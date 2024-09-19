@@ -109,7 +109,7 @@ CREATE TABLE `oldTasks` (
   `retriesMax` int(11) DEFAULT NULL,
   `retriesDelay` int(11) DEFAULT NULL,
   PRIMARY KEY (`localkey`)
-) ENGINE=InnoDB AUTO_INCREMENT=20622 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20623 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,6 +163,7 @@ CREATE TABLE `recordcount` (
   `iiifViable` int(11) DEFAULT NULL,
   `lastCountDate` datetime DEFAULT NULL,
   `lastCountWithChangesDate` datetime DEFAULT NULL,
+  `nonDeletedRecords` int(11) GENERATED ALWAYS AS (`recordCount` - `deletedRecords`) VIRTUAL,
   PRIMARY KEY (`localkey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4680 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -254,4 +255,4 @@ CREATE TABLE `username` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-19 19:22:46
+-- Dump completed on 2024-09-19 20:14:19
