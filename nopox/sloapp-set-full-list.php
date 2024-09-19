@@ -80,7 +80,7 @@ echo '<tr><th><a href="/?action=collections&odnSetSort=description' . $otherSort
     $setRecordcountQuery = 'select * from recordcount where odnSet="' . htmlspecialchars($sourceRow['odnSet']) . '"';
     $setRecordcountResult = $pdo->query($setRecordcountQuery);
     $setRecordcountRow = $setRecordcountResult->fetch();
-    $setRecordcountValue = htmlspecialchars($setRecordcountRow['recordCount']);
+    $setRecordcountValue = htmlspecialchars($setRecordcountRow['nonDeletedRecords']);
     echo "<td>" .  number_format($setRecordcountValue) . '</td>';
 
     echo '</tr>';
