@@ -1,0 +1,22 @@
+A quick note on removal of HTML from metadata.
+
+The CONTENTdm sites generally don't have HTML in their metadata, but the non-CDM sites often do.
+
+For simple tags without attributes (e.g. <p> </p>) the opening and closing tags can be removed with a transform such as:
+
+   replace(., '&lt;[/]*p&gt;', '')
+
+The replace() functions can be nested to remove multiple types of tags, e.g. removal of <p> and <em> tags:
+
+   replace(replace(., '&lt;[/]*p&gt;', ''), '&lt;[/]*em&gt;',
+
+It's ugly (especially when you're processing many different types of tags) and there might be a far better way to accomplish it, but that's what I've been doing, at least.
+
+More complex tags containing attributes -- such as anchor tags -- I typically handle on a case-by-case basis.  e.g.:
+
+   replace(., '&lt;a href=&quot;http://whitecube.com/exhibitions/wang_gongxin_white_cube_hong_kong_2017/&quot;&gt;', '')
+
+These cases obviously become less feasible as the amount of data in the set increases.  As it is, the nesting of many replace()s often proves to be painful to manage.
+
+HTML should be removed, whenever possible, since it's going to make the metadata far uglier in the DPLA display and harder for the DPLA folks to scrub the data prior to making it available to DPLA users.
+
