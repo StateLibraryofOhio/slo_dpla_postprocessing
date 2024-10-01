@@ -31,7 +31,8 @@ fi
 
 INDIR=$INGEST_DATADIR/10_gzipped
 
-UPLOAD_DIR=$(date +%Y-%m-%d)
+#UPLOAD_DIR=$(date +%Y-%m-%d)
+UPLOAD_DIR=$INGEST_DESTINATION
 
 cat <<EOBLOCK
 This procedure will begin the upload to DPLA.
