@@ -48,7 +48,7 @@ ls $INGEST_RIGHTS_CHECKED | while read FILENAME
 do
     echo "  Processing $FILENAME..."
     java net.sf.saxon.Transform \
-        -s:$SLODATA_STAGING/$FILENAME \
+        -s:$INGEST_RIGHTS_CHECKED/$FILENAME \
         -xsl:$SLODPLA_LIB/remove-title-problems.xsl \
         -o:$INGEST_TITLES_CHECKED/$FILENAME
 done
