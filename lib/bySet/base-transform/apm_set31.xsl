@@ -74,7 +74,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="apm_set31"/>               <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
@@ -107,6 +107,12 @@
         <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">http://rightsstatements.org/vocab/InC/1.0/</xsl:element>
       </xsl:when>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="dc:relation" mode="apm_set31">
+    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+      <xsl:value-of select="normalize-space(replace(., '&lt;[/]*em&gt;', ' '))"/>
+    </xsl:element>
   </xsl:template>
 
 </xsl:stylesheet>

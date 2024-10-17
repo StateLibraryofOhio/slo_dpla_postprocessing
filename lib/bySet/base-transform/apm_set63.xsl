@@ -74,7 +74,7 @@
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
-      <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
+      <xsl:apply-templates select="dc:relation"              mode="apm_set63"/>               <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
@@ -110,5 +110,11 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:param name="doubleQuote">"</xsl:param>
+  <xsl:template match="dc:relation" mode="apm_set63">
+    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+      <xsl:value-of select="replace(normalize-space(replace(replace(normalize-space(replace(normalize-space(replace(., '&lt;span&gt;&#xA0;&lt;/span&gt;', ' ')), concat('&lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=', $doubleQuote, 'element-set', $doubleQuote, '&gt;&lt;/div&gt;'), '')), concat('&lt;div class=', $doubleQuote, 'element-set', $doubleQuote, '&gt; &lt;div id=', $doubleQuote, 'dublin-core-relation', $doubleQuote, ' class=', $doubleQuote, 'element', $doubleQuote, '&gt; &lt;div class=', $doubleQuote, 'element-text', $doubleQuote, '&gt;'), ''), '&lt;[/]*em&gt;', '')), '&#xA0;', '')"/>
+    </xsl:element>
+  </xsl:template>
 
 </xsl:stylesheet>

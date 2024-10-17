@@ -16,7 +16,16 @@ More complex tags containing attributes -- such as anchor tags -- I typically ha
 
    replace(., '&lt;a href=&quot;http://whitecube.com/exhibitions/wang_gongxin_white_cube_hong_kong_2017/&quot;&gt;', '')
 
-These cases obviously become less feasible as the amount of data in the set increases.  As it is, the nesting of many replace()s often proves to be painful to manage.
+Or, if the quotes become particularly painful...
+
+  <xsl:param name="doubleQuote">"</xsl:param>
+  <xsl:template match="dc:relation" mode="apm_set30">
+    <xsl:element name="dc:relation" namespace="http://purl.org/dc/elements/1.1/">
+      <xsl:value-of select="normalize-space(substring-before(replace(replace(., $doubleQuote, ''), '&lt;a href=', ''), ' target=_blank'))"/>
+    </xsl:element>
+  </xsl:template>
+
+These cases obviously become less feasible as the amount of data in the set increases.  As it is, the nesting of many replace()s often proves to be painful to manage.  I'm sure there's a better way to handle this, but I haven't figured it out yet.
 
 HTML should be removed, whenever possible, since it's going to make the metadata far uglier in the DPLA display and harder for the DPLA folks to scrub the data prior to making it available to DPLA users.
 
