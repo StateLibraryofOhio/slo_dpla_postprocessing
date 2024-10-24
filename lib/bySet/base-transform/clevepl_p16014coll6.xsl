@@ -74,9 +74,12 @@
       <xsl:apply-templates select="dcterms:isFormatOf"       mode="clevepl_p16014coll6"/>     <!-- unwanted; remove                                           -->
       <xsl:apply-templates select="dcterms:license"          mode="clevepl_p16014coll6"/>     <!-- unwanted; remove                                           -->
       <xsl:apply-templates select="dcterms:provenance"       mode="clevepl_p16014coll6"/>     <!-- unwanted; remove                                           -->
+      <xsl:apply-templates select="dcterms:isReferencedBy"   mode="clevepl_p16014coll6"/>     <!-- unwanted; remove                                           -->
 
     </oai_qdc:qualifieddc>
   </xsl:template>
+
+  <xsl:template match="dcterms:isReferencedBy" mode="clevepl_p16014coll6"/>
 
   <xsl:template match="dcterms:spatial" mode="clevepl_p16014coll6"/>
 
