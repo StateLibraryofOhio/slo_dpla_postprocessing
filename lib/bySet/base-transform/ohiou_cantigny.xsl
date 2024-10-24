@@ -68,11 +68,14 @@
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:apply-templates select="dcterms:rightsHolder"     mode="ohiou_cantigny"/>          <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
+      <xsl:apply-templates select="dcterms:isReferencedBy"   mode="ohiou_cantigny"/>          <!-- unwanted; remove                                           -->
 
     </oai_qdc:qualifieddc>
   </xsl:template>
 
   <xsl:template match="dcterms:isPartOf" mode="ohiou_cantigny"/>
+
+  <xsl:template match="dcterms:isReferencedBy" mode="ohiou_cantigny"/>
 
 
   <xsl:template match="dcterms:spatial" mode="ohiou_cantigny">
