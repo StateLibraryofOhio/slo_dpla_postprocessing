@@ -83,7 +83,7 @@ Complete!
 
 There are $FULL_COUNT records in this set.
 $IIIF_MARKED_COUNT records include IIIF metadata.
-$IIIF_ELIGIBLE_COUNT records are eligible for WikiMedia inclusion based on the edm:rights value.
+$IIIF_ELIGIBLE_COUNT records are eligible for Wikimedia inclusion based on the edm:rights value.
 
 The output can be found at:
 

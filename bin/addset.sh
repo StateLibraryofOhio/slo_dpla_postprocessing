@@ -263,7 +263,7 @@ done
 METADATA_FORMAT_SCHEMA=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/get-metadataFormat-schema.xsl -s:ListMetadataFormats.xml METADATA_FORMAT=$METADATA_FORMAT ) 
 
 
-# Should this set be enrolled in the WikiMedia program?  If so, then we will 
+# Should this set be enrolled in the Wikimedia program?  If so, then we will 
 # add dcterms:isReferencedBy elements to qualifying records later in the process.
 
 IIIF_PARTICIPANT=''
@@ -271,7 +271,7 @@ while [ "$IIIF_PARTICIPANT" != 'y' ] && [ "$IIIF_PARTICIPANT" != 'Y' ] && [ "$II
 do
 cat <<EOF
 
-Enroll this collection in WikiMedia / IIIF processing?  y/n
+Enroll this collection in Wikimedia / IIIF processing?  y/n
 EOF
 echo -n ' >>> '
 read IIIF_PARTICIPANT
