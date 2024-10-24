@@ -60,7 +60,7 @@
       <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="midpointe_p16488coll2"/>   <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
-      <xsl:copy-of         select="dcterms:isReferencedBy"   copy-namespaces="no"/>           <!-- create IIIF metadata                                       -->
+      <xsl:apply-templates select="dcterms:isReferencedBy"   mode="odn"/>                     <!-- eliminate by default; use dcterms:isReferencedBy for Wikimedia data  -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="odn"/>                     <!-- create dc:relation                                         -->
