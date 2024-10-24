@@ -104,6 +104,10 @@
     </xsl:element>
   </xsl:template>
 
+  <!-- remove by default; if retained, isReferencedBy values should be mapped to
+       another field, as isReferencedBy is used for transmitting data to DPLA    -->
+  <xsl:template match="dcterms:isReferencedBy" mode="odn"/>
+
   <xsl:template match="dc:language" mode="odn">
     <xsl:for-each select="tokenize(., ';')">
       <xsl:choose>
