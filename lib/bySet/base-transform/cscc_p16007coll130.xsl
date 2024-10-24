@@ -105,9 +105,11 @@
 
   <xsl:template match="dc:date" mode="cscc_p16007coll130">
     <xsl:for-each select="tokenize(., ';')">
-      <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
-        <xsl:value-of select="normalize-space(.)"/>
-      </xsl:element>
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
