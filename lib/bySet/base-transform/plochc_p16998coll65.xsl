@@ -54,7 +54,7 @@
 
       <!-- REQUIRED ODN-MAP FIELDS -->
       <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
-      <xsl:apply-templates select="dc:rights"                mode="plochc_p16998coll65"/>     <!-- create edm:rights    and dc:rights                         -->
+      <xsl:apply-templates select="dc:rights"                mode="odn"/>                     <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
@@ -185,50 +185,5 @@
       </xsl:if>
     </xsl:for-each>
   </xsl:template>
-
-  <!-- This collection has a few rights URLs that start "Http" instead of "http".
-       That's distinctly non-standard, and doesn't work with some stuff.  I'm
-       updating these values to be consistent with the other values being sent.
-       An additional "list" (of one item) is being created for this custom
-       xsl:template, but the template still refers to the standard lists, also.
-   -->
-
-  <xsl:template match="dc:rights" mode="plochc_p16998coll65">
-    <xsl:for-each select="tokenize(., ';')">
-        <xsl:if test="(normalize-space(.) != '') and (starts-with(normalize-space(replace(., 'Http', 'http')), 'http://') and ends-with(normalize-space(.), '/'))" >
-            <xsl:choose>
-              <xsl:when test="starts-with(normalize-space(.), 'http://rightsstatements.org/')">
-                            <xsl:if test="index-of($rightsStatementsOrgList, normalize-space(.))">
-                                <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">
-                                    <xsl:value-of select="normalize-space(.)"/>
-                                </xsl:element>
-                            </xsl:if>
-              </xsl:when>
-              <xsl:when test="starts-with(normalize-space(.), 'Http://rightsstatements.org/')">
-                            <xsl:if test="index-of($rightsStatementsOrgList_p16998coll65, normalize-space(.))">
-                                <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">
-                                    <xsl:value-of select="normalize-space(replace(., 'Http', 'http'))"/>
-                                </xsl:element>
-                            </xsl:if>
-              </xsl:when>
-              <xsl:otherwise>
-                  <xsl:if test="starts-with(normalize-space(.), 'http://creativecommons.org/')">
-                            <xsl:if test="index-of($creativeCommonsOrgList, normalize-space(.))">
-                                <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">
-                                    <xsl:value-of select="normalize-space(.)"/>
-                                </xsl:element>
-                            </xsl:if>
-                  </xsl:if>
-              </xsl:otherwise>
-            </xsl:choose>
-        </xsl:if>
-     </xsl:for-each>
-  </xsl:template>
-
-  <xsl:param name="rightsStatementsOrgList_p16998coll65"
-           select="(
-                     'Http://rightsstatements.org/vocab/InC/1.0/'
-                  )"
-  />
 
 </xsl:stylesheet>
