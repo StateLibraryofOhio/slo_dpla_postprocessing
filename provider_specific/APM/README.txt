@@ -19,6 +19,7 @@ In the case of APM, we instead do the following:
 4.  Parse the downloaded HTML and find the edm:preview URL
 5.  Insert the newly-discovered edm:preview metadata into the
     XML we created in step 2, above
+6.  Manually copy the updated XML files to $SLODATA_STAGING
 
 There's undoubtedly a way to put the edm:preview metadata into the
 OAI-PMH output, but APM is using Omeka (not CONTENTdm, where this
