@@ -84,9 +84,18 @@
   </xsl:template>
 
   <xsl:template match="dc:description" mode="kent_theburr">
-    <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
-      <xsl:value-of select="normalize-space(.)"/>
-    </xsl:element>
+    <xsl:choose>
+      <xsl:when test="starts-with(., 'http')">
+        <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:element name="dcterms:alternative" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="replace(., '&lt;[/]*p&gt;', '')"/>
+        </xsl:element>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 
