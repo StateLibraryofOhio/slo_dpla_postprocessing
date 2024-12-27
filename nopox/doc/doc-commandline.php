@@ -6,6 +6,97 @@
 <h3>Environment</h3>
 <p>To successfully use the command line scripts, you must setup your environment through the configuration of various environment variables and application settings.</p>
 
+<p>This application relies upon a number of different environment variables which refer to different areas of the filesystem.  There are about 15 such variables, and they refer to directories in 2 different locations.<br><br>  The first directory is the $SLODATA location; this is where the harvested metadata and modified versions thereof are stored.  The second directory is the $SLODPLA_ROOT directory; this is where the application lives.<br><br>The other environment variables point at specific locations underneath either of these directories.  The $SLODPLA_LIB directory, for example, is under the $SLODPLA_ROOT, and it contains the XSLT files that are used to modify the harvested metadata to harmonize it with the format we use for uploading to DPLA.  Some of these environment variables will be used by the shell scripts that comprise the application, while others are simply for making it easier to change to a given directory while navigating through the system at the OS commandline.</p>
+
+<table border=1>
+  <tr>
+    <th>Environent variable</th>
+    <th>Purpose</th>
+  </tr>
+
+   <tr>
+     <td>$SLODPLA_ROOT</td>
+     <td>Root directory containing all of the files for the application</td>
+   </tr>
+
+   <tr>
+     <td>$SLODPLA_LIB</td>
+     <td>The directory containing XSLT files that are "general purpose", rather than targeted to a specific set of data.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODPLA_STAGING</td>
+     <td>deprecated and unused; might change</td>
+   </tr>
+
+   <tr>
+     <td>$SLODPLA_FILTERXSLT</td>
+     <td>The typical dataset processing consists of harvesting all of the records for a given contributed collection, and then uploading all of those records to DPLA.  A few datasets, however, require additional processing.  OSU, for example, has contributed a set in which a few of the records SHOULD NOT be uploaded to DPLA.  The XSLT for this OSU set responsible for eliminating the unwanted subset of records is stored in this directory.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODPLA_CONF</td>
+     <td>Configuration files for the application are stored here.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODPLA_BIN</td>
+     <td>Shell scripts (which make up most of the application) are stored in this directory.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODPLA_BASEXSLT</td>
+     <td>Every collection harvested from a contributor has its own XSLT file.  This XSLT will either (a) map an incoming field (e.g. dcterms:alternative) to a corresponding field in our "Metadata Application Profile", or (b) eliminate the field from the data entirely so that it's not uploaded to DPLA.  These XSLT files are stored in this directory.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA</td>
+     <td>All harvested metadata is stored under this directory.  This location should not be on the same disk/QCOW2 file as that holding the application ($SLODPLA_ROOT).  Because we are working with large amounts of metadata, it is possible to completely fill the disk with data.  In the case of a QCOW2 file, filling the disk entirely will cause the entire QCOW2 file to be corrupted.  Putting both in the same QCOW2 file would cause the MySQL database to be corrupted and would cause a catastrophic loss of data in a worst-case-scenario, but putting them in separate locations would ensure that data loss would be restricted to the harvested data and would allow for easy recovery (i.e. simple re-harvesting of all contributed collections).</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_ARCHIVIZED</td>
+     <td>Data that is harvested from remote OAI-PMH servers needs to have archival metadata added to it, as per the documentation here:<br>
+         &nbsp;&nbsp;&nbsp;&nbsp; <a href="https://www.openarchives.org/OAI/2.0/guidelines-provenance.htm">https://www.openarchives.org/OAI/2.0/guidelines-provenance.htm</a><br>
+         After we harvest data from the contributors' servers, we add that metadata and store the modified, "archivized" version of the data in this directory.  Subsequent steps will further modify this data.
+     </td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_INGEST</td>
+     <td>Each quarterly upload to DPLA is processed in a subdirectory of this location.  The subdirectory would be named "YYYY-MM" (YYYY=the current year; MM=the current month).  To create the appropriate subdirectory, copy the entire $SLODPLA_INGEST to an appropriate name (e.g. "cp -pr $SLODPLA_ROOT/ingest $SLODATA_INGEST/2025-03).</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_LOGS</td>
+     <td>not currently used; perhaps one day.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_RAW</td>
+     <td>This is the XML data that has been harvested from the contributors' servers before we have made any changes to it.  Upon harvesting the data to this location, we immediately "archivize" the data in this directory and store the modified data in $SLODATA_ARCHIVIZED.  Nothing more is done with this "raw" data, but we retain it for debugging purposes.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_ROOT</td>
+     <td>Same as $SLODATA.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_STAGING</td>
+     <td>This is where data is stored after it has undergone all of our transformations and is ready for upload to DPLA.</td>
+   </tr>
+
+   <tr>
+     <td>$SLODATA_WORKING</td>
+     <td>This is the parent directory for locations in which one downloads data from a contributor, runs the data through the various XSLT manipulations, and generally prepares it for upload to DPLA.</td>
+   </tr>
+
+</table>
+
+
+
+<h3>Files used for configuring the application</h3>
 <table border=1>
   <tr>
     <th>Config file</th>
@@ -87,7 +178,7 @@
   <td>staging.sh</td><td>Use this to copy the reviewed data to the $SLODATA_STAGING directory.  It's now ready to be reviewed by Penelope for any problems.</td>
 </tr>
 <tr>
-  <td>queue4ingest.sh</td><td>This script will copy the XML data from the $SLODATA_STAGING directory to the $SLODATA_INGEST directory, where it will be ready to be pushed to DPLA for the quarterly ingest.</td>
+  <td>queue4ingest.sh</td><td>This script isn't used at the moment.</td>
 </tr>
 </table>
 
