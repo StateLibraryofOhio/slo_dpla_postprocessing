@@ -27,7 +27,7 @@
   metadata.  The records will be transformed to the ODN specification, but
   the XML will still include deleted records, will not include IIIF metadata,
   and some sets will need further transformations to filter out additional
-  records (e.g. OSU, Lorain's Feightner collection, etc.
+  records (e.g. OSU, Lorain's Feightner collection.)
 
   Example usage:
 
@@ -36,6 +36,9 @@
            -s:pdk_boris-archivized.xml \
            -o:output.xml \
             setXsl='pdk_boris.xsl'
+
+  There are undoubtedly better designs for this functionality, but this
+  allowed me to reuse the XSLT files from REPOX with almost no changes.
   -->
 
 
