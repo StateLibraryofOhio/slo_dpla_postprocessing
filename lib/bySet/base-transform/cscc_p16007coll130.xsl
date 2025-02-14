@@ -56,7 +56,7 @@
 
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
-      <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
+      <xsl:apply-templates select="dc:creator"               mode="cscc_p16007coll130"/>      <!-- create dcterms:creator                                     -->
       <xsl:apply-templates select="dc:date"                  mode="cscc_p16007coll130"/>      <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:apply-templates select="dcterms:spatial"          mode="cscc_p16007coll130"/>      <!-- create dcterms:spatial                                     -->
@@ -95,11 +95,23 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="dc:creator" mode="cscc_p16007coll130">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
   <xsl:template match="dcterms:spatial" mode="cscc_p16007coll130">
     <xsl:for-each select="tokenize(., ';')">
-      <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
-        <xsl:value-of select="normalize-space(.)"/>
-      </xsl:element>
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
