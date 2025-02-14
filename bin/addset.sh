@@ -435,18 +435,32 @@ fi
 
 cat <<EOF
 
-You can setup this directory as a temporary working directory for analyzing
-the data with the following command:
-
-    gu-setup $ODN_SETSPEC
-
-Before you do that, though, you must add the configuration to MySQL.
+You must now add the configuration to MySQL.
 
 The SQL to add the new set has been dumped to:  add-source_$ODN_SETSPEC.sql"
 
 If it looks good, you can load it via:
 
     mysql < add-source_$ODN_SETSPEC.sql
+
+
+After you have setup MySQL, you can use this directory as a temporary working 
+directory for analyzing the data with the following command:
+
+    gu-setup $ODN_SETSPEC
+
+
+Since this is a brand new set, you'll need to inventory the metadata fields
+that were sent with the OAI-PMH XML.  This information will then be used by
+the contributor to map their fields to the ODN equivalents.  You can get this
+field list (as well as a few other details) via the following command:
+
+    dissect-raw.sh
+
+This should create a file called "fields-with-metadata-in-raw.txt" which will
+contain that information.  Copy that into the appropriate spreadsheet for
+sending back to the contributor.  A copy of that spreadsheet can be found at
+$SLODPLA_ROOT/00_FIELD_LISTING.xlsx
 
 EOF
 
