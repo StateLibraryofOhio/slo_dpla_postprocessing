@@ -51,13 +51,21 @@ then
     exit
 fi
 
-
+QUERY="select iiifParticipant from source where odnSet='"$ODN_SETSPEC"'"
+IIIFPARTICIPANT=$(mysql -sNe "$QUERY")
 
 NEWFILE=`echo $XMLFILE | sed -e 's/.xml/_iiif-added.xml/g'`
 
-java net.sf.saxon.Transform -s:$XMLFILE -xsl:$SLODPLA_LIB/iiif-blanket-insert.xsl -o:$NEWFILE
-xmllint --format $NEWFILE > 2.dat
-mv 2.dat $NEWFILE
+if [ "$IIIFPARTICIPANT" == 'y' ]
+then
+    echo "This collection IS flagged for Wikimedia inclusion"
+    java net.sf.saxon.Transform -s:$XMLFILE -xsl:$SLODPLA_LIB/iiif-blanket-insert.xsl -o:$NEWFILE
+    xmllint --format $NEWFILE > 2.dat
+    mv 2.dat $NEWFILE
+else
+    echo "This collection IS NOT flagged for Wikimedia inclusion"
+    cp $XMLFILE $NEWFILE
+fi
 
 IIIF_ELIGIBLE_COUNT=`grep -e '<edm:rights>http://rightsstatements.org/vocab/NoC-US/' \
       -e '<edm:rights>http://creativecommons.org/publicdomain/mark/' \

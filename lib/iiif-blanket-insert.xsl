@@ -27,9 +27,8 @@
   <!--    a.  running CONTENTdm, or                                              -->
   <!--    b.  is part of Kent's OAKS server.                                     -->
 
-  <!-- The XSLT tests each record to confirm that:                               -->
-  <!--    a.  the record has proper permissions for IIIF, and                    -->
-  <!--    b.  the record is part of a set designated as participating in IIIF    -->
+  <!-- The XSLT tests each record to confirm that the record has an emd:rights   -->
+  <!-- value appropriate for Wikimedia inclusion.                                -->
 
   <!-- If the record is shared, an appropriate IIIF value is generated for the   -->
   <!-- dcterms:isReferencedBy field based on whether the record is coming from   -->
@@ -49,114 +48,6 @@
                             starts-with(edm:rights, 'http://creativecommons.org/publicdomain/zero/') or
                             starts-with(edm:rights, 'http://creativecommons.org/licenses/by/') or
                             starts-with(edm:rights, 'http://creativecommons.org/licenses/by-sa/')
-                           ) and (
-                            ../../header/setSpec[text()]='clevepl_p128201coll0' or
-                            ../../header/setSpec[text()]='clevepl_p16014coll17' or
-                            ../../header/setSpec[text()]='clevepl_p16014coll23' or
-                            ../../header/setSpec[text()]='clevepl_p16014coll24' or
-                            ../../header/setSpec[text()]='clevepl_p16014coll6' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll10' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll12' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll13' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll14' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll18' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll20' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll24' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll25' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll27' or
-                            ../../header/setSpec[text()]='clevepl_p4014coll9' or
-                            ../../header/setSpec[text()]='cml_african' or
-                            ../../header/setSpec[text()]='ccs_collection' or
-                            ../../header/setSpec[text()]='cml_citydir' or
-                            ../../header/setSpec[text()]='cml_genealogy' or
-                            ../../header/setSpec[text()]='cml_maps' or
-                            ../../header/setSpec[text()]='cml_memory' or
-                            ../../header/setSpec[text()]='cml_ohio' or
-                            ../../header/setSpec[text()]='cml_p16802coll19' or
-                            ../../header/setSpec[text()]='cml_p16802coll28' or
-                            ../../header/setSpec[text()]='cml_p16802coll47' or
-                            ../../header/setSpec[text()]='cml_p16802coll50' or
-                            ../../header/setSpec[text()]='cml_postcard' or
-                            ../../header/setSpec[text()]='cml_yearbook' or
-                            ../../header/setSpec[text()]='delawaremem_ashley' or
-                            ../../header/setSpec[text()]='delawaremem_berkshire' or
-                            ../../header/setSpec[text()]='delawaremem_berlin' or
-                            ../../header/setSpec[text()]='delawaremem_brown' or
-                            ../../header/setSpec[text()]='delawaremem_burrer' or
-                            ../../header/setSpec[text()]='delawaremem_churches' or
-                            ../../header/setSpec[text()]='delawaremem_clubs' or
-                            ../../header/setSpec[text()]='delawaremem_daisy' or
-                            ../../header/setSpec[text()]='delawaremem_delawarecity' or
-                            ../../header/setSpec[text()]='delawaremem_family' or
-                            ../../header/setSpec[text()]='delawaremem_galena' or
-                            ../../header/setSpec[text()]='delawaremem_harlem' or
-                            ../../header/setSpec[text()]='delawaremem_kingston' or
-                            ../../header/setSpec[text()]='delawaremem_maps' or
-                            ../../header/setSpec[text()]='delawaremem_military' or
-                            ../../header/setSpec[text()]='delawaremem_naturalization' or
-                            ../../header/setSpec[text()]='delawaremem_ostrander' or
-                            ../../header/setSpec[text()]='delawaremem_porter' or
-                            ../../header/setSpec[text()]='delawaremem_powell' or
-                            ../../header/setSpec[text()]='delawaremem_stratford' or
-                            ../../header/setSpec[text()]='delawaremem_sunbury' or
-                            ../../header/setSpec[text()]='delawaremem_taxdups' or
-                            ../../header/setSpec[text()]='delawaremem_thompson' or
-                            ../../header/setSpec[text()]='delawaremem_trenton' or
-                            ../../header/setSpec[text()]='delawaremem_vital' or
-                            ../../header/setSpec[text()]='delawaremem_wesleyan' or
-                            ../../header/setSpec[text()]='delawaremem_wills' or
-                            ../../header/setSpec[text()]='delawaremem_yearbooks' or
-                            ../../header/setSpec[text()]='kent_allenevents' or
-                            ../../header/setSpec[text()]='kent_allenimages' or
-                            ../../header/setSpec[text()]='kent_amag' or
-                            ../../header/setSpec[text()]='kent_asylum' or
-                            ../../header/setSpec[text()]='kent_brainchild' or
-                            ../../header/setSpec[text()]='kent_cpmyearbooks' or
-                            ../../header/setSpec[text()]='kent_epar' or
-                            ../../header/setSpec[text()]='kent_fashion' or
-                            ../../header/setSpec[text()]='kent_fusion' or
-                            ../../header/setSpec[text()]='kent_grimshaw' or
-                            ../../header/setSpec[text()]='kent_icon' or
-                            ../../header/setSpec[text()]='kent_kaleidoscope' or
-                            ../../header/setSpec[text()]='kent_ksumuseum' or
-                            ../../header/setSpec[text()]='kent_ksuscp' or
-                            ../../header/setSpec[text()]='kent_mccurdy' or
-                            ../../header/setSpec[text()]='kent_museumvideo' or
-                            ../../header/setSpec[text()]='kent_ohiohistory' or
-                            ../../header/setSpec[text()]='kent_platypus' or
-                            ../../header/setSpec[text()]='kent_sanbornmaps' or
-                            ../../header/setSpec[text()]='kent_soacatalogs' or
-                            ../../header/setSpec[text()]='kent_theburr' or
-                            ../../header/setSpec[text()]='kent_wcr' or
-                            ../../header/setSpec[text()]='kent_winecentral' or
-                            ../../header/setSpec[text()]='kent_winecompetition' or
-                            ../../header/setSpec[text()]='kent_winehofphotos' or
-                            ../../header/setSpec[text()]='kent_winelabels' or
-                            ../../header/setSpec[text()]='kent_wineneinland' or
-                            ../../header/setSpec[text()]='kent_winenw' or
-                            ../../header/setSpec[text()]='kent_winenwlakeerie' or
-                            ../../header/setSpec[text()]='kent_winese' or
-                            ../../header/setSpec[text()]='kent_winesw' or
-                            ../../header/setSpec[text()]='midpointe_p16488coll13' or
-                            ../../header/setSpec[text()]='midpointe_p16488coll5' or
-                            ../../header/setSpec[text()]='ohiou_p15808coll1' or
-                            ../../header/setSpec[text()]='slo_p15005coll2' or
-                            ../../header/setSpec[text()]='slo_p15005coll36' or
-                            ../../header/setSpec[text()]='slo_p16007coll11' or
-                            ../../header/setSpec[text()]='slo_p16007coll12' or
-                            ../../header/setSpec[text()]='slo_p16007coll13' or
-                            ../../header/setSpec[text()]='slo_p16007coll17' or
-                            ../../header/setSpec[text()]='slo_p16007coll20' or
-                            ../../header/setSpec[text()]='slo_p16007coll21' or
-                            ../../header/setSpec[text()]='slo_p16007coll25' or
-                            ../../header/setSpec[text()]='tlcpl_p16007coll33' or
-                            ../../header/setSpec[text()]='slo_p16007coll35' or
-                            ../../header/setSpec[text()]='slo_p16007coll47' or
-                            ../../header/setSpec[text()]='slo_p267401ccp2' or
-                            ../../header/setSpec[text()]='slo_p267401cdi' or
-                            ../../header/setSpec[text()]='ohiou_buhla' or
-                            ../../header/setSpec[text()]='ohiou_mss' or
-                            ../../header/setSpec[text()]='tlcpl_p16007coll88'
                            )">
 
                 <xsl:variable name="tokens" select="tokenize(edm:isShownAt, '/')"/>
