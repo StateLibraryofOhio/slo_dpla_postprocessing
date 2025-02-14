@@ -33,7 +33,7 @@
 
   <!-- If the record is shared, an appropriate IIIF value is generated for the   -->
   <!-- dcterms:isReferencedBy field based on whether the record is coming from   -->
-  <!-- CONTENTdm or OAKS. -->
+  <!-- CONTENTdm or OAKS.                                                        -->
 
   <!-- Note that the addition of a new IIIF-participant who is not using OAKS or -->
   <!-- CONTENTdm will mandate the update of this code.                           -->
