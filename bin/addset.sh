@@ -60,7 +60,7 @@ EOF
 # Query MySQL for existing provider names, dump to screen for user to select
 # if the provider has previously submitted data to ODN.
 
-mysql -N -e "select distinct name from provider;"  slo_aggregator | sed -e 's/^/    /g'
+mysql -N -e "select distinct name from provider order by name;"  slo_aggregator | sed -e 's/^/    /g'
 
 while [ "$PROVIDER" == '' ]
 do
