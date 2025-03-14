@@ -40,7 +40,7 @@
 
       <!-- STATIC VALUES FOR ODN-MAP fields -->
       <xsl:element name="edm:dataProvider" namespace="http://www.europeana.eu/schemas/edm/">Delaware County Memory</xsl:element>     <!-- create edm:dataProvider -->
-      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Yearbooks and Class Pictures</xsl:element>              <!-- create dcterms:isPartOf -->
+      <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Yearbooks</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
       <xsl:apply-templates select="dc:identifier"            mode="delawaremem_yearbooks"/>   <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
