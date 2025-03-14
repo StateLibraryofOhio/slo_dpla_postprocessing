@@ -20,12 +20,8 @@
 
   <xsl:output omit-xml-declaration="yes" indent="yes"/>
   
-
-
   <!-- pull in our common template file -->
   <xsl:include href="odn_templates.xsl"/>
-
-  
   
   <xsl:template match="//oai_qdc:qualifieddc">
     <oai_qdc:qualifieddc
@@ -59,8 +55,8 @@
       <!-- OPTIONAL ODN-MAP fields -->
       <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
       <xsl:apply-templates select="dc:contributor"           mode="tspl_scdl"/>               <!-- create dcterms:contributor                                 -->
-      <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
-      <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
+      <xsl:apply-templates select="dc:description"           mode="tspl_scdl"/>               <!-- create dcterms:description                                 -->
+      <xsl:apply-templates select="dcterms:extent"           mode="tspl_scdl"/>               <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="tspl_scdl"/>               <!-- create dc:relation                                         -->
@@ -199,6 +195,25 @@
         </xsl:element>
       </xsl:if>
     </xsl:for-each>
+  </xsl:template>
+
+
+
+  <xsl:template match="dcterms:extent" mode="tspl_scdl">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:extent" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+
+  <xsl:template match="dc:description" mode="tspl_scdl">
+    <xsl:element namespace="http://purl.org/dc/terms/" name="dcterms:description">
+      <xsl:value-of select="replace(replace(., '&gt;', ''), '&lt;', '')"/>
+    </xsl:element>
   </xsl:template>
 
 
