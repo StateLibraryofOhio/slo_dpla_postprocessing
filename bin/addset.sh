@@ -431,29 +431,33 @@ EOF
 
 fi
 
-# cat add-source_$ODN_SETSPEC.sql
+# add the configuration to MySQL.
+# The SQL to add the new set has been dumped to:  add-source_$ODN_SETSPEC.sql"
+# If it looks good, you can load it via:
 
-cat <<EOF
-
-You must now add the configuration to MySQL.
-
-The SQL to add the new set has been dumped to:  add-source_$ODN_SETSPEC.sql"
-
-If it looks good, you can load it via:
-
-    mysql < add-source_$ODN_SETSPEC.sql
+mysql < add-source_$ODN_SETSPEC.sql
 
 
-After you have setup MySQL, you can use this directory as a temporary working 
-directory for analyzing the data with the following command:
+cat << EOF
+
+The new set has been added to MySQL.
+
+To setup a directory as a temporary working area for analyzing the data,
+run the following command:
 
     gu-setup $ODN_SETSPEC
 
 
 Since this is a brand new set, you'll need to inventory the metadata fields
 that were sent with the OAI-PMH XML.  This information will then be used by
-the contributor to map their fields to the ODN equivalents.  You can get this
-field list (as well as a few other details) via the following command:
+the contributor to map their fields to the ODN equivalents.
+
+Start by harvesting the new collection via the following command:
+
+    get-raw.sh
+
+After the harvest completes, you can get a list of all fields sent which 
+contain metadata (as well as a few other details) via the following command:
 
     dissect-raw.sh
 
