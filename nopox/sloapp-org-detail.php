@@ -101,7 +101,7 @@ echo '<th>Set Name</th><th>Record Count</th><th>Last Harvested</th><th>ODN setSp
     $setRecordcountQuery = 'select * from recordcount where odnSet="' . htmlspecialchars($sourceRow['odnSet']) . '"';
     $setRecordcountResult = $pdo->query($setRecordcountQuery);
     $setRecordcountResultAsArray =  $setRecordcountResult->fetch();
-    echo '<td>' . number_format(htmlspecialchars($setRecordcountResultAsArray['recordCount'])) . '</td>';
+    echo '<td>' . number_format(htmlspecialchars($setRecordcountResultAsArray['nonDeletedRecords'])) . '</td>';
     //echo '<td>' . htmlspecialchars($sourceRow['providerName']) . '</td>';
     $lastIngestDate = preg_split('/\s/', htmlspecialchars($sourceRow['lastIngest']));
     echo '<td class="td-displayDate">' . $lastIngestDate[0] . '</td>';
