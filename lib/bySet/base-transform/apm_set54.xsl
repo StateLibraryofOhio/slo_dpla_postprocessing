@@ -67,12 +67,14 @@
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
+      <xsl:apply-templates select="dc:coverage"              mode="apm_set54"/>               <!-- unwanted -->
       
       <xsl:apply-templates select="dc:source"                mode="odn"/>                     <!-- frequently unused; remove by default                       -->
 
     </oai_qdc:qualifieddc>
   </xsl:template>
 
+  <xsl:template match="dc:coverage"/>
 
   <xsl:template match="dc:identifier" mode="apm_set54">
     <xsl:choose>
