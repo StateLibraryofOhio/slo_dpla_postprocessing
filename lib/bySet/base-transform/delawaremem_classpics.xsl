@@ -69,9 +69,12 @@
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
 
+      <xsl:apply-templates select="dc:coverage"              mode="delawaremem_classpics"/>
+
     </oai_qdc:qualifieddc>
   </xsl:template>
 
+  <xsl:template match="dc:coverage"  mode="delawaremem_classpics"/>
 
   <xsl:template match="dc:identifier" mode="delawaremem_classpics">
     <xsl:choose>
