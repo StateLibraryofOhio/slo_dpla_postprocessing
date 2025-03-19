@@ -58,7 +58,7 @@
 
       <!-- OPTIONAL ODN-MAP fields -->
       <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
-      <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
+      <xsl:apply-templates select="dc:contributor"           mode="delawaremem_yearbooks"/>   <!-- create dcterms:contributor                                 -->
       <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
@@ -86,6 +86,18 @@
           </xsl:element>
       </xsl:when>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="dc:contributor" mode="delawaremem_yearbooks">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:if test="normalize-space(.) != '.'">
+          <xsl:element name="dcterms:contributor" namespace="http://purl.org/dc/terms/">
+            <xsl:value-of select="normalize-space(.)"/>
+          </xsl:element>
+        </xsl:if>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dc:subject" mode="delawaremem_yearbooks">
