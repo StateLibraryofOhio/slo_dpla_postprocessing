@@ -41,7 +41,7 @@
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">The Artwork of Erik Heyl</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
-      <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
+      <xsl:apply-templates select="dc:identifier"            mode="bgsu_178"/>                <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
       <xsl:apply-templates select="dc:rights"                mode="odn"/>                     <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
@@ -71,6 +71,22 @@
       <xsl:apply-templates select="dc:source"                mode="odn"/>                     <!-- frequently unused; remove by default                       -->
 
     </oai_qdc:qualifieddc>
+  </xsl:template>
+
+
+  <xsl:template match="dc:identifier" mode="bgsu_178">
+    <xsl:choose>
+      <xsl:when test="contains(., 'items/show')">
+        <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:when>
+      <xsl:when test="contains(., '/thumbnails/')">
+        <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

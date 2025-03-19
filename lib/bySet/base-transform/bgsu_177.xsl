@@ -41,8 +41,8 @@
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Institute for the Study of Culture and Society (ICS) Digital Collection</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
-      <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
-      <xsl:apply-templates select="dc:rights"                mode="odn"/>                     <!-- create edm:rights    and dc:rights                         -->
+      <xsl:apply-templates select="dc:identifier"            mode="bgsu_177"/>                <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
+      <xsl:apply-templates select="dc:rights"                mode="bgsu_177"/>                <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
@@ -67,10 +67,40 @@
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
-      
+
+      <xsl:apply-templates select="dc:coverage"              mode="bgsu_177"/>                <!-- unwanted; remove                                           -->
       <xsl:apply-templates select="dc:source"                mode="odn"/>                     <!-- frequently unused; remove by default                       -->
 
     </oai_qdc:qualifieddc>
+  </xsl:template>
+
+  <xsl:template match="dc:coverage" mode="bgsu_177"/>
+
+
+
+  <!-- THIS NEEDS TO BE FIXED...IT'S JUST A PLACEHOLDER AT THE MOMENT -->
+
+  <xsl:template match="dc:rights" mode="bgsu_177">
+    <xsl:element name="edm:rights" namespace="http://www.europeana.eu/schemas/edm/">
+      <xsl:value-of select="."/>
+    </xsl:element>
+  </xsl:template>
+
+
+
+  <xsl:template match="dc:identifier" mode="bgsu_177">
+    <xsl:choose>
+      <xsl:when test="contains(., 'items/show')">
+        <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:when>
+      <xsl:when test="contains(., '/thumbnails/')">
+        <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="."/>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
