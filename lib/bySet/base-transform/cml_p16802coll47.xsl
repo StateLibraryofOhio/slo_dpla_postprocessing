@@ -41,7 +41,7 @@
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Edmund F. Arras Collection</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
-      <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
+      <xsl:apply-templates select="dc:identifier"            mode="cml_p16802coll47"/>        <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
       <xsl:apply-templates select="dc:rights"                mode="cml_p16802coll47"/>        <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
@@ -142,6 +142,26 @@
             </xsl:choose>
         </xsl:if>
      </xsl:for-each>
+  </xsl:template>
+
+
+
+  <!-- use the URL dc:identifier to both populate edm:isShownAt and use known CONTENTdm thumbnail path to construct thumbnail URL for edm:preview -->
+  <xsl:template match="dc:identifier" mode="cml_p16802coll47">
+    <xsl:choose>
+      <xsl:when test="starts-with(., 'http://') or starts-with(., 'https://')">
+        <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+        <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:variable name="cdm_root" select="substring-before(., '/cdm/ref/')"/>
+          <xsl:variable name="record_info" select="substring-after(., '/collection/')"/>
+          <xsl:variable name="alias" select="substring-before($record_info, '/id/')"/>
+          <xsl:variable name="pointer" select="substring-after($record_info, '/id/')"/>
+          <xsl:value-of select="concat($cdm_root, '/utils/getthumbnail/collection/', $alias, '/id/', $pointer)"/>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
