@@ -99,21 +99,24 @@ EOF
 URL=''
 while [ "$URL" == '' ]
 do
-cat <<EOF
+  cat <<EOF
 Please enter the base OAI-PMH URL for the OAI server hosting this dataset (including the http://)
 and hit ENTER:
 EOF
-echo -n ' >>> '
-read URL
+  echo -n ' >>> '
+  read URL
 
-if [ "$URL" == '' ]
-then
+  URLtmp=`echo "$URL" |  sed -e 's/ //g' -e 's+/$++g'`
+  URL=$URLtmp
+
+  if [ "$URL" == '' ]
+  then
     echo "Error:  You must provide a URL for OAI-PMH harvesting"
-elif [ "$URL" != "$(echo $URL| sed -e 's/ //g')" ]
-then
+  elif [ "${URL:0:5}" != 'http:' ] && [ "${URL:0:6}" != 'https:' ]
+  then
     echo "Error:  The URL must begin with http or https"
     URL=''
-fi
+  fi
 done
 
 # Check for problems with intermediate SSL certificates.
