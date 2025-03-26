@@ -26,7 +26,7 @@
   <xsl:include href="odn_templates.xsl"/>
 
   
-  <xsl:template match="//oai_dc:dc">
+  <xsl:template match="//oai_qdc:qualifieddcc">
     <oai_qdc:qualifieddc
             xmlns:oai_qdc="http://worldcat.org/xmlschemas/qdc-1.0/"
             xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -42,7 +42,7 @@
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">The Letters of Marshall Clason</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
-      <xsl:apply-templates select="dc:identifier"            mode="owu_clasonletters"/>       <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
+      <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
       <xsl:apply-templates select="dc:rights"                mode="odn"/>                     <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
@@ -52,13 +52,13 @@
       <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:copy-of         select="dcterms:spatial"          copy-namespaces="no"/>           <!-- create dcterms:spatial                                     -->
-      <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
+      <xsl:apply-templates select="dc:subject"               mode="owu_clasonletters"/>       <!-- create dcterms:subject                                     -->
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
       <!-- OPTIONAL ODN-MAP fields -->
       <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
       <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
-      <xsl:apply-templates select="dc:description"           mode="owu_clasonletters"/>       <!-- create dcterms:description                                 -->
+      <xsl:apply-templates select="dc:description"           mode="odn"/>                     <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
@@ -68,53 +68,20 @@
       <xsl:copy-of         select="dcterms:rightsHolder"     copy-namespaces="no"/>           <!-- create dcterms:rightsHolder                                -->
       <xsl:apply-templates select="dcterms:temporal"         mode="odn"/>                     <!-- create dcterms:temporal                                    -->
 
-      <xsl:apply-templates select="dc:description.abstract"  mode="owu_clasonletters"/>       <!-- create dcterms:description                                 -->
-      <xsl:apply-templates select="dc:date.created"          mode="owu_clasonletters"/>       <!-- create dc:date                                             -->
-      <xsl:apply-templates select="dc:coverage.spatial"      mode="owu_clasonletters"/>       <!-- create dcterms:spatial                                     -->
-
-
     </oai_qdc:qualifieddc>
   </xsl:template>
 
-  <xsl:template match="dc:date.created" mode="owu_clasonletters">
-    <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
-      <xsl:value-of select="substring-before(., 'T')"/>
-     </xsl:element>
-  </xsl:template>
 
-  <xsl:template match="dc:coverage.spatial" mode="owu_clasonletters">
-    <xsl:element name="dcterms:spatial" namespace="http://purl.org/dc/terms/">
-      <xsl:value-of select="."/>
-     </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="dc:description" mode="owu_clasonletters">
-    <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
-      <xsl:value-of select="."/>
-    </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="dc:description.abstract" mode="owu_clasonletters">
-    <xsl:element name="dcterms:description" namespace="http://purl.org/dc/terms/">
-      <xsl:value-of select="normalize-space(replace(., '&lt;/?(p)&gt;', ''))"/>
-    </xsl:element>
-  </xsl:template>
-
-
-  <xsl:template match="dc:identifier" mode="owu_clasonletters">
-    <xsl:choose>
-      <xsl:when test="starts-with(., 'http') and not(contains(., 'viewcontent'))">
-        <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
+  <xsl:template match="dc:subject" mode="owu_clasonletters">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dcterms:subject" namespace="http://purl.org/dc/terms/">
           <xsl:value-of select="normalize-space(.)"/>
         </xsl:element>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:element name="dcterms:identifier" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="."/>
-        </xsl:element>
-      </xsl:otherwise>
-    </xsl:choose>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
+
 
 </xsl:stylesheet>
 
