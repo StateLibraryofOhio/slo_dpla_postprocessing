@@ -68,6 +68,7 @@ IIIF_ELIGIBLE_COUNT=`grep -e '<edm:rights>http://rightsstatements.org/vocab/NoC-
       -e '<edm:rights>http://creativecommons.org/publicdomain/zero/' \
       -e '<edm:rights>http://creativecommons.org/licenses/by/' \
       -e 'edm:rights>http://creativecommons.org/licenses/by-sa/' \
+      -e '<edm:rights>http://rightsstatements.org/vocab/NKC/' \
       $STAGING_FILE | wc -l`
 IIIF_MARKED_COUNT=`grep '<dcterms:isReferencedBy>' $STAGING_FILE | wc -l`
 FULL_COUNT=`grep '<record' $STAGING_FILE | wc -l`

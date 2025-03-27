@@ -264,6 +264,7 @@ IIIF_ELIGIBLE_COUNT=`grep -e '<edm:rights>http://rightsstatements.org/vocab/NoC-
       -e '<edm:rights>http://creativecommons.org/publicdomain/zero/' \
       -e '<edm:rights>http://creativecommons.org/licenses/by/' \
       -e 'edm:rights>http://creativecommons.org/licenses/by-sa/' \
+      -e '<edm:rights>http://rightsstatements.org/vocab/NKC/' \
       $INPUTFILE | wc -l`
 IIIF_MARKED_COUNT=`grep '<dcterms:isReferencedBy>' $INPUTFILE | wc -l`
 FULL_COUNT=`grep '<record' $INPUTFILE | wc -l`
