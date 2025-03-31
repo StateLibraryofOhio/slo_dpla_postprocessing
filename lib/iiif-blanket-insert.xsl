@@ -47,7 +47,8 @@
                             starts-with(edm:rights, 'http://creativecommons.org/publicdomain/mark/') or
                             starts-with(edm:rights, 'http://creativecommons.org/publicdomain/zero/') or
                             starts-with(edm:rights, 'http://creativecommons.org/licenses/by/') or
-                            starts-with(edm:rights, 'http://creativecommons.org/licenses/by-sa/')
+                            starts-with(edm:rights, 'http://creativecommons.org/licenses/by-sa/') or
+                            starts-with(edm:rights, 'http://rightsstatements.org/vocab/NKC/')
                            )">
 
                 <xsl:variable name="tokens" select="tokenize(edm:isShownAt, '/')"/>
