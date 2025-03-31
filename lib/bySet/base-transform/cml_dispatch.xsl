@@ -41,14 +41,14 @@
       <xsl:element name="dcterms:isPartOf" namespace="http://purl.org/dc/terms/">Columbus Dispatch</xsl:element>              <!-- create dcterms:isPartOf -->
 
       <!-- REQUIRED ODN-MAP FIELDS -->
-      <xsl:apply-templates select="dc:identifier"            mode="odn"/>                     <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
+      <xsl:apply-templates select="dc:identifier"            mode="cml_dispatch"/>            <!-- create edm:isShownAt, edm:preview, and dcterms:identifier  -->
       <xsl:apply-templates select="dc:rights"                mode="cml_dispatch"/>            <!-- create edm:rights    and dc:rights                         -->
       <xsl:apply-templates select="dc:title"                 mode="odn"/>                     <!-- create dcterms:title                                       -->
 
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
       <xsl:apply-templates select="dc:creator"               mode="cml_dispatch"/>            <!-- create dcterms:creator                                     -->
-      <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
+      <xsl:apply-templates select="dc:date"                  mode="cml_dispatch"/>            <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:apply-templates select="dcterms:spatial"          mode="cml_dispatch"/>            <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
@@ -106,6 +106,16 @@
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template match="dc:date" mode="cml_dispatch">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="normalize-space(.) != ''">
+        <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
   <xsl:template match="dc:coverage" mode="cml_dispatch">
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="normalize-space(.) != ''">
@@ -139,6 +149,23 @@
             </xsl:choose>
         </xsl:if>
      </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="dc:identifier" mode="cml_dispatch">
+    <xsl:choose>
+      <xsl:when test="starts-with(., 'http://') or starts-with(., 'https://')">
+        <xsl:element name="edm:isShownAt" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+        <xsl:element name="edm:preview" namespace="http://www.europeana.eu/schemas/edm/">
+          <xsl:variable name="cdm_root" select="substring-before(., '/cdm/ref/')"/>
+          <xsl:variable name="record_info" select="substring-after(., '/collection/')"/>
+          <xsl:variable name="alias" select="substring-before($record_info, '/id/')"/>
+          <xsl:variable name="pointer" select="substring-after($record_info, '/id/')"/>
+          <xsl:value-of select="concat($cdm_root, '/utils/getthumbnail/collection/', $alias, '/id/', $pointer)"/>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
