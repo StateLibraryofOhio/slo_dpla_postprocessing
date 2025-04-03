@@ -1,4 +1,8 @@
 """Harvest Metadata from an OAI-PMH Feed."""
+#
+# Thanks to CM Harlow for this code.
+# https://github.com/cmharlow/metadataQA/blob/1c680d94241082abf79fc28898e5252f1441b313/harvest/harvestOAI.py
+#
 from __future__ import unicode_literals
 import requests
 import zlib
