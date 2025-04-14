@@ -68,11 +68,6 @@
    </tr>
 
    <tr>
-     <td>$SLODATA_LOGS</td>
-     <td>not currently used; perhaps one day.</td>
-   </tr>
-
-   <tr>
      <td>$SLODATA_RAW</td>
      <td>This is the XML data that has been harvested from the contributors' servers before we have made any changes to it.  Upon harvesting the data to this location, we immediately "archivize" the data in this directory and store the modified data in $SLODATA_ARCHIVIZED.  Nothing more is done with this "raw" data, but we retain it for debugging purposes.</td>
    </tr>
