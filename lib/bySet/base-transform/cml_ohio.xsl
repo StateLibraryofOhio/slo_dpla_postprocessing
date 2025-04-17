@@ -47,7 +47,7 @@
 
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
-      <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
+      <xsl:apply-templates select="dc:creator"               mode="cml_ohio"/>                <!-- create dcterms:creator                                     -->
       <xsl:apply-templates select="dc:date"                  mode="cml_ohio"/>                <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:apply-templates select="dcterms:spatial"          mode="cml_ohio"/>                <!-- create dcterms:spatial                                     -->
@@ -97,6 +97,16 @@
   <xsl:template match="dcterms:temporal" mode="cml_ohio"/>
   <xsl:template match="dc:type" mode="cml_ohio"/>
 
+  <xsl:template match="dc:creator" mode="cml_ohio">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != '')">
+        <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
   <xsl:template match="dcterms:spatial" mode="cml_ohio">
     <xsl:for-each select="tokenize(., ';')">
       <xsl:if test="(normalize-space(.) != '')">
@@ -116,7 +126,6 @@
       </xsl:if>
     </xsl:for-each>
   </xsl:template>
-
 
   <!-- use the URL dc:identifier to both populate edm:isShownAt and use known CONTENTdm thumbnail path to construct thumbnail URL for edm:preview -->
   <xsl:template match="dc:identifier" mode="cml_ohio">
