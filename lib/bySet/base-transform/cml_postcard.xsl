@@ -48,8 +48,8 @@
 
       <!-- RECOMMENDED ODN-MAP fields -->
       <xsl:apply-templates select="dc:language"              mode="odn"/>                     <!-- create dcterms:language                                    -->
-      <xsl:apply-templates select="dc:creator"               mode="odn"/>                     <!-- create dcterms:creator                                     -->
-      <xsl:copy-of         select="dc:date"                  copy-namespaces="no"/>           <!-- create dc:date                                             -->
+      <xsl:apply-templates select="dc:creator"               mode="cml_postcard"/>            <!-- create dcterms:creator                                     -->
+      <xsl:apply-templates select="dc:date"                  mode="cml_postcard"/>            <!-- create dc:date                                             -->
       <xsl:apply-templates select="dc:format"                mode="odn"/>                     <!-- create dc:format                                           -->
       <xsl:apply-templates select="dcterms:spatial"          mode="cml_postcard"/>            <!-- create dcterms:spatial                                     -->
       <xsl:apply-templates select="dc:subject"               mode="odn"/>                     <!-- create dcterms:subject                                     -->
@@ -62,7 +62,7 @@
       <xsl:apply-templates select="dcterms:extent"           mode="cml_postcard"/>            <!-- create dcterms:extent                                      -->
                                                                                               <!-- dcterms:identifier is created above as part of the edm:isShownAt transform -->
       <xsl:apply-templates select="dcterms:isReferencedBy"   mode="odn"/>                     <!-- eliminate by default; use dcterms:isReferencedBy for Wikimedia data  -->
-      <xsl:apply-templates select="dc:publisher"             mode="odn"/>                     <!-- create dcterms:publisher                                   -->
+      <xsl:apply-templates select="dc:publisher"             mode="cml_postcard"/>            <!-- create dcterms:publisher                                   -->
       <xsl:apply-templates select="dc:relation"              mode="odn"/>                     <!-- create dc:relation                                         -->
       <xsl:apply-templates select="dcterms:isPartOf"         mode="cml_postcard"/>            <!-- create dc:relation                                         -->
                                                                                               <!-- dc:rights is created above as part of the edm:rights transform -->
@@ -87,6 +87,36 @@
   <xsl:template match="dc:type" mode="cml_postcard"/>
   <xsl:template match="dcterms:created" mode="cml_postcard"/>
   <xsl:template match="dcterms:provenance" mode="cml_postcard"/>
+
+  <xsl:template match="dc:date" mode="cml_postcard">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != '')">
+        <xsl:element name="dc:date" namespace="http://purl.org/dc/elements/1.1/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="dc:publisher" mode="cml_postcard">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != '')">
+        <xsl:element name="dcterms:publisher" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="dc:creator" mode="cml_postcard">
+    <xsl:for-each select="tokenize(., ';')">
+      <xsl:if test="(normalize-space(.) != '')">
+        <xsl:element name="dcterms:creator" namespace="http://purl.org/dc/terms/">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <xsl:template match="dcterms:spatial" mode="cml_postcard">
     <xsl:for-each select="tokenize(., ';')">
