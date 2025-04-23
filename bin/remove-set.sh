@@ -134,10 +134,8 @@ else
           $SLODATA_INGEST/$ODNSET.xml 
     mysql -sNe "delete from source where odnSet='"$ODNSET"';"
     mysql -sNe "delete from recordcount where odnSet='"$ODNSET"';"
-    mysql -sNe "delete from dataSourceState where odnSet='"$ODNSET"';"
     mysql -sNe "delete from oldTasks where odnSet='"$ODNSET"';"
     mysql -sNe "delete from setRights where odnSet='"$ODNSET"';"
-    mysql -sNe "delete from metadataTransformation where odnSet='"$ODNSET"';"
     echo ""
     echo "  The set has been removed from the system."
 fi

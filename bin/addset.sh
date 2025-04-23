@@ -311,12 +311,8 @@ done
 
 
 # Set default values for other settings
-STATUS='unharvested'
 EXPORT_DIR_PATH="/opt/repoxdata/$ODN_SETSPEC/export"
-TYPE_OF_SOURCE='DataSourceOai'
 LAST_INGEST=''
-SOURCES_DIR_PATH=''
-RETRIEVE_STRATEGY=''
 FILE_EXTRACT=''
 COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 
@@ -355,14 +351,10 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             metadataPrefix,
             sourceSchema,
             lastIngest,
-            status,
-            typeOfSource,
             description,
             oaiSource,
             oaiSet,
             odnSet,
-            sourcesDirPath,
-            retrieveStrategy,
             splitRecordsRecordXpath,
             sourceCMS,
             iiifParticipant)
@@ -371,14 +363,10 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
             '$METADATA_FORMAT',
             '$METADATA_FORMAT_SCHEMA',
             '$LAST_INGEST',
-            '$STATUS',
-            '$TYPE_OF_SOURCE',
             '$DESCRIPTION',
             '$URL',
             '$SETSPEC',
             '$ODN_SETSPEC',
-            '$SOURCES_DIR_PATH',
-            '$RETRIEVE_STRATEGY',
             '$SPLIT_RECORDS',
             '$SOURCE_CMS',
             '$IIIF_PARTICIPANT');
@@ -387,29 +375,15 @@ cat >add-source_$ODN_SETSPEC.sql <<EOF
     recordcount
          (odnSet,
           recordcount,
-          lastLineCounted,
           deletedRecords,
           iiifViable,
-          lastCountDate,
-          lastCountWithChangesDate)
+          lastCountDate)
    values
          ('$ODN_SETSPEC',
           0,
           0,
           0,
-          0,
-          '$COUNTDATE',
           '$COUNTDATE');
-
-  insert into
-    dataSourceState
-         (stateTimeStamp,
-          odnSet,
-          state)
-    values
-         ('$COUNTDATE',
-          '$ODN_SETSPEC',
-          'true');
 
 EOF
 
@@ -423,13 +397,9 @@ cat >>add-source_$ODN_SETSPEC.sql <<EOF
 
   insert into 
     provider
-        (name,
-         description,
-         odnProvider)
+        (name)
     values
-         ('$PROVIDER',
-          '$PROVIDER',
-          '$PROVIDER');     
+         ('$PROVIDER');
 EOF
 
 fi

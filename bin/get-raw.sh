@@ -174,7 +174,7 @@ mv tmp.xml $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
 
 BEFORECOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml)
 AFTERCOUNT=$(java net.sf.saxon.Transform -xsl:$SLODPLA_LIB/count-records.xsl -s:$SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml)
-DELETEDCOUNT=$BEFORECOUNT-$AFTERCOUNT
+let DELETEDCOUNT=$BEFORECOUNT-$AFTERCOUNT
 COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 
 
@@ -197,10 +197,8 @@ mysql <<EOF
   update recordcount 
   set
      recordCount =  $BEFORECOUNT,
-     lastLineCounted = $BEFORECOUNT,
      deletedRecords = $DELETEDCOUNT,
-     lastCountDate = '$COUNTDATE',
-     lastCountWithChangesDate = '$COUNTDATE'
+     lastCountDate = '$COUNTDATE'
   where odnSet = '$SETSPEC';
 EOF
 
@@ -217,16 +215,12 @@ mysql <<EOF
   insert into oldTasks (
     oldTaskTime,
     odnSet,
-    ingestType,
-    status,
     records
   )
   values
   (
     '$(date "+%Y-%m-%d %H:%M:%S")',
     '$SETSPEC',
-    'incrementalIngest',
-    'OK',
     '$AFTERCOUNT'
   );
 EOF
