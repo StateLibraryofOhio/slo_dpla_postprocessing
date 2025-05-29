@@ -29,10 +29,8 @@
 
 <xsl:mode on-no-match="shallow-copy"/>
 
-  <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:creator[text()='Michaels, Larry R.']]"/>
-
   <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:type[text()='Sound']]"/>
 
-  <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:contributor[text()='Cervantes Saavedra, Miguel de, 1547-1616']]"/>
+  <xsl:template match="//record[./metadata/oai_qdc:qualifieddc/dcterms:type[text()='Moving Image']]"/>
 
 </xsl:stylesheet>
