@@ -58,7 +58,7 @@ def getFile(link, command, sleepTime=0):
                 print('Waiting %d seconds' % retryWait)
                 return(getFile(link, command, retryWait))
         elif status_code == 404:
-            print("404 Not Found Error with OAI-PMH URL: %s" % remoteAddr)
+            print("404 Not Found Error with OAI-PMH endpoint: %s" % link)
             exit()
         else:
             print(exValue)
