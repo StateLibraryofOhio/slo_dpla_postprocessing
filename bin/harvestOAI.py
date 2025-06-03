@@ -36,7 +36,7 @@ def getFile(link, command, sleepTime=0):
 
     # Handle HTTP Response (Including Common Errors) from OAI-PMH Endpoint
     try:
-        resp = requests.get(remoteAddr, headers=headers, verify=False)
+        resp = requests.get(remoteAddr, headers=headers, verify=True)
         if resp.status_code != 200 and resp.status_code != 301:
             resp.raise_for_status()
         elif resp.status_code == 301:
