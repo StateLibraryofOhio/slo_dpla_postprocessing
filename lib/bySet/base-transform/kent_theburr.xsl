@@ -56,7 +56,7 @@
       <xsl:apply-templates select="dc:type"                  mode="odn"/>                     <!-- create dcterms:type                                        -->
 
       <!-- OPTIONAL ODN-MAP fields -->
-      <xsl:apply-templates select="dcterms:alternative"      mode="odn"/>                     <!-- create dcterms:alternative                                 -->
+      <xsl:apply-templates select="dcterms:alternative"      mode="kent_theburr"/>            <!-- create dcterms:alternative                                 -->
       <xsl:apply-templates select="dc:contributor"           mode="odn"/>                     <!-- create dcterms:contributor                                 -->
       <xsl:apply-templates select="dc:description"           mode="kent_theburr"/>            <!-- create dcterms:description                                 -->
       <xsl:apply-templates select="dcterms:extent"           mode="odn"/>                     <!-- create dcterms:extent                                      -->
@@ -74,7 +74,7 @@
   </xsl:template>
 
   <xsl:template match="dc:format" mode="kent_theburr"/> 
-
+  <xsl:template match="dcterms:alternative" mode="kent_theburr"/>
   <xsl:template match="dc:source" mode="kent_theburr"/>
 
   <xsl:template match="dc:identifier" mode="kent_theburr">
@@ -90,10 +90,18 @@
           <xsl:value-of select="."/>
         </xsl:element>
       </xsl:when>
-      <xsl:otherwise>
+      <!-- handling for a single record -->
+      <xsl:when test="contains(., 'Issuu')">
         <xsl:element name="dcterms:alternative" namespace="http://purl.org/dc/terms/">
-          <xsl:value-of select="replace(., '&lt;[/]*p&gt;', '')"/>
+          <xsl:value-of select="substring-before(replace(., '&lt;p&gt;', ''), '&lt;a')"/><xsl:value-of select="substring-before(substring-after(., 'a href=&quot;'), '&quot;')"/>
         </xsl:element>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:if test="normalize-space(.) != ''">
+          <xsl:element name="dcterms:alternative" namespace="http://purl.org/dc/terms/">
+            <xsl:value-of select="replace(., '&lt;[/]*p&gt;', '')"/>
+          </xsl:element>
+        </xsl:if>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
