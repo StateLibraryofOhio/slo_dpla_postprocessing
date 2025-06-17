@@ -51,7 +51,10 @@
 
    <tr>
      <td>$SLODATA</td>
-     <td>All harvested metadata is stored under this directory.  This location should not be on the same disk/QCOW2 file as that holding the application ($SLODPLA_ROOT).  Because we are working with large amounts of metadata, it is possible to completely fill the disk with data.  In the case of a QCOW2 file, filling the disk entirely will cause the entire QCOW2 file to be corrupted.  Putting both in the same QCOW2 file would cause the MySQL database to be corrupted and would cause a catastrophic loss of data in a worst-case-scenario, but putting them in separate locations would ensure that data loss would be restricted to the harvested data and would allow for easy recovery (i.e. simple re-harvesting of all contributed collections).</td>
+     <td>All harvested metadata is stored under this directory.  This location should not be on the same disk/QCOW2 file as that holding the application ($SLODPLA_ROOT).  Because we are working with large amounts of metadata, it is possible to completely fill the disk with data.  In the case of a QCOW2 file, filling the disk entirely will cause the entire QCOW2 file to be corrupted.  Putting both in the same QCOW2 file would cause the MySQL database to be corrupted and would cause a catastrophic loss of data in a worst-case-scenario, but putting them in separate locations would ensure that data loss would be restricted to the harvested data and would allow for easy recovery (i.e. simple re-harvesting of all contributed collections).  Use the "virsh attach-disk" command to associate the storage QCOW2 file with the main QCOW2 file holding the operating system:<br><br>
+virsh attach-disk nopox /var/lib/libvirt/images/PRODUCTION/nopox/nopox_external.qcow2 vdb --subdriver qcow2 --persistent<br><br>
+Note that if you are migrating the VM from one VM host to another, then it would probably be a good idea to edit the /etc/fstab file and comment out the line mounting that external QCOW2 before moving the VM, and then restoring the value after the VM has been setup on the new VM host and the external QCOW2 has been associated with the VM in the new location.  If the VM boots and it has problems mounting the external storage, the OS will be very unhappy.
+</td>
    </tr>
 
    <tr>
