@@ -44,7 +44,7 @@ The data being uploaded is in this directory:
 
 The data will be uploaded to:
 
-  s3://dpla-hub-ohio/$UPLOAD_DIR/
+  $UPLOAD_DIR
 
 
 Are you ABSOLUTELY SURE you are ready to do this?
@@ -66,7 +66,7 @@ cd $INDIR
 ls *xml.gz | while read XMLFILE
 do
     echo "uploading $XMLFILE"
-    aws s3 cp $XMLFILE $UPLOAD_DIR/
+    aws s3 cp $XMLFILE $UPLOAD_DIR
     sleep 1
 done
 

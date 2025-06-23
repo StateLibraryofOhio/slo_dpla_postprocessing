@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #This script will search for records that do not have any
-# edm:rights values.  The records beings searched are in:
+# edm:rights values.  The records being searched are in:
 #
 #   $SLODATA_STAGING
 #
@@ -34,7 +34,7 @@ fi
 cat <<EOF
 
 This script will search for records that do not have any
-edm:rights values.  The records beings searched are in:
+edm:rights values.  The records being searched are in:
 
    $SLODATA_STAGING
 
