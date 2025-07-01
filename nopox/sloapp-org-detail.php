@@ -77,11 +77,11 @@ if ( $countSetsByProviderNumber['count(*)'] > 1 ) {
 }
 
 // get a count of all records submitted by this organization
-$countRecordsByProviderQuery = 'select sum(recordCount) from recordcount where odnSet in (select odnSet from source where providerName="' . htmlspecialchars($sloappProvider)  . '")';
+$countRecordsByProviderQuery = 'select sum(nonDeletedRecords) from recordcount where odnSet in (select odnSet from source where providerName="' . htmlspecialchars($sloappProvider)  . '")';
 $countRecordsByProviderResult = $pdo->query($countRecordsByProviderQuery);
 $countRecordsByProviderNumber = $countRecordsByProviderResult->fetch();
 
-echo "<li>Total number of records submitted:  " . number_format($countRecordsByProviderNumber['sum(recordCount)'])  . "</li>";
+echo "<li>Total number of records submitted:  " . number_format($countRecordsByProviderNumber['sum(nonDeletedRecords)'])  . "</li>";
 
 ?>
 </ul>
