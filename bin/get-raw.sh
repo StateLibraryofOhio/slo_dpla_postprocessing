@@ -22,16 +22,30 @@
 # a parameter on the command line and the script will query the MySQL
 # database for the appropriate details.
 #
-# Output from this script is ........................
+# File output from this script is:
 #
-# 
+# $SLODATA_RAW/$SETSPEC-raw-$ORIG_PREFIX.xml
+#   a file containing the data harvested from the remote site,
+#   archived unchanged until the next harvest
 #
-#   $SETSPEC-raw--DPLA_PREFIX.xml:  ...........................
+# $SLODATA_ARCHIVIZED/$SETSPEC-odn-$ORIG_PREFIX.xml
+#   the harvestd data, modified to include OAI-PMH archival metadata
+#   as per the specification outlined at:
+#     https://www.openarchives.org/OAI/2.0/guidelines-provenance.htm
+#   archived unchanged until the next harvest
 # 
+# ./ $SETSPEC-not_transformed-$ORIG_PREFIX.xml
+#   the "archivized" metadata, placed in the current working directory
+#   for manipulation as part of the local transformation process
 #
 # $SETSPEC is assumed to be of the REPOX-form:  "contrib_setid"
 # It can be found in MySQL under "source > odnSet"
 # or in transform.conf as "SETSPEC=contrib_setid"
+#
+# $ORIG_PREFIX refers to the OAI-PMH metadataPrefix used for the
+# harvest of the data from the contributing institution.
+# Metadata is ultimately transformed to the "qdc" metadata format
+# for upload to DPLA.
 #
 ############################################################
 # preliminary checks to confirm environment is configured
