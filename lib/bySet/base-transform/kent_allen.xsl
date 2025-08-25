@@ -17,7 +17,7 @@
   exclude-result-prefixes="xs"
   version="2.0"
   xmlns="http://www.loc.gov/mods/v3">
-  
+
   <!-- We just want records, repox will wrap the records in OAI containers     -->
   <xsl:output omit-xml-declaration="yes" indent="yes"/>
 
@@ -25,7 +25,7 @@
   <!-- pull in our common template file -->
   <xsl:include href="odn_templates.xsl"/>
 
-  
+
   
   <xsl:template match="//oai_dc:dc">
     <oai_qdc:qualifieddc
@@ -103,4 +103,3 @@
 
 
 </xsl:stylesheet>
-
