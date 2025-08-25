@@ -318,7 +318,7 @@ COUNTDATE=$(date +"%Y-%m-%d %H:%M:%S")
 
 
 # Create an initial base XSLT transform file for this dataset
-cp $SLODPLA_LIB/00_STARTINGPOINT-COLL.xsl $SLODPLA_LIB/bySet/base-transform/$ODN_SETSPEC.xsl
+cp -i $SLODPLA_LIB/00_STARTINGPOINT-COLL.xsl $SLODPLA_LIB/bySet/base-transform/$ODN_SETSPEC.xsl
 cat <<EOF
 
 ===================================================================================
