@@ -56,9 +56,22 @@ IIIFPARTICIPANT=$(mysql -sNe "$QUERY")
 
 NEWFILE=`echo $XMLFILE | sed -e 's/.xml/_iiif-added.xml/g'`
 
+
+IS_SHOWN_AT_TEST=`grep 'edm:isShownAt' $XMLFILE | head -n 1 | cut -f 2 -d '>' | cut -f 1 -d '<'`
+OAKS_TEST=`grep 'oaks.kent.edu' $XMLFILE | head -n 1`
+
 if [ "$IIIFPARTICIPANT" == 'y' ]
 then
     echo "This collection IS flagged for Wikimedia inclusion"
+    if [ "$IS_SHOWN_AT_TEST" == '' && "$OAKS_TEST" == '' ]
+    then
+        echo "...but we don't have IIIF processing instructions for this server."
+        echo "No IIIF metadata's being added to this dataset.  Update the code for"
+        echo "iiif-insert.sh AND iiif-blanket-insert.xsl to enable IIIF metadata"
+        echo "for this dataset."       
+        cp $XMLFILE $NEWFILE
+        exit
+    fi
     java net.sf.saxon.Transform -s:$XMLFILE -xsl:$SLODPLA_LIB/iiif-blanket-insert.xsl -o:$NEWFILE
     xmllint --format $NEWFILE > 2.dat
     mv 2.dat $NEWFILE
