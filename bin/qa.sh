@@ -102,7 +102,6 @@ FULL_COUNT=`grep '<record' $SETSPEC-DPLA_ready.xml | wc -l`
 EDM_PREVIEW_COUNT=`grep '<edm:preview>' $SETSPEC-DPLA_ready.xml | wc -l`
 
 PROVIDER=`grep edm:dataProvider $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
-SET=`grep dcterms:isPartOf $SETSPEC-DPLA_ready.xml | head -n 1 | cut -f 2 -d '>'|cut -f 1 -d '<'`
 
 
 cat<<EOF
