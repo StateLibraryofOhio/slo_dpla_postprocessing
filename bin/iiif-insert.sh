@@ -63,7 +63,7 @@ OAKS_TEST=`grep 'oaks.kent.edu' $XMLFILE | head -n 1`
 if [ "$IIIFPARTICIPANT" == 'y' ]
 then
     echo "This collection IS flagged for Wikimedia inclusion"
-    if [ "$IS_SHOWN_AT_TEST" == '' && "$OAKS_TEST" == '' ]
+    if [[ "$IS_SHOWN_AT_TEST" == '' && "$OAKS_TEST" == '' ]]
     then
         echo "...but we don't have IIIF processing instructions for this server."
         echo "No IIIF metadata's being added to this dataset.  Update the code for"
